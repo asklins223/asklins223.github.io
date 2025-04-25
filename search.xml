@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Java随笔</title>
+    <url>/2023/02/08/Java/</url>
+    <content><![CDATA[<h1 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h1><h2 id="一、入门"><a href="#一、入门" class="headerlink" title="一、入门"></a>一、入门</h2><h3 id="1-命名规则"><a href="#1-命名规则" class="headerlink" title="1.命名规则"></a>1.命名规则</h3><ol>
+<li>由字母，下划线，美元符号（$），数字组成，但第一个字符不能是数字。</li>
+<li>如果变量名是复合型的那么我们采用驼峰式，或者蛇形式的方式。 驼峰式：<code>teaCup</code>（表示茶杯的意思），<code>stuAge</code>（学生年龄） 蛇形式：<code>tea_cup</code>，<code>stu_age</code></li>
+<li>如果是单个单词就全小写就行了。</li>
+<li>千万不要用中文拼音来表达：例如学生年龄：<code>xueShengNianling</code>。</li>
+<li>在一个方法中变量名不能重复。</li>
+<li>变量一定要给自己一个确定的类型。</li>
+</ol>
+<h3 id="2-JAVA中的数据类型"><a href="#2-JAVA中的数据类型" class="headerlink" title="2.JAVA中的数据类型"></a>2.JAVA中的数据类型</h3><p><code>Java</code>基本类型共有八种，基本类型可以分为三类，字符类型<code>char</code>，布尔类型<code>boolean</code>以及数值类型<code>byte、short、int、long、float、double</code>。数值类型又可以分为整数类型<code>byte、short、int、long</code>和浮点数类型<code>float、double</code></p>
+<p>8 种类型表示范围如下：</p>
+<p>1、<code>byte</code>：8位，最大存储数据量是<code>255</code>，存放的数据范围是-128~127之间。 2、<code>short</code>：16位，最大数据存储量是<code>65536</code>，数据范围是-32768 ~ 32767之间。 3、<code>int</code>：32位，最大数据存储容量是<code>2</code>的<code>32</code>次方减<code>1</code>，数据范围是负的<code>2</code>的<code>31</code>次方到正的<code>2</code>的<code>31</code>次方减<code>1</code>。 4、<code>long</code>：64位，最大数据存储容量是<code>2</code>的<code>64</code>次方减<code>1</code>，数据范围为负的<code>2</code>的<code>63</code>次方到正的<code>2</code>的<code>63</code>次方减<code>1</code>。 5、<code>float</code>：32位，数据范围在<code>3.4e</code>-45 ~ 1.4e38，直接赋值时必须在数字后加上<code>f</code>或<code>F</code>。 6、<code>double</code>：64位，数据范围在<code>4.9e</code>-324 ~ 1.8e308，赋值时可以加<code>d</code>或<code>D</code>也可以不加。 7、<code>boolean</code>：只有<code>true</code>和<code>false</code>两个取值。 8、<code>char</code>：16位，存储<code>Unicode</code>码，用单引号赋值。</p>
+<h3 id="3-Java类型转换"><a href="#3-Java类型转换" class="headerlink" title="3.Java类型转换"></a>3.Java类型转换</h3><p>顾名思义，数据类型转换就是指：<strong>不同数据类型之间的相互转换</strong> 关于数据类型转换两种方式：</p>
+<ol>
+<li>自动类型转换。 2. 强制类型转换。</li>
+</ol>
+<h5 id="自动类型转换"><a href="#自动类型转换" class="headerlink" title="自动类型转换"></a>自动类型转换</h5><p>关于自动类型转换，就是：<strong>表数范围小的可以向表数范围大的进行自动类型转换</strong>。 你可以这样理解：当一个小的容器的水换到一个大的容器中毫无问题，但是一个大的容器的水换成小的容器可能会装不下，就会溢出。 如下图：</p>
+<p><img src="https://data.educoder.net/api/attachments/185490" alt="img" loading="lazy"></p>
+<p>在代码中体现：</p>
+<p><img src="https://data.educoder.net/api/attachments/185491" alt="img" loading="lazy"></p>
+<h5 id="强制类型转换"><a href="#强制类型转换" class="headerlink" title="强制类型转换"></a>强制类型转换</h5><p>你肯定会有疑问，既然自动类型转换只能是<code>表数范围小的可以向表数范围大的转换</code>那么我在实际使用中想要将表述范围大的向小的转换怎么办呢？诶这里就要用到强制类型转换了，顾名思义，强制类型转换就是将：<strong>表数范围大的数向表数范围小的进行转换</strong>。 那怎么使用强制类型转换呢？</p>
+<p><img src="https://data.educoder.net/api/attachments/185498" alt="img" loading="lazy"></p>
+<h3 id="4-Scanner的使用"><a href="#4-Scanner的使用" class="headerlink" title="4.Scanner的使用"></a>4.Scanner的使用</h3><p><code>Scanner</code>就是用于用户<strong>在<code>Java</code>程序中输入数据的</strong>。 所以对于<code>Scanner</code>你可以理解为，它就是一个扫描仪，用来获取我们从键盘输入的数据。</p>
+<h5 id="怎么使用？"><a href="#怎么使用？" class="headerlink" title="怎么使用？"></a>怎么使用？</h5><p>只需要记住三个步骤：</p>
+<ol>
+<li>在类的声明之前，引入扫描仪（<code>Scanner</code>）：<code>import java.util.Scanner;</code></li>
+<li>在方法中创建一个扫描仪 <code>Scanner input = new Scanner(System.in);</code></li>
+<li>通过扫描仪获取从键盘输入的数据 <code>int i = input.nextInt();</code></li>
+</ol>
+<p><img src="https://data.educoder.net/api/attachments/185533" alt="img" loading="lazy"></p>
+<p>提示：Scanner不能获取<code>char</code>(字符)类型,获取小数类型需要使用<code>nextDouble</code>方法或者是<code>nextFloat</code>方法例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//获取输入的小数</span></span><br><span class="line"><span class="type">double</span> <span class="variable">d</span> <span class="operator">=</span> input.nextDouble();<span class="comment">//获取输入的双精度类型数据</span></span><br><span class="line"><span class="type">float</span> <span class="variable">f</span> <span class="operator">=</span> input.nextFloat();<span class="comment">//获取输入的单精度类型数据</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-算术运算符"><a href="#5-算术运算符" class="headerlink" title="5.算术运算符"></a>5.算术运算符</h3><h5 id="什么是算术运算符"><a href="#什么是算术运算符" class="headerlink" title="什么是算术运算符"></a>什么是算术运算符</h5><p>算术运算符主要用于进行基本的算术运算，如加法、减法、乘法、除法等。 <code>Java </code>中常用的算术运算符：</p>
+<p><img src="https://data.educoder.net/api/attachments/187139" alt="img" loading="lazy"></p>
+<h5 id="和–运算符的使用"><a href="#和–运算符的使用" class="headerlink" title="++和–运算符的使用"></a>++和–运算符的使用</h5><p> 其中，<code>++</code>和<code>--</code>既可以出现在操作数的左边，也可以出现在右边，但结果是不同的，如：</p>
+<p><img src="https://data.educoder.net/api/attachments/187165" alt="img" loading="lazy"></p>
+<p> 输出的结果如图：</p>
+<p><img src="https://data.educoder.net/api/attachments/187166" alt="img" loading="lazy"></p>
+<p><img src="https://data.educoder.net/api/attachments/187170" alt="img" loading="lazy"></p>
+<p> 输出的效果图如下图：</p>
+<p><img src="https://data.educoder.net/api/attachments/187171" alt="img" loading="lazy"></p>
+<h5 id="除法运算符的用法"><a href="#除法运算符的用法" class="headerlink" title="除法运算符的用法"></a>除法运算符的用法</h5><p><code>Java</code>当中的除法运算相比较其他运算符来说有点特殊，在这里将分为两种情况依次说明其用法，当两个操作数是<code>int</code>类型时的相除，当两个操作数是<code>float</code>或者<code>double</code>类型时的相除，下面请看具体示例： 用法如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> i=<span class="number">11</span>/<span class="number">2</span>;<span class="comment">//结果是5，因为i是整数，所以除法运算的结果会省略后面的小数点    </span></span><br><span class="line"><span class="type">int</span> i=<span class="number">10</span>/<span class="number">2</span>;<span class="comment">//结果是5</span></span><br><span class="line"><span class="comment">//当两个操作数是float或者double类型时，就是正常的除法运算，如：</span></span><br><span class="line"><span class="type">double</span> i=<span class="number">9.8</span>;</span><br><span class="line"><span class="type">double</span> j=<span class="number">3.2</span>;</span><br><span class="line"><span class="type">double</span> result=i/j;</span><br><span class="line">System.out.println(result);<span class="comment">//此时result的值为3.0625</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="取模运算符的用法"><a href="#取模运算符的用法" class="headerlink" title="取模运算符的用法"></a>取模运算符的用法</h5><p>也叫求余数，求余的字面意思就是求被除数除以除数，整除后还余下多少？ 用法如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> i=<span class="number">11</span>%<span class="number">2</span>;<span class="comment">//这里i=1;表示11被2整除5次还余1.    </span></span><br><span class="line"><span class="comment">//求余的正负号说明：主要是取决于前面一个数是正数还是负数，不管后面数。如下：    </span></span><br><span class="line"><span class="type">int</span> i=-<span class="number">11</span>%<span class="number">2</span>;<span class="comment">//这里i=-1    </span></span><br><span class="line"><span class="type">int</span> i=<span class="number">10</span>%<span class="number">2</span>;<span class="comment">//这里i=0;就是10被2刚好整除5次，没有余数。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-关系运算符"><a href="#6-关系运算符" class="headerlink" title="6.关系运算符"></a>6.关系运算符</h3><h5 id="常见关系运算符"><a href="#常见关系运算符" class="headerlink" title="常见关系运算符"></a>常见关系运算符</h5><p>下表为<code>Java</code>支持的关系运算符。 表格中的实例整数变量<code>A</code>的值为<code>10</code>，变量<code>B</code>的值为<code>20</code>：如图。</p>
+<p><img src="https://data.educoder.net/api/attachments/187219" alt="img" loading="lazy"></p>
+<h5 id="如何使用关系运算符"><a href="#如何使用关系运算符" class="headerlink" title="如何使用关系运算符"></a>如何使用关系运算符</h5><p>为了加强程序的交互性，你可以创建一个扫描仪接受用户随机的输两个数进行比较，如图：</p>
+<p><img src="https://data.educoder.net/api/attachments/187210" alt="img" loading="lazy"></p>
+<p>输出效果图，如图:</p>
+<p><img src="https://data.educoder.net/api/attachments/187211" alt="img" loading="lazy"></p>
+<h3 id="7-逻辑运算符"><a href="#7-逻辑运算符" class="headerlink" title="7.逻辑运算符"></a>7.逻辑运算符</h3><h5 id="什么是逻辑运算符"><a href="#什么是逻辑运算符" class="headerlink" title="什么是逻辑运算符"></a>什么是逻辑运算符</h5><p>逻辑运算符用于测试两个操作数之间的逻辑关系，且这两个操作数必须是布尔类型的（如关系表达式），得到的结果也是布尔类型的，通过逻辑运算符连接的结果为<code>boolean</code>类型的变量或表达式叫做逻辑表达式。</p>
+<h5 id="常见逻辑运算符"><a href="#常见逻辑运算符" class="headerlink" title="常见逻辑运算符"></a>常见逻辑运算符</h5><p><img src="https://data.educoder.net/api/attachments/189770" alt="img" loading="lazy"></p>
+<p>我们可以从“投票选举”的角度理解逻辑运算符：</p>
+<ol>
+<li>与：要求所有人都投票同意，才能通过某议题；</li>
+<li>或：只要求一个人投票同意就可以通过某议题；</li>
+<li>非：某人原本投票同意，通过非运算符，可以使其投票无效；</li>
+<li>异或：有且只能有一个人投票同意，才可以通过某议题。</li>
+</ol>
+<h5 id="逻辑与运算符的用法"><a href="#逻辑与运算符的用法" class="headerlink" title="逻辑与运算符的用法"></a>逻辑与运算符的用法</h5><p>用法如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">boolean</span> <span class="variable">a</span> <span class="operator">=</span> <span class="literal">false</span>,b ==<span class="literal">true</span>;</span><br><span class="line">System.out.println(!a);</span><br><span class="line">System.out.println(a&amp;&amp;b);</span><br><span class="line">System.out.println(a||b);</span><br><span class="line">System.out.println(a^b);</span><br></pre></td></tr></table></figure>
+
+<p>输出结果： <code>true</code> <code>false</code> <code>true</code> <code>true</code></p>
+<p>结合算数运算符：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">10</span> , b = <span class="number">5</span>;</span><br><span class="line">System.out.println( !(a-b &gt; <span class="number">6</span>) );</span><br><span class="line">System.out.println( (a-b==<span class="number">5</span>)&amp;&amp;(a+b&gt;<span class="number">15</span>));</span><br></pre></td></tr></table></figure>
+
+<p>输出结果： <code>true</code> <code>false</code></p>
+<h3 id="8-三元运算符"><a href="#8-三元运算符" class="headerlink" title="8.三元运算符"></a>8.三元运算符</h3><h5 id="什么是三元运算符"><a href="#什么是三元运算符" class="headerlink" title="什么是三元运算符"></a>什么是三元运算符</h5><p>因为三元运算符的操作数有三个，所以称为三元运算符，三元运算符又称条件运算符，是“?”和“:”符号组合，根据条件执行两个语句中的其中一个。它的语法如下： 语法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">条件表达式 ? 条件为真返回的结果 : 条件为假返回的结果</span><br></pre></td></tr></table></figure>
+
+<h5 id="使用三元运算符"><a href="#使用三元运算符" class="headerlink" title="使用三元运算符"></a>使用三元运算符</h5><p>例如：</p>
+<p><img src="https://data.educoder.net/api/attachments/189588" alt="img" loading="lazy"></p>
+<p>结果为：</p>
+<p><code>4</code> <code>5</code></p>
+<p>较为复杂的使用方式：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">boolean</span> result;</span><br><span class="line"><span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">4</span>,b=<span class="number">10</span>;</span><br><span class="line">result = (a%<span class="number">4</span>==<span class="number">0</span>)&amp;&amp;(b/<span class="number">2</span>==<span class="number">1</span>) ? <span class="literal">true</span> : <span class="literal">false</span>;</span><br><span class="line">System.out.println(result);</span><br></pre></td></tr></table></figure>
+
+<p>结果为：</p>
+<p><code>false</code></p>
+<h3 id="9-运算符的优先级"><a href="#9-运算符的优先级" class="headerlink" title="9.运算符的优先级"></a>9.运算符的优先级</h3><p><code>Java</code>中常见的运算符的优先级:</p>
+<p><img src="https://data.educoder.net/api/attachments/189038" alt="img" loading="lazy"></p>
+<p>级别为 <code>1</code> 的优先级最高，级别 <code>11</code> 的优先级最低。譬如，<code>x = 7 + 3 * 2 </code> 得到的结果是 <code>13</code> “先乘后加”嘛!</p>
+<p><code>PS</code>：大家没必要去死记运算符的优先级顺序，实际开发中，一般会使用小括号辅助进行优先级管理。例如：</p>
+<p><img src="https://data.educoder.net/api/attachments/189039" alt="img" loading="lazy"></p>
+<p>分析：小括号优先级最高，因此。 <code>1</code>、 执行 <code>a </code>+ 18 ，结果为 <code>30</code> <code>2</code>、 执行( a + 18 ) % 4 取模，结果为 <code>2 </code>3<code>、 执行 </code>a <code>* ( ( a + 18 ) % 4 )，结果为 </code>24&#96;</p>
+<h3 id="10-方法的使用"><a href="#10-方法的使用" class="headerlink" title="10.方法的使用"></a>10.方法的使用</h3><h5 id="什么是方法"><a href="#什么是方法" class="headerlink" title="什么是方法"></a>什么是方法</h5><p>方法也叫函数，就是用来<strong>解决一类问题的代码的有序组合，是一个功能模块</strong>。</p>
+<h5 id="怎么定义和使用方法"><a href="#怎么定义和使用方法" class="headerlink" title="怎么定义和使用方法"></a>怎么定义和使用方法</h5><p>一般情况下，定义一个方法的语法是：</p>
+<p><img src="https://data.educoder.net/api/attachments/190373" alt="img" loading="lazy"></p>
+<p>其中：</p>
+<ol>
+<li>访问修饰符：在现阶段你只需要记住访问修饰符都用<code>public</code>即可；</li>
+<li>返回值类型：方法返回值的类型，如果方法不返回任何值，则返回值类型指定为<code>void</code>；如果方法具有返回值，则需要指定返回值的类型，并且在方法体中使用<code>return</code>语句返回值；</li>
+<li>方法名：定义的方法的名字，必须使用合法的标识符；</li>
+<li>参数列表：传递给方法的参数列表，参数可以有多个，多个参数间以逗号隔开，每个参数由参数类型和参数名组成，以空格隔开。</li>
+</ol>
+<p>根据方法是否带参、是否带返回值，可将方法分为四类：</p>
+<ul>
+<li>无参无返回值方法；</li>
+<li>无参带返回值方法；</li>
+<li>带参无返回值方法；</li>
+<li>带参带返回值方法。</li>
+</ul>
+<p>在本关你需要学习的是无参数无返回值方法。</p>
+<p>方法的使用分两步：</p>
+<p>第一步，定义方法：</p>
+<p>例如：下面代码定义了一个方法名为 <code>helloEducoder</code> ，没有参数，且没有返回值的方法，执行的操作为输出  <code>welcome to educoder</code>。</p>
+<p><img src="https://data.educoder.net/api/attachments/195674" alt="img" loading="lazy"></p>
+<p>注意哦：</p>
+<ol>
+<li>方法体放在一对大括号中，实现特定的操作；</li>
+<li>方法名主要在调用这个方法时使用，需要注意命名的规范，一般采用第一个单词首字母小写，其它单词首字母大写的形式；</li>
+<li>现阶段我们使用的方法都是<code>static</code>（静态的）。</li>
+</ol>
+<p>第二步：调用方法：</p>
+<p><img src="https://data.educoder.net/api/attachments/195676" alt="img" loading="lazy"></p>
+<p>输出：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">welcome to educoder</span><br></pre></td></tr></table></figure>
+
+<p>如果方法不包含参数，但有返回值，我们称为无参带返回值的方法。</p>
+<p>例如：下面的代码，定义了一个方法名为 <code>numberPlus</code> ，无参数，但返回值为 <code>int</code> 类型的方法，执行的操作为计算两数之和，并返回结果。</p>
+<p><img src="https://data.educoder.net/api/attachments/195480" alt="img" loading="lazy"></p>
+<p>在 <code>numberPlus()</code> 方法中，返回值类型为 <code>int</code> 类型，因此在方法体中必须使用 <code>return</code> 返回一个整数值。</p>
+<p>调用带返回值的方法时需要注意，由于方法执行后会返回一个结果，因此在调用带返回值方法时一般都会接收其返回值并进行处理。如：</p>
+<p><img src="https://data.educoder.net/api/attachments/195481" alt="img" loading="lazy"></p>
+<h5 id="一定不可忽视的问题"><a href="#一定不可忽视的问题" class="headerlink" title="一定不可忽视的问题"></a>一定不可忽视的问题</h5><p><code>1</code>、 如果方法的返回类型为 <code>void</code> ，则方法中不能使用 <code>return</code> 返回值！</p>
+<p><img src="https://data.educoder.net/api/attachments/195482" alt="img" loading="lazy"></p>
+<p><code>2</code>、 方法的返回值最多只能有一个，不能返回多个值。</p>
+<p><img src="https://data.educoder.net/api/attachments/195483" alt="img" loading="lazy"></p>
+<p><code>3</code>、 方法返回值的类型必须兼容，例如，如果返回值类型为 <code>int </code>，则不能返回 <code>String </code>型值。</p>
+<p><img src="https://data.educoder.net/api/attachments/195485" alt="img" loading="lazy"></p>
+<p>有时方法的执行需要依赖于某些条件，就像生活中我们做一件事情时，也许需要前提条件，而方法的参数就相当于前提条件。</p>
+<p>我们先来看一个带参数，但没有返回值的方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**带参无返回值*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">show</span><span class="params">(String name)</span>&#123;        </span><br><span class="line">    System.out.println(name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码定义了一个 <code>show()</code> 方法，带有一个参数 <code>name</code> ，实现输出欢迎消息。</p>
+<p>调用带参方法与调用无参方法的语法类似，但在调用时必须传入实际的参数值。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;        </span><br><span class="line"><span class="comment">//调用方法，得到结果        </span></span><br><span class="line">show(<span class="string">&quot;我是Java爱好者&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行后控制台打印结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">我是Java爱好者</span><br></pre></td></tr></table></figure>
+
+<p>很多时候，我们把定义方法时的参数称为形参，目的是用来定义方法需要传入的参数的个数和类型；把调用方法时的参数称为实参，是传递给方法真正被处理的值。</p>
+<p><img src="https://data.educoder.net/api/attachments/367183" alt="img" loading="lazy"></p>
+<p><img src="https://data.educoder.net/api/attachments/196507" alt="img" loading="lazy"></p>
+<p><strong>一定不可忽视的问题：</strong></p>
+<p><code>1</code>、 调用带参方法时，必须保证实参的数量、类型、顺序与形参一一对应。</p>
+<p><img src="https://data.educoder.net/api/attachments/367183" alt="img" loading="lazy"></p>
+<p><img src="https://data.educoder.net/api/attachments/195487" alt="img" loading="lazy"></p>
+<p><code>2</code>、 调用方法时，实参不需要指定数据类型，如。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;        </span><br><span class="line">    <span class="comment">//调用方法，得到结果        </span></span><br><span class="line">    show(<span class="string">&quot;我是Java爱好者&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>3</code>、 方法的参数可以是基本数据类型，如 <code>int</code>、<code>double</code> 等，也可以是引用数据类型，如 <code>String</code>、<code>数组</code>等。</p>
+<p><code>4</code>、 当方法参数有<strong>多个</strong>时，多个参数间以<strong>逗号</strong>分隔。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">test</span><span class="params">(<span class="type">int</span> number1 , <span class="type">int</span> number2)</span>&#123;        </span><br><span class="line">    System.out.println(<span class="string">&quot;内部逻辑&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Python</title>
+    <url>/2022/10/21/Python/</url>
+    <content><![CDATA[<h1 id="Python随笔记录"><a href="#Python随笔记录" class="headerlink" title="Python随笔记录"></a>Python随笔记录</h1><h2 id="1-map内函数的用法"><a href="#1-map内函数的用法" class="headerlink" title="1.map内函数的用法"></a>1.map内函数的用法</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">add5</span>(<span class="params">v</span>):</span><br><span class="line">    <span class="keyword">return</span>  v+<span class="number">5</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">x,y</span>):</span><br><span class="line">    <span class="keyword">return</span> x+y</span><br><span class="line">x =<span class="built_in">range</span>(<span class="number">10</span>)</span><br><span class="line">y = <span class="built_in">range</span>(<span class="number">5</span>,<span class="number">10</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">str</span>,x)))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>(<span class="built_in">map</span>(add5,x)))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>(<span class="built_in">map</span>(add,x,y)))</span><br><span class="line">程序输出结果：</span><br><span class="line">[<span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;8&#x27;</span>, <span class="string">&#x27;9&#x27;</span>]</span><br><span class="line">[<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>, <span class="number">14</span>]</span><br><span class="line">[<span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">11</span>, <span class="number">13</span>]</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-随机函数random"><a href="#2-随机函数random" class="headerlink" title="2.随机函数random"></a>2.随机函数random</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line">x = random.randint(<span class="number">1</span>,<span class="number">1e30</span>)</span><br><span class="line"><span class="built_in">print</span>(x)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">int</span>,<span class="built_in">str</span>(x))))</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-filter过滤函数，使用内部lambda函数过滤出列表所有的偶数"><a href="#3-filter过滤函数，使用内部lambda函数过滤出列表所有的偶数" class="headerlink" title="3.filter过滤函数，使用内部lambda函数过滤出列表所有的偶数"></a>3.filter过滤函数，使用内部lambda函数过滤出列表所有的偶数</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">20</span>))</span><br><span class="line">filiterobject = <span class="built_in">filter</span>(<span class="keyword">lambda</span> x:x%<span class="number">2</span>!=<span class="number">1</span>,data)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>(filiterobject))</span><br><span class="line">输出结果：</span><br><span class="line">[<span class="number">0</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">10</span>, <span class="number">12</span>, <span class="number">14</span>, <span class="number">16</span>, <span class="number">18</span>]</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-zip拉链函数"><a href="#4-zip拉链函数" class="headerlink" title="4.zip拉链函数"></a>4.zip拉链函数</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">x= <span class="built_in">list</span>(<span class="built_in">zip</span>(<span class="string">&#x27;abcd&#x27;</span>,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]))</span><br><span class="line"><span class="built_in">print</span>(x)</span><br><span class="line">输出结果：</span><br><span class="line">[(<span class="string">&#x27;a&#x27;</span>, <span class="number">1</span>), (<span class="string">&#x27;b&#x27;</span>, <span class="number">2</span>), (<span class="string">&#x27;c&#x27;</span>, <span class="number">3</span>)]</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="5-将列表与元组内的元素组合为新的列表"><a href="#5-将列表与元组内的元素组合为新的列表" class="headerlink" title="5.将列表与元组内的元素组合为新的列表"></a>5.将列表与元组内的元素组合为新的列表</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">x = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">7</span>]</span><br><span class="line">r = (<span class="string">&#x27;6jashjdh8&#x27;</span>)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">fun</span>(<span class="params">i</span>):</span><br><span class="line">    <span class="comment"># i.append(r)</span></span><br><span class="line">    i.extend(r) </span><br><span class="line">    <span class="keyword">return</span> i</span><br><span class="line">y=fun(x)</span><br><span class="line"><span class="built_in">print</span>(y)</span><br><span class="line">输出结果：</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;j&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;s&#x27;</span>, <span class="string">&#x27;h&#x27;</span>, <span class="string">&#x27;j&#x27;</span>, <span class="string">&#x27;d&#x27;</span>, <span class="string">&#x27;h&#x27;</span>, <span class="string">&#x27;8&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="6-列表切片"><a href="#6-列表切片" class="headerlink" title="6.列表切片"></a>6.列表切片</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">name = <span class="built_in">input</span>()</span><br><span class="line"><span class="built_in">print</span>(name+<span class="string">&#x27;同学,人生苦短,我学python&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(name[<span class="number">0</span>]+<span class="string">&#x27;大侠,学好python,走遍天下也不怕&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(name[<span class="number">1</span>:]+<span class="string">&#x27;小盆友,学好python,你最帅&#x27;</span>)</span><br><span class="line">输入数据：张三</span><br><span class="line">输出结果：</span><br><span class="line">张三同学,人生苦短,我学python</span><br><span class="line">张大侠,学好python,走遍天下也不怕</span><br><span class="line">三小盆友,学好python,你最帅</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="7-基本运算"><a href="#7-基本运算" class="headerlink" title="7.基本运算"></a>7.基本运算</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">num = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">student = num//<span class="number">5</span> <span class="comment">#整除</span></span><br><span class="line">techer = num%<span class="number">5</span> <span class="comment">#除余</span></span><br><span class="line">sumstudent = num - techer</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;每人分得&#x27;</span>+<span class="built_in">str</span>(student)+<span class="string">&#x27;个苹果.&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;一共分出去&#x27;</span>+<span class="built_in">str</span>(sumstudent)+<span class="string">&#x27;个苹果.&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;交还给老师&#x27;</span>+<span class="built_in">str</span>(techer)+<span class="string">&#x27;个苹果.&#x27;</span>)</span><br><span class="line">输入数据：<span class="number">27</span></span><br><span class="line">输出结果：</span><br><span class="line">每人分得<span class="number">5</span>个苹果.</span><br><span class="line">一共分出去<span class="number">25</span>个苹果.</span><br><span class="line">交还给老师<span class="number">2</span>个苹果.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="8-random-shuffle-将一个列表中的元素打乱顺序"><a href="#8-random-shuffle-将一个列表中的元素打乱顺序" class="headerlink" title="8.random.shuffle()将一个列表中的元素打乱顺序"></a>8.random.shuffle()将一个列表中的元素打乱顺序</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">aList = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">1</span>,<span class="number">85</span>]</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line">random.shuffle(aList)</span><br><span class="line"><span class="built_in">print</span>(aList)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="9-sort-排序"><a href="#9-sort-排序" class="headerlink" title="9.sort()排序"></a>9.sort()排序</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">aList = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">1</span>,<span class="number">85</span>]</span><br><span class="line">aList.sort() <span class="comment">#正常排序</span></span><br><span class="line">aList.sort(reverse=<span class="literal">True</span>) <span class="comment">#逆序</span></span><br><span class="line">aList.sort(key=<span class="keyword">lambda</span> x:<span class="built_in">len</span>(<span class="built_in">str</span>(x))) <span class="comment">#按值排序</span></span><br><span class="line">b = <span class="built_in">sorted</span>(aList) <span class="comment">#创新表排序</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="10-reverse-倒序"><a href="#10-reverse-倒序" class="headerlink" title="10.reverse()倒序"></a>10.reverse()倒序</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">aList = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">1</span>,<span class="number">85</span>]</span><br><span class="line">n = <span class="built_in">reversed</span>(aList)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> n:</span><br><span class="line">    <span class="built_in">print</span>(i,end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">输出结果：</span><br><span class="line"><span class="number">85</span> <span class="number">1</span> <span class="number">9</span> <span class="number">8</span> <span class="number">6</span> <span class="number">4</span> <span class="number">2</span> <span class="number">1</span> </span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="11-for循环输出星期"><a href="#11-for循环输出星期" class="headerlink" title="11.for循环输出星期"></a>11.for循环输出星期</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">week = <span class="string">&quot;M&quot;</span>,<span class="string">&quot;TU&quot;</span>,<span class="string">&quot;W&quot;</span>,<span class="string">&quot;TH&quot;</span>,<span class="string">&quot;F&quot;</span>,<span class="string">&quot;SA&quot;</span>,<span class="string">&quot;SU&quot;</span></span><br><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line"><span class="keyword">if</span> n&gt;<span class="number">7</span> <span class="keyword">or</span> n&lt;<span class="number">1</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Not found&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(week[n-<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="12-商品价格区间查找与排序小案例"><a href="#12-商品价格区间查找与排序小案例" class="headerlink" title="12.商品价格区间查找与排序小案例"></a>12.商品价格区间查找与排序小案例</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">s</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> (x[<span class="number">1</span>])</span><br><span class="line">Price = [(<span class="number">1</span>,<span class="number">399</span>),</span><br><span class="line">         (<span class="number">2</span>,<span class="number">4369</span>),</span><br><span class="line">         (<span class="number">3</span>,<span class="number">539</span>),</span><br><span class="line">         (<span class="number">4</span>,<span class="number">288</span>),</span><br><span class="line">         (<span class="number">5</span>,<span class="number">109</span>),</span><br><span class="line">         (<span class="number">6</span>,<span class="number">749</span>),</span><br><span class="line">         (<span class="number">7</span>,<span class="number">235</span>),</span><br><span class="line">         (<span class="number">8</span>,<span class="number">190</span>),</span><br><span class="line">         (<span class="number">9</span>,<span class="number">99</span>),</span><br><span class="line">         (<span class="number">10</span>,<span class="number">1000</span>),</span><br><span class="line">         ]</span><br><span class="line">Max = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;请输入最高价格：&quot;</span>))</span><br><span class="line">Min = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;请输入最低价格：&quot;</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;提示：请输入排序方式：\n1.价格降序排序；\n2.价格升序排序；&quot;</span>)</span><br><span class="line">Sort = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;请输入排序方式：&quot;</span>))</span><br><span class="line">c =[];</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> Price:</span><br><span class="line">    <span class="keyword">if</span> i[<span class="number">1</span>] &lt;= Max <span class="keyword">and</span> i[<span class="number">1</span>] &gt;= Min:</span><br><span class="line">        c.append(i)</span><br><span class="line"><span class="keyword">if</span> Sort==<span class="number">1</span>:</span><br><span class="line">    p = <span class="built_in">sorted</span>(c,key=s, reverse=<span class="literal">True</span>)</span><br><span class="line"><span class="keyword">elif</span> Sort==<span class="number">2</span>:</span><br><span class="line">    p = <span class="built_in">sorted</span>(c,key=s)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;请输入正确的排序规则&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(p)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="13-输出1000个随机字符重复出现的次数"><a href="#13-输出1000个随机字符重复出现的次数" class="headerlink" title="13.输出1000个随机字符重复出现的次数"></a>13.输出1000个随机字符重复出现的次数</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> choices</span><br><span class="line"><span class="keyword">from</span> string <span class="keyword">import</span> ascii_letters,digits</span><br><span class="line">z = <span class="string">&#x27;&#x27;</span>.join(choices(ascii_letters+digits,k=<span class="number">1000</span>))</span><br><span class="line">d = <span class="built_in">dict</span>()</span><br><span class="line"><span class="keyword">for</span> ch <span class="keyword">in</span> z:</span><br><span class="line">    d[ch] = d.get(ch,<span class="number">0</span>)+<span class="number">1</span></span><br><span class="line"><span class="built_in">print</span>(d)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="14-汇率转换"><a href="#14-汇率转换" class="headerlink" title="14.汇率转换"></a>14.汇率转换</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">money = <span class="built_in">input</span>()</span><br><span class="line">rmb = <span class="built_in">int</span>(money[<span class="number">1</span>:])/<span class="number">6</span></span><br><span class="line">dollor = <span class="built_in">int</span>(money[<span class="number">1</span>:])*<span class="number">6</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&#x27;R&#x27;</span> <span class="keyword">in</span> money:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;$%.2f&#x27;</span>%rmb)</span><br><span class="line"><span class="keyword">elif</span> <span class="string">&#x27;$&#x27;</span> <span class="keyword">in</span> money:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;R%.2f&#x27;</span>%dollor)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="15-成绩信息统计"><a href="#15-成绩信息统计" class="headerlink" title="15.成绩信息统计"></a>15.成绩信息统计</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">num = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">grade = <span class="built_in">input</span>()</span><br><span class="line">grades = <span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">int</span>,grade.split()))</span><br><span class="line">fail = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> grades:</span><br><span class="line">    <span class="keyword">if</span> i&lt;<span class="number">60</span>:</span><br><span class="line">        fail+=<span class="number">1</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Max: %d&#x27;</span>%(<span class="built_in">max</span>(grades))+<span class="string">&#x27;\n&#x27;</span><span class="string">&#x27;Min: %d&#x27;</span>%(<span class="built_in">min</span>(grades))+<span class="string">&#x27;\n&#x27;</span><span class="string">&#x27;Ave: %.1f&#x27;</span>%(<span class="built_in">sum</span>(grades)/num)+<span class="string">&#x27;\n&#x27;</span><span class="string">&#x27;Fail: %d&#x27;</span>%fail)</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Python学习随笔</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>KaTeX</title>
+    <url>/2022/09/22/katex/</url>
+    <content><![CDATA[<h2 id="KaTeX"><a href="#KaTeX" class="headerlink" title="KaTeX"></a>KaTeX</h2><ul>
+<li><a href="https://katex.org/docs/autorender.html">https://katex.org/docs/autorender.html</a></li>
+</ul>
+<h3 id="行内公式"><a href="#行内公式" class="headerlink" title="行内公式"></a>行内公式</h3><figure class="highlight md"><table><tr><td class="code"><pre><span class="line"><span class="quote">&gt; <span class="language-xml"><span class="tag">&lt;<span class="name">span</span>&gt;</span></span>$\&#123;x | Ax = b\&#125;$<span class="language-xml"><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span></span></span><br></pre></td></tr></table></figure>
+
+<p><span>$\mathcal{X}_{c^*}&lt;1, \mathcal{X}_{q^*}&lt;1$</span></p>
+<p>$E &#x3D; mc^2$</p>
+<p>$\frac{\partial}{\partial t}$</p>
+<figure class="highlight latex"><table><tr><td class="code"><pre><span class="line"><span class="built_in">$</span>E = mc<span class="built_in">^</span>2<span class="built_in">$</span></span><br><span class="line"><span class="built_in">$</span><span class="keyword">\frac</span>&#123;<span class="keyword">\partial</span>&#125;&#123;<span class="keyword">\partial</span> t&#125;<span class="built_in">$</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="行间公式"><a href="#行间公式" class="headerlink" title="行间公式"></a>行间公式</h3><p>$$ E &#x3D; mc^2 $$</p>
+<figure class="highlight latex"><table><tr><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span> E = mc<span class="built_in">^</span>2 <span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></table></figure>
+
+<p>注意，在 Markdown 文件中直接书写时，你需要多一个 <code>\</code> 来转译 <code>\</code>。或直接使用 <code>$$ E = mc^2 $$</code> 的形式。</p>
+<p>使用 <code>\\[ E = mc^2 \\]</code> 而不是 <code>\[ E = mc^2 \]</code>。</p>
+<blockquote>
+<p>如果你有过多需要转译的字符，你可以直接使用 HTML 标签包裹它（内部的字符将不会被作为 Markdown 解析），而无需使用多个 <code>\</code> 来转译。</p>
+</blockquote>
+<p>譬如：</p>
+<div>
+\[ E = mc^2 \]
+</div>
+
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>\[ E = mc^2 \]<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>\[ E &#x3D; mc^2 \]</p>
+<figure class="highlight latex"><table><tr><td class="code"><pre><span class="line"><span class="keyword">\[</span> E = mc<span class="built_in">^</span>2 <span class="keyword">\]</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>\( E &#x3D; mc^2 \)</p>
+<figure class="highlight latex"><table><tr><td class="code"><pre><span class="line"><span class="keyword">\(</span> E = mc<span class="built_in">^</span>2 <span class="keyword">\)</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>$$ \vec a&#x3D;\frac{d\vec v}{dt}&#x3D;\frac{d(\frac{dr}{dt}\vec e*{i}+r\frac{d\theta}{dt}\vec e*{j})}{dt}&#x3D;\frac{d^2r}{dt^2}\vec e*{i}+\frac{dr}{dt}\frac{d\vec e*{i}}{dt}+\frac{dr}{dt}\frac{d\theta}{dt}\vec e*{j}+r\frac{d^2\theta}{dt^2}\vec e*{j}+r\frac{d\theta}{dt}\frac{d\vec e_{j}}{dt} $$</p>
+<figure class="highlight latex"><table><tr><td class="code"><pre><span class="line"><span class="keyword">\[</span> <span class="keyword">\vec</span> a=<span class="keyword">\frac</span>&#123;d<span class="keyword">\vec</span> v&#125;&#123;dt&#125;=<span class="keyword">\frac</span>&#123;d(<span class="keyword">\frac</span>&#123;dr&#125;&#123;dt&#125;<span class="keyword">\vec</span> e<span class="built_in">_</span>&#123;i&#125;+r<span class="keyword">\frac</span>&#123;d<span class="keyword">\theta</span>&#125;&#123;dt&#125;<span class="keyword">\vec</span> e<span class="built_in">_</span>&#123;j&#125;)&#125;&#123;dt&#125;=<span class="keyword">\frac</span>&#123;d<span class="built_in">^</span>2r&#125;&#123;dt<span class="built_in">^</span>2&#125;<span class="keyword">\vec</span> e<span class="built_in">_</span>&#123;i&#125;+<span class="keyword">\frac</span>&#123;dr&#125;&#123;dt&#125;<span class="keyword">\frac</span>&#123;d<span class="keyword">\vec</span> e<span class="built_in">_</span>&#123;i&#125;&#125;&#123;dt&#125;+<span class="keyword">\frac</span>&#123;dr&#125;&#123;dt&#125;<span class="keyword">\frac</span>&#123;d<span class="keyword">\theta</span>&#125;&#123;dt&#125;<span class="keyword">\vec</span> e<span class="built_in">_</span>&#123;j&#125;+r<span class="keyword">\frac</span>&#123;d<span class="built_in">^</span>2<span class="keyword">\theta</span>&#125;&#123;dt<span class="built_in">^</span>2&#125;<span class="keyword">\vec</span> e<span class="built_in">_</span>&#123;j&#125;+r<span class="keyword">\frac</span>&#123;d<span class="keyword">\theta</span>&#125;&#123;dt&#125;<span class="keyword">\frac</span>&#123;d<span class="keyword">\vec</span> e<span class="built_in">_</span>&#123;j&#125;&#125;&#123;dt&#125; <span class="keyword">\]</span></span><br></pre></td></tr></table></figure>
+
+<p>$$ m_t&#x3D;g_t $$</p>
+<p>$$ V_t&#x3D;1 $$</p>
+<figure class="highlight latex"><table><tr><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span> m<span class="built_in">_</span>t=g<span class="built_in">_</span>t <span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span> V<span class="built_in">_</span>t=1 <span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></table></figure>
+
+<div>
+
+<p>$$ \eta_t&#x3D;lr*{\frac {m_t}{\sqrt V_t}}&#x3D;lr*g_t $$</p>
+<p>$$ w_{t+1}&#x3D;w_t-\eta_t&#x3D;w_t-lr*{\frac {m_t}{\sqrt V_t}}&#x3D;w_t-lr*g_t $$</p>
+<font size=5 color=red>
+
+<p>$$ {\Rightarrow \boxed{w_{t+1}&#x3D;w_t-lr*{\frac {\partial loss}{\partial w_t}}}} $$</p>
+</font>
+
+</div>
+
+<figure class="highlight latex"><table><tr><td class="code"><pre><span class="line"><span class="built_in">$</span><span class="built_in">$</span> <span class="keyword">\eta</span><span class="built_in">_</span>t=lr*&#123;<span class="keyword">\frac</span> &#123;m<span class="built_in">_</span>t&#125;&#123;<span class="keyword">\sqrt</span> V<span class="built_in">_</span>t&#125;&#125;=lr*g<span class="built_in">_</span>t <span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span> w<span class="built_in">_</span>&#123;t+1&#125;=w<span class="built_in">_</span>t-<span class="keyword">\eta</span><span class="built_in">_</span>t=w<span class="built_in">_</span>t-lr*&#123;<span class="keyword">\frac</span> &#123;m<span class="built_in">_</span>t&#125;&#123;<span class="keyword">\sqrt</span> V<span class="built_in">_</span>t&#125;&#125;=w<span class="built_in">_</span>t-lr*g<span class="built_in">_</span>t <span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"></span><br><span class="line">&lt;font size=5 color=red&gt;</span><br><span class="line"></span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span> &#123;<span class="keyword">\Rightarrow</span> <span class="keyword">\boxed</span>&#123;w<span class="built_in">_</span>&#123;t+1&#125;=w<span class="built_in">_</span>t-lr*&#123;<span class="keyword">\frac</span> &#123;<span class="keyword">\partial</span> loss&#125;&#123;<span class="keyword">\partial</span> w<span class="built_in">_</span>t&#125;&#125;&#125;&#125; <span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"></span><br><span class="line">&lt;/font&gt;</span><br></pre></td></tr></table></figure>
+
+<div>
+$$ \begin{bmatrix} a & b \\ c & d \end{bmatrix} $$
+</div>
+
+<figure class="highlight latex"><table><tr><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span> <span class="keyword">\begin</span>&#123;bmatrix&#125; a <span class="built_in">&amp;</span> b <span class="keyword">\\</span> c <span class="built_in">&amp;</span> d <span class="keyword">\end</span>&#123;bmatrix&#125; <span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<div>
+$$
+\begin{equation}
+  \left\{
+    \begin{aligned}
+      x=a\cos\theta\\
+      y=b\sin\theta\\
+    \end{aligned}
+  \right.
+\end{equation}
+$$
+</div>
+
+<figure class="highlight latex"><table><tr><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;equation&#125;</span><br><span class="line">  <span class="keyword">\left</span><span class="keyword">\&#123;</span></span><br><span class="line">    <span class="keyword">\begin</span>&#123;aligned&#125;</span><br><span class="line">      x=a<span class="keyword">\cos</span><span class="keyword">\theta</span><span class="keyword">\\</span></span><br><span class="line">      y=b<span class="keyword">\sin</span><span class="keyword">\theta</span><span class="keyword">\\</span></span><br><span class="line">    end&#123;aligned&#125;</span><br><span class="line">  <span class="keyword">\right</span>.</span><br><span class="line"><span class="keyword">\end</span>&#123;equation&#125;</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>Markdown</title>
+    <url>/2022/09/21/markdown/</url>
+    <content><![CDATA[<p>主题 Hexo-theme-async 文章页面适配预览。</p>
+<span id="more"></span>
+
+<h2 id="Markdown-基础语法"><a href="#Markdown-基础语法" class="headerlink" title="Markdown 基础语法"></a>Markdown 基础语法</h2><h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><h3 id="字体"><a href="#字体" class="headerlink" title="字体"></a>字体</h3><p>粗体、斜体、粗体和斜体，删除线，需要在文字前后加不同的标记符号。如下：</p>
+<p><strong>这个是粗体</strong></p>
+<p><em>这个是斜体</em></p>
+<p><em><strong>这个是粗体加斜体</strong></em></p>
+<p><del>这里想用删除线</del></p>
+<p>注：如果想给字体换颜色、字体或者居中显示，需要使用内嵌HTML来实现。</p>
+<h3 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h3><p>无序列表的使用，在符号<code>-</code>后加空格使用。如下：</p>
+<ul>
+<li>无序列表 1</li>
+<li>无序列表 2</li>
+<li>无序列表 3</li>
+</ul>
+<p>多层嵌套效果。如下：</p>
+<ul>
+<li>无序列表 1</li>
+<li>无序列表 2<ul>
+<li>无序列表 2.1</li>
+<li>无序列表 2.2<ul>
+<li>无序列表 2.2.1</li>
+<li>无序列表 2.2.2</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h3><p>有序列表的使用，在数字及符号<code>.</code>后加空格后输入内容，如下：</p>
+<ol>
+<li>有序列表 1</li>
+<li>有序列表 2</li>
+<li>有序列表 3</li>
+</ol>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p>引用的格式是在符号<code>&gt;</code>后面书写文字。如下：</p>
+<blockquote>
+<p>读一本好书，就是在和高尚的人谈话。 ——歌德</p>
+</blockquote>
+<blockquote>
+<p>雇用制度对工人不利，但工人根本无力摆脱这个制度。 ——阮一峰</p>
+</blockquote>
+<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p>关于 <code>Hexo-theme-async</code> 的使用文档可以<a href="https://hexo-theme-async.imalun.com/">点击这里</a>查看</p>
+<h3 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h3><p>插入图片，格式如下：</p>
+<p><img src="https://hexo-theme-async.imalun.com/github_star.png" alt="这里写图片描述" loading="lazy"></p>
+<p><img src="https://markdown.com.cn/images/i-am-svg.svg" loading="lazy"></p>
+<h3 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h3><p>可以在一行中用三个以上的减号来建立一个分隔线，同时需要在分隔线的上面空一行。如下：</p>
+<hr>
+<h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><p>可以使用冒号来定义表格的对齐方式，如下：</p>
+<table>
+<thead>
+<tr>
+<th align="left">姓名</th>
+<th align="center">年龄</th>
+<th align="right">工作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">小可爱</td>
+<td align="center">18</td>
+<td align="right">吃可爱多</td>
+</tr>
+<tr>
+<td align="left">小小勇敢</td>
+<td align="center">20</td>
+<td align="right">爬棵勇敢树</td>
+</tr>
+<tr>
+<td align="left">小小小机智</td>
+<td align="center">22</td>
+<td align="right">看一本机智书</td>
+</tr>
+</tbody></table>
+<h2 id="特殊语法"><a href="#特殊语法" class="headerlink" title="特殊语法"></a>特殊语法</h2><h3 id="脚注"><a href="#脚注" class="headerlink" title="脚注"></a>脚注</h3><p>Here’s a sentence with a footnote. [^1]<br>[^1]: This is the footnote.</p>
+<h3 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h3><p>如果在一个行内需要引用代码，只要用反引号引起来就好，如下：</p>
+<p>Use the <code>printf()</code> function.</p>
+<p>在需要高亮的代码块的前一行及后一行使用三个反引号，同时<strong>第一行反引号后面表示代码块所使用的语言</strong>，如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// FileName: HelloWorld.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloWorld</span> &#123;</span><br><span class="line">  <span class="comment">// Java 入口程序，程序从此入口</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;Hello,World!&quot;</span>); <span class="comment">// 向控制台打印一条语句</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>diff 不能同时和其他语言的高亮同时显示，使用效果如下:</p>
+<figure class="highlight diff"><table><tr><td class="code"><pre><span class="line"><span class="addition">+ 新增项</span></span><br><span class="line"><span class="deletion">- 删除项</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="数学公式"><a href="#数学公式" class="headerlink" title="数学公式"></a>数学公式</h3><p>行内公式使用方法：\(ce{Hg^2+ -&gt;[I-] HgI2 -&gt;[I-] [Hg^{II}I4]^2-}\)</p>
+<p>块公式使用方法如下：</p>
+<p>$$H(D_2) &#x3D; -\left(\frac{2}{4}\log_2 \frac{2}{4} + \frac{2}{4}\log_2 \frac{2}{4}\right) &#x3D; 1$$</p>
+<h3 id="定义列表"><a href="#定义列表" class="headerlink" title="定义列表"></a>定义列表</h3><dl><dt>First Term</dt><dd>This is the definition of the first term.</dd></dl><dl><dt>Second Term<br>: This is one definition of the second term.</dt><dd>This is another definition of the second term.</dd></dl><h3 id="任务列表"><a href="#任务列表" class="headerlink" title="任务列表"></a>任务列表</h3><ul>
+<li><input checked="" disabled="" type="checkbox"> Write the press release</li>
+<li><input disabled="" type="checkbox"> Update the website</li>
+<li><input disabled="" type="checkbox"> Contact the media</li>
+</ul>
+<h2 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h2><h3 id="注音标签"><a href="#注音标签" class="headerlink" title="注音标签"></a>注音标签</h3><p><ruby>喜大普奔<rt>hē hē hē hē</rt></ruby></p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ruby</span>&gt;</span>喜大普奔<span class="tag">&lt;<span class="name">rt</span>&gt;</span>hē hē hē hē<span class="tag">&lt;/<span class="name">rt</span>&gt;</span><span class="tag">&lt;/<span class="name">ruby</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="details"><a href="#details" class="headerlink" title="details"></a>details</h3><details>
+  <summary>Summary</summary>
+  Content
+</details>]]></content>
+  </entry>
+  <entry>
+    <title>数据结构与算法随笔</title>
+    <url>/2022/10/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</url>
+    <content><![CDATA[<h1 id="二分法算法"><a href="#二分法算法" class="headerlink" title="二分法算法"></a>二分法算法</h1><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="type">int</span> arr[] = &#123;<span class="number">12</span>,<span class="number">23</span>,<span class="number">30</span>,<span class="number">45</span>,<span class="number">48</span>,<span class="number">50</span>,<span class="number">67</span>,<span class="number">82</span>,<span class="number">91</span>,<span class="number">103</span>&#125;;<span class="comment">//数组</span></span><br><span class="line">    <span class="type">int</span> num = <span class="keyword">sizeof</span>(arr)/<span class="keyword">sizeof</span>(arr[<span class="number">0</span>]);<span class="comment">//数组元素个数</span></span><br><span class="line">	<span class="type">int</span> left = <span class="number">0</span>;<span class="comment">//左下标 </span></span><br><span class="line">    <span class="type">int</span> right = num<span class="number">-1</span>;<span class="comment">//右下标</span></span><br><span class="line">    <span class="type">int</span> key = <span class="number">0</span>; </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;请输入查找的数字:&quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;key);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> mid = (left+right)/<span class="number">2</span>;  <span class="comment">//取中间值下标</span></span><br><span class="line">        <span class="keyword">if</span>(arr[mid]&lt;key)&#123;</span><br><span class="line">            left = mid+<span class="number">1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(arr[mid]&gt;key)&#123;</span><br><span class="line">            right = mid<span class="number">-1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;下标为:%d&quot;</span>,mid);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(left &gt; right)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;没找到&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="合并算法"><a href="#合并算法" class="headerlink" title="合并算法"></a>合并算法</h1><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> listA[] = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">8</span>&#125;;</span><br><span class="line">    <span class="type">int</span> listB[] = &#123;<span class="number">2</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">10</span>,<span class="number">11</span>&#125;;</span><br><span class="line">    <span class="type">int</span> listAlen = <span class="keyword">sizeof</span>(listA)/<span class="keyword">sizeof</span>(listA[<span class="number">0</span>])<span class="number">-1</span>;</span><br><span class="line">    <span class="type">int</span> listBlen = <span class="keyword">sizeof</span>(listB)/<span class="keyword">sizeof</span>(listB[<span class="number">0</span>])<span class="number">-1</span>;</span><br><span class="line">    <span class="type">int</span> listClen = listAlen + listBlen +<span class="number">2</span>;</span><br><span class="line">    <span class="type">int</span> listC[listClen];</span><br><span class="line">    <span class="type">int</span> i=<span class="number">0</span>;<span class="type">int</span> j=<span class="number">0</span>;<span class="type">int</span> k=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(i&lt;=listAlen&amp;&amp;j&lt;=listBlen)&#123;</span><br><span class="line">        <span class="keyword">if</span> (listA[i]&lt;=listB[j])&#123;</span><br><span class="line">            listC[k] = listA[i];</span><br><span class="line">            i++;</span><br><span class="line">            k++;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            listC[k]=listB[j];</span><br><span class="line">            j++;</span><br><span class="line">            k++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (i&lt;=listAlen)&#123;</span><br><span class="line">        listC[k]=listA[i];</span><br><span class="line">        i++;</span><br><span class="line">        k++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (j&lt;=listBlen)&#123;</span><br><span class="line">        listC[k]=listB[j];</span><br><span class="line">        j++;</span><br><span class="line">        k++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;输出数组为：\n&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> l=<span class="number">0</span>;l&lt;listClen;l++)&#123;</span><br><span class="line">    	<span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>,listC[l]);</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="头插法建单链表"><a href="#头插法建单链表" class="headerlink" title="头插法建单链表"></a>头插法建单链表</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;malloc.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">char</span> ElemType;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">Node</span></span><br><span class="line">&#123;</span><br><span class="line">	ElemType data;</span><br><span class="line">	<span class="keyword">struct</span> <span class="title class_">Node</span> * next;</span><br><span class="line">&#125;Node,*Linklist;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">init_linklist</span><span class="params">(Linklist*l)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	*l=(Linklist)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(Node));</span><br><span class="line">	(*l)-&gt;next=<span class="literal">NULL</span>;</span><br><span class="line">	 </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">CreateFromHead</span><span class="params">(Linklist l)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Node *s;</span><br><span class="line">	<span class="type">char</span> c;</span><br><span class="line">	<span class="type">int</span> flag=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span>(flag)</span><br><span class="line">	&#123;</span><br><span class="line">		c=<span class="built_in">getchar</span>();</span><br><span class="line">		<span class="keyword">if</span>(c!=<span class="string">&#x27;$&#x27;</span>)&#123;</span><br><span class="line">			s=(Node*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(Node));</span><br><span class="line">			s-&gt;data=c; <span class="comment">//对新节点数据域赋值c</span></span><br><span class="line">			s-&gt;next=l-&gt;next;</span><br><span class="line">			l-&gt;next=s;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				flag=<span class="number">0</span>;</span><br><span class="line">			&#125;</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Linklist l;</span><br><span class="line">	Node *p;</span><br><span class="line">	<span class="built_in">init_linklist</span>(&amp;l);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;用头插法建立表，请输入链表数据,以$结束\n&quot;</span>);</span><br><span class="line">	<span class="built_in">CreateFromHead</span>(l);</span><br><span class="line">	p=l-&gt;next;</span><br><span class="line">	<span class="keyword">while</span>(p!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%c\n&quot;</span>,p-&gt;data);</span><br><span class="line">		p=p-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="尾插法建单链表"><a href="#尾插法建单链表" class="headerlink" title="尾插法建单链表"></a>尾插法建单链表</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;malloc.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">char</span> ElemType;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">Node</span></span><br><span class="line">&#123;</span><br><span class="line">	ElemType data;</span><br><span class="line">	<span class="keyword">struct</span> <span class="title class_">Node</span> * next;</span><br><span class="line">&#125; Node,*Linklist;</span><br><span class="line"><span class="comment">//初始化链表 </span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">init_Linklist</span><span class="params">(Linklist *l)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Node *r;</span><br><span class="line">	*l=(Linklist)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(Node));</span><br><span class="line">	(*l)-&gt;next=<span class="literal">NULL</span>;</span><br><span class="line">	r= (*l); <span class="comment">//r是指向尾部的节点的指针； </span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//创建尾插法 </span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">CreateFromTail</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	 Node *r,*s;</span><br><span class="line">	 <span class="type">int</span> flag = <span class="number">1</span>;</span><br><span class="line">	 <span class="type">char</span> c;</span><br><span class="line">	 <span class="keyword">while</span>(flag)&#123;</span><br><span class="line">	 	c=<span class="built_in">getchar</span>();</span><br><span class="line">	 	<span class="keyword">if</span>(c!=<span class="string">&#x27;$&#x27;</span>)&#123;</span><br><span class="line">	 		s=(Node*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(Node));</span><br><span class="line">	 		s-&gt;data=c;</span><br><span class="line">	 		r-&gt;next=s; <span class="comment">//将尾节点指针指向新节点 </span></span><br><span class="line">	 		r=s; <span class="comment">//将新节点定义为尾节点； </span></span><br><span class="line">		 &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		 	flag = <span class="number">0</span>;</span><br><span class="line">		 	r-&gt;next=<span class="literal">NULL</span>; <span class="comment">//当前链表结束 </span></span><br><span class="line">		 &#125;</span><br><span class="line">	 &#125; </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Linklist l;</span><br><span class="line">	Node *p;</span><br><span class="line">	<span class="built_in">init_Linklist</span>(&amp;l);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;用尾插法建表，请输入链表数据，以$结尾\n&quot;</span>);</span><br><span class="line">	<span class="built_in">CreateFromTail</span>();</span><br><span class="line">	p=l-&gt;next;</span><br><span class="line">	<span class="keyword">while</span>(p!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%c\n&quot;</span>,p-&gt;data);</span><br><span class="line">		p=p-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>博客迁移</title>
+    <url>/2023/03/01/%E6%9C%80%E6%96%B0/</url>
+    <content><![CDATA[<h1 id="博客已迁移至wordpress平台，新的网站为http-www-asklins-top"><a href="#博客已迁移至wordpress平台，新的网站为http-www-asklins-top" class="headerlink" title="博客已迁移至wordpress平台，新的网站为http://www.asklins.top"></a>博客已迁移至wordpress平台，新的网站为<a href="http://www.asklins.top/">http://www.asklins.top</a></h1>]]></content>
+      <categories>
+        <category>离散数学</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>离散数学</title>
+    <url>/2022/10/24/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/</url>
+    <content><![CDATA[<h1 id="离散数学学习随笔"><a href="#离散数学学习随笔" class="headerlink" title="离散数学学习随笔"></a>离散数学学习随笔</h1><h2 id="真值表"><a href="#真值表" class="headerlink" title="真值表"></a>真值表</h2><p><img src="https://img.lkxin.cn/tu/2022/10/24/63566e4056a0a.png" alt="合取、析取、蕴含、等价" loading="lazy"></p>
+]]></content>
+      <categories>
+        <category>离散数学</category>
+      </categories>
+  </entry>
+</search>

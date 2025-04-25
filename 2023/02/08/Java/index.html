@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="Java一、入门1.命名规则 由字母，下划线，美元符号（$），数字组成，但第一个字符不能是数字。 如果变量名是复合型的那么我们采用驼峰式，或者蛇形式的方式。 驼峰式：teaCup（表示茶杯的意思），stuAge（学生年龄） 蛇形式：tea_cup，stu_age 如果是单个单词就全小写就行了。 千万不要用中文拼音来表达：例如学生年龄：xueShengNianling。 在一个方法中变量名不能重复。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java随笔">
+<meta property="og:url" content="https://asklins.gitee.io/2023/02/08/Java/index.html">
+<meta property="og:site_name" content="Asklins_Blog">
+<meta property="og:description" content="Java一、入门1.命名规则 由字母，下划线，美元符号（$），数字组成，但第一个字符不能是数字。 如果变量名是复合型的那么我们采用驼峰式，或者蛇形式的方式。 驼峰式：teaCup（表示茶杯的意思），stuAge（学生年龄） 蛇形式：tea_cup，stu_age 如果是单个单词就全小写就行了。 千万不要用中文拼音来表达：例如学生年龄：xueShengNianling。 在一个方法中变量名不能重复。">
+<meta property="og:locale">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/185490">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/185491">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/185498">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/185533">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/187139">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/187165">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/187166">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/187170">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/187171">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/187219">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/187210">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/187211">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/189770">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/189588">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/189038">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/189039">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/190373">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/195674">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/195676">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/195480">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/195481">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/195482">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/195483">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/195485">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/367183">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/196507">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/367183">
+<meta property="og:image" content="https://data.educoder.net/api/attachments/195487">
+<meta property="article:published_time" content="2023-02-08T13:20:29.000Z">
+<meta property="article:modified_time" content="2023-02-23T14:50:06.127Z">
+<meta property="article:author" content="zmb">
+<meta property="article:tag" content="博客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://data.educoder.net/api/attachments/185490">
+
+    <meta name="keywords" content="java">
+
+
+<title >Java随笔</title>
+
+<!-- Favicon -->
+
+    <link href='/img/favicon.svg?v=1.1.1' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/img/favicon.svg?v=1.1.1' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css">
+
+
+    
+
+    
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"asklins.gitee.io","author":"zmb","root":"/","typed_text":["WHAT I AM"],"favicon":{"logo":"/img/favicon.svg","icon16":"/img/favicon.svg","icon32":"/img/favicon.svg","appleTouchIcon":null,"webmanifest":null,"visibilitychange":true,"hidden":"/failure.ico","showText":"(/≧▽≦/)咦！又好了！","hideText":"(●—●)喔哟，崩溃啦！"},"theme_version":"1.1.1","theme":{"switch":true,"default":"style-light"},"search":{"enable":true,"type":"local","href":"https://www.google.com/search?q=site:","domain":null,"preload":true,"trigger":"auto","path":"search.xml"},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）","author":"本文作者：","copyright_link":"本文链接：","copyright_license_title":"版权声明：","copyright_license_content":"本博客所有文章除特别声明外，均默认采用 undefined 许可协议。"},"creative_commons":{"license":"by-nc-sa","language":"deed.zh","post":true,"clipboard":true},"swup":true};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=1.1.1" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+
+    
+
+
+
+<!-- Site Analytics -->
+ 
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" data-scroll-container style="opacity: 0">
+          <div data-scroll-section id="content" class="trm-scroll-section">
+
+            <div class="locomotive-scroll__sticky-target" style=" position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;"></div>
+
+            <!-- top bar -->
+            <header class="trm-top-bar" data-scroll data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="-10">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+			<a href="/" class="trm-logo-frame trm-anima-link">
+				
+					<img src="/img/favicon.svg" alt="logo">
+				
+				
+					<div class="trm-logo-text">
+						blog&#39;s<span>Asklins</span>
+					</div>
+				
+			</a>
+			<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+
+			<!-- menu -->
+			<div class="trm-menu">
+				<nav>
+					<ul>
+						
+						<li class="menu-item-has-children ">
+							<a  href="/" target="">
+								首页
+							</a>
+							
+						</li>
+						
+						<li class="menu-item-has-children ">
+							<a  href="/archives/" target="">
+								归档
+							</a>
+							
+						</li>
+						
+						<li class="menu-item-has-children ">
+							<a  href="/links/" target="">
+								友链
+							</a>
+							
+						</li>
+						
+						<li class="menu-item-has-children ">
+							<a  href="/about/" target="">
+								关于
+							</a>
+							
+						</li>
+						
+					</ul>
+				</nav>
+			</div>
+			<!-- menu end -->
+			
+			<!-- mode switcher place -->
+			
+			<div class="trm-mode-switcher-place">
+				<!-- <div class="trm-hidden-switcher"> -->
+					<div class="trm-mode-switcher">
+					  <i class="far fa-sun"></i>
+					  <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+					  <label class="trm-swich" for="trm-swich"></label>
+					  <i class="far fa-moon"></i>
+					</div>
+				  <!-- </div> -->
+			</div>
+			
+			<!-- mode switcher place end -->
+
+			
+				
+				<div id="trm-search-btn" class="trm-search-btn">
+					<i class="fas fa-search"></i>
+				</div>
+				 
+			 
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner" data-scroll data-scroll-direction="vertical">
+    
+    <!-- banner video cover -->
+    <video autoplay="autoplay" loop muted playsinline webkit-playinginline class="trm-banner-cover" data-scroll data-scroll-direction="vertical" data-scroll-speed="-3">
+        <source src="http://cdn.moji.com/websrc/video/autumn20190924.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+        Your browser does not support HTML5 video.
+    </video>
+    <!-- banner video cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container" data-scroll data-scroll-direction="vertical" data-scroll-speed="0">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            Java随笔
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2023
+                                    </span
+                                ></li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <a href="#about-triger" data-scroll-to="#about-triger" data-scroll-offset="-130" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </a>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div class="col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    
+
+<div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card" data-scroll data-scroll-repeat data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="60"> 
+    
+        <div class="trm-tabs" id="sidebar-tabs">
+           <div class="trm-tabs-nav trm-mb-40" id="trm-tabs-nav">
+                <div data-to="tabs-user" class="trm-tabs-nav-item"><i class="fas fa-user-alt"></i></div>
+                <div data-to="tabs-toc" class="trm-tabs-nav-item active"><i class="fas fa-th-list"></i></div>
+           </div>
+            <div name="tabs-user" class="trm-tabs-item">
+                <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20"><img class="trm-avatar" src="/img/avatar.jpg" alt="Avatar"> </div>
+    <h5 class="trm-name trm-mb-15">
+        Asklins
+    </h5>
+    
+    <div class="trm-label">
+        I`m
+        <span class="trm-typed-text">
+            <!-- Words for theme.user.typedText -->
+        </span>
+    </div>
+    
+</div>
+<!-- card header end -->
+
+<!-- sidebar social -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+
+<div class="trm-social">
+    
+        <a href="https://github.com/asklins/" title="Github" rel="nofollow" target="_blank">
+            <i class="fab fa-github"></i>
+        </a>
+    
+        <a href="https://twitter.com" title="Twitter" rel="nofollow" target="_blank">
+            <i class="fab fa-twitter"></i>
+        </a>
+    
+</div>
+
+<!-- sidebar social end -->
+
+<!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                City:
+            </div>
+            <div class="trm-label trm-label-light">
+                KaiFeng
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                Age:
+            </div>
+            <div class="trm-label trm-label-light">
+                20
+            </div>
+        </li>
+    
+</ul>
+
+            </div>
+            <div name="tabs-toc" class="trm-tabs-item active">
+                <div class="post-toc">
+    <ol class="toc"><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#Java"  data-scroll-to="#Java"><span class="toc-number">1.</span> <span class="toc-text">Java</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#一、入门"  data-scroll-to="#一、入门"><span class="toc-number">1.1.</span> <span class="toc-text">一、入门</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#1-命名规则"  data-scroll-to="#1-命名规则"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.命名规则</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#2-JAVA中的数据类型"  data-scroll-to="#2-JAVA中的数据类型"><span class="toc-number">1.1.2.</span> <span class="toc-text">2.JAVA中的数据类型</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#3-Java类型转换"  data-scroll-to="#3-Java类型转换"><span class="toc-number">1.1.3.</span> <span class="toc-text">3.Java类型转换</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#4-Scanner的使用"  data-scroll-to="#4-Scanner的使用"><span class="toc-number">1.1.4.</span> <span class="toc-text">4.Scanner的使用</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#5-算术运算符"  data-scroll-to="#5-算术运算符"><span class="toc-number">1.1.5.</span> <span class="toc-text">5.算术运算符</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#6-关系运算符"  data-scroll-to="#6-关系运算符"><span class="toc-number">1.1.6.</span> <span class="toc-text">6.关系运算符</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#7-逻辑运算符"  data-scroll-to="#7-逻辑运算符"><span class="toc-number">1.1.7.</span> <span class="toc-text">7.逻辑运算符</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#8-三元运算符"  data-scroll-to="#8-三元运算符"><span class="toc-number">1.1.8.</span> <span class="toc-text">8.三元运算符</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#9-运算符的优先级"  data-scroll-to="#9-运算符的优先级"><span class="toc-number">1.1.9.</span> <span class="toc-text">9.运算符的优先级</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#10-方法的使用"  data-scroll-to="#10-方法的使用"><span class="toc-number">1.1.10.</span> <span class="toc-text">10.方法的使用</span></a></li></ol></li></ol></li></ol>
+</div>
+            </div>
+        </div>
+    
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div class="col-lg-8">
+                <div class="trm-content" id="trm-content">
+                    <div data-scroll data-scroll-repeat data-scroll-offset="500" id="about-triger"></div>
+
+                    <div class="row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="far fa-calendar-alt trm-icon"></i><br>
+            02/08
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="far fa-clock trm-icon"></i><br>
+            21:20
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="far fa-user trm-icon"></i><br>
+            Asklins
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article class="trm-publication">
+    <h1 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h1><h2 id="一、入门"><a href="#一、入门" class="headerlink" title="一、入门"></a>一、入门</h2><h3 id="1-命名规则"><a href="#1-命名规则" class="headerlink" title="1.命名规则"></a>1.命名规则</h3><ol>
+<li>由字母，下划线，美元符号（$），数字组成，但第一个字符不能是数字。</li>
+<li>如果变量名是复合型的那么我们采用驼峰式，或者蛇形式的方式。 驼峰式：<code>teaCup</code>（表示茶杯的意思），<code>stuAge</code>（学生年龄） 蛇形式：<code>tea_cup</code>，<code>stu_age</code></li>
+<li>如果是单个单词就全小写就行了。</li>
+<li>千万不要用中文拼音来表达：例如学生年龄：<code>xueShengNianling</code>。</li>
+<li>在一个方法中变量名不能重复。</li>
+<li>变量一定要给自己一个确定的类型。</li>
+</ol>
+<h3 id="2-JAVA中的数据类型"><a href="#2-JAVA中的数据类型" class="headerlink" title="2.JAVA中的数据类型"></a>2.JAVA中的数据类型</h3><p><code>Java</code>基本类型共有八种，基本类型可以分为三类，字符类型<code>char</code>，布尔类型<code>boolean</code>以及数值类型<code>byte、short、int、long、float、double</code>。数值类型又可以分为整数类型<code>byte、short、int、long</code>和浮点数类型<code>float、double</code></p>
+<p>8 种类型表示范围如下：</p>
+<p>1、<code>byte</code>：8位，最大存储数据量是<code>255</code>，存放的数据范围是-128~127之间。 2、<code>short</code>：16位，最大数据存储量是<code>65536</code>，数据范围是-32768 ~ 32767之间。 3、<code>int</code>：32位，最大数据存储容量是<code>2</code>的<code>32</code>次方减<code>1</code>，数据范围是负的<code>2</code>的<code>31</code>次方到正的<code>2</code>的<code>31</code>次方减<code>1</code>。 4、<code>long</code>：64位，最大数据存储容量是<code>2</code>的<code>64</code>次方减<code>1</code>，数据范围为负的<code>2</code>的<code>63</code>次方到正的<code>2</code>的<code>63</code>次方减<code>1</code>。 5、<code>float</code>：32位，数据范围在<code>3.4e</code>-45 ~ 1.4e38，直接赋值时必须在数字后加上<code>f</code>或<code>F</code>。 6、<code>double</code>：64位，数据范围在<code>4.9e</code>-324 ~ 1.8e308，赋值时可以加<code>d</code>或<code>D</code>也可以不加。 7、<code>boolean</code>：只有<code>true</code>和<code>false</code>两个取值。 8、<code>char</code>：16位，存储<code>Unicode</code>码，用单引号赋值。</p>
+<h3 id="3-Java类型转换"><a href="#3-Java类型转换" class="headerlink" title="3.Java类型转换"></a>3.Java类型转换</h3><p>顾名思义，数据类型转换就是指：<strong>不同数据类型之间的相互转换</strong> 关于数据类型转换两种方式：</p>
+<ol>
+<li>自动类型转换。 2. 强制类型转换。</li>
+</ol>
+<h5 id="自动类型转换"><a href="#自动类型转换" class="headerlink" title="自动类型转换"></a>自动类型转换</h5><p>关于自动类型转换，就是：<strong>表数范围小的可以向表数范围大的进行自动类型转换</strong>。 你可以这样理解：当一个小的容器的水换到一个大的容器中毫无问题，但是一个大的容器的水换成小的容器可能会装不下，就会溢出。 如下图：</p>
+<p><img src="https://data.educoder.net/api/attachments/185490" alt="img" loading="lazy"></p>
+<p>在代码中体现：</p>
+<p><img src="https://data.educoder.net/api/attachments/185491" alt="img" loading="lazy"></p>
+<h5 id="强制类型转换"><a href="#强制类型转换" class="headerlink" title="强制类型转换"></a>强制类型转换</h5><p>你肯定会有疑问，既然自动类型转换只能是<code>表数范围小的可以向表数范围大的转换</code>那么我在实际使用中想要将表述范围大的向小的转换怎么办呢？诶这里就要用到强制类型转换了，顾名思义，强制类型转换就是将：<strong>表数范围大的数向表数范围小的进行转换</strong>。 那怎么使用强制类型转换呢？</p>
+<p><img src="https://data.educoder.net/api/attachments/185498" alt="img" loading="lazy"></p>
+<h3 id="4-Scanner的使用"><a href="#4-Scanner的使用" class="headerlink" title="4.Scanner的使用"></a>4.Scanner的使用</h3><p><code>Scanner</code>就是用于用户<strong>在<code>Java</code>程序中输入数据的</strong>。 所以对于<code>Scanner</code>你可以理解为，它就是一个扫描仪，用来获取我们从键盘输入的数据。</p>
+<h5 id="怎么使用？"><a href="#怎么使用？" class="headerlink" title="怎么使用？"></a>怎么使用？</h5><p>只需要记住三个步骤：</p>
+<ol>
+<li>在类的声明之前，引入扫描仪（<code>Scanner</code>）：<code>import java.util.Scanner;</code></li>
+<li>在方法中创建一个扫描仪 <code>Scanner input = new Scanner(System.in);</code></li>
+<li>通过扫描仪获取从键盘输入的数据 <code>int i = input.nextInt();</code></li>
+</ol>
+<p><img src="https://data.educoder.net/api/attachments/185533" alt="img" loading="lazy"></p>
+<p>提示：Scanner不能获取<code>char</code>(字符)类型,获取小数类型需要使用<code>nextDouble</code>方法或者是<code>nextFloat</code>方法例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取输入的小数</span></span><br><span class="line"><span class="type">double</span> <span class="variable">d</span> <span class="operator">=</span> input.nextDouble();<span class="comment">//获取输入的双精度类型数据</span></span><br><span class="line"><span class="type">float</span> <span class="variable">f</span> <span class="operator">=</span> input.nextFloat();<span class="comment">//获取输入的单精度类型数据</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-算术运算符"><a href="#5-算术运算符" class="headerlink" title="5.算术运算符"></a>5.算术运算符</h3><h5 id="什么是算术运算符"><a href="#什么是算术运算符" class="headerlink" title="什么是算术运算符"></a>什么是算术运算符</h5><p>算术运算符主要用于进行基本的算术运算，如加法、减法、乘法、除法等。 <code>Java </code>中常用的算术运算符：</p>
+<p><img src="https://data.educoder.net/api/attachments/187139" alt="img" loading="lazy"></p>
+<h5 id="和–运算符的使用"><a href="#和–运算符的使用" class="headerlink" title="++和–运算符的使用"></a>++和–运算符的使用</h5><p> 其中，<code>++</code>和<code>--</code>既可以出现在操作数的左边，也可以出现在右边，但结果是不同的，如：</p>
+<p><img src="https://data.educoder.net/api/attachments/187165" alt="img" loading="lazy"></p>
+<p> 输出的结果如图：</p>
+<p><img src="https://data.educoder.net/api/attachments/187166" alt="img" loading="lazy"></p>
+<p><img src="https://data.educoder.net/api/attachments/187170" alt="img" loading="lazy"></p>
+<p> 输出的效果图如下图：</p>
+<p><img src="https://data.educoder.net/api/attachments/187171" alt="img" loading="lazy"></p>
+<h5 id="除法运算符的用法"><a href="#除法运算符的用法" class="headerlink" title="除法运算符的用法"></a>除法运算符的用法</h5><p><code>Java</code>当中的除法运算相比较其他运算符来说有点特殊，在这里将分为两种情况依次说明其用法，当两个操作数是<code>int</code>类型时的相除，当两个操作数是<code>float</code>或者<code>double</code>类型时的相除，下面请看具体示例： 用法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> i=<span class="number">11</span>/<span class="number">2</span>;<span class="comment">//结果是5，因为i是整数，所以除法运算的结果会省略后面的小数点    </span></span><br><span class="line"><span class="type">int</span> i=<span class="number">10</span>/<span class="number">2</span>;<span class="comment">//结果是5</span></span><br><span class="line"><span class="comment">//当两个操作数是float或者double类型时，就是正常的除法运算，如：</span></span><br><span class="line"><span class="type">double</span> i=<span class="number">9.8</span>;</span><br><span class="line"><span class="type">double</span> j=<span class="number">3.2</span>;</span><br><span class="line"><span class="type">double</span> result=i/j;</span><br><span class="line">System.out.println(result);<span class="comment">//此时result的值为3.0625</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="取模运算符的用法"><a href="#取模运算符的用法" class="headerlink" title="取模运算符的用法"></a>取模运算符的用法</h5><p>也叫求余数，求余的字面意思就是求被除数除以除数，整除后还余下多少？ 用法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> i=<span class="number">11</span>%<span class="number">2</span>;<span class="comment">//这里i=1;表示11被2整除5次还余1.    </span></span><br><span class="line"><span class="comment">//求余的正负号说明：主要是取决于前面一个数是正数还是负数，不管后面数。如下：    </span></span><br><span class="line"><span class="type">int</span> i=-<span class="number">11</span>%<span class="number">2</span>;<span class="comment">//这里i=-1    </span></span><br><span class="line"><span class="type">int</span> i=<span class="number">10</span>%<span class="number">2</span>;<span class="comment">//这里i=0;就是10被2刚好整除5次，没有余数。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-关系运算符"><a href="#6-关系运算符" class="headerlink" title="6.关系运算符"></a>6.关系运算符</h3><h5 id="常见关系运算符"><a href="#常见关系运算符" class="headerlink" title="常见关系运算符"></a>常见关系运算符</h5><p>下表为<code>Java</code>支持的关系运算符。 表格中的实例整数变量<code>A</code>的值为<code>10</code>，变量<code>B</code>的值为<code>20</code>：如图。</p>
+<p><img src="https://data.educoder.net/api/attachments/187219" alt="img" loading="lazy"></p>
+<h5 id="如何使用关系运算符"><a href="#如何使用关系运算符" class="headerlink" title="如何使用关系运算符"></a>如何使用关系运算符</h5><p>为了加强程序的交互性，你可以创建一个扫描仪接受用户随机的输两个数进行比较，如图：</p>
+<p><img src="https://data.educoder.net/api/attachments/187210" alt="img" loading="lazy"></p>
+<p>输出效果图，如图:</p>
+<p><img src="https://data.educoder.net/api/attachments/187211" alt="img" loading="lazy"></p>
+<h3 id="7-逻辑运算符"><a href="#7-逻辑运算符" class="headerlink" title="7.逻辑运算符"></a>7.逻辑运算符</h3><h5 id="什么是逻辑运算符"><a href="#什么是逻辑运算符" class="headerlink" title="什么是逻辑运算符"></a>什么是逻辑运算符</h5><p>逻辑运算符用于测试两个操作数之间的逻辑关系，且这两个操作数必须是布尔类型的（如关系表达式），得到的结果也是布尔类型的，通过逻辑运算符连接的结果为<code>boolean</code>类型的变量或表达式叫做逻辑表达式。</p>
+<h5 id="常见逻辑运算符"><a href="#常见逻辑运算符" class="headerlink" title="常见逻辑运算符"></a>常见逻辑运算符</h5><p><img src="https://data.educoder.net/api/attachments/189770" alt="img" loading="lazy"></p>
+<p>我们可以从“投票选举”的角度理解逻辑运算符：</p>
+<ol>
+<li>与：要求所有人都投票同意，才能通过某议题；</li>
+<li>或：只要求一个人投票同意就可以通过某议题；</li>
+<li>非：某人原本投票同意，通过非运算符，可以使其投票无效；</li>
+<li>异或：有且只能有一个人投票同意，才可以通过某议题。</li>
+</ol>
+<h5 id="逻辑与运算符的用法"><a href="#逻辑与运算符的用法" class="headerlink" title="逻辑与运算符的用法"></a>逻辑与运算符的用法</h5><p>用法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">boolean</span> <span class="variable">a</span> <span class="operator">=</span> <span class="literal">false</span>,b ==<span class="literal">true</span>;</span><br><span class="line">System.out.println(!a);</span><br><span class="line">System.out.println(a&amp;&amp;b);</span><br><span class="line">System.out.println(a||b);</span><br><span class="line">System.out.println(a^b);</span><br></pre></td></tr></table></figure>
+
+<p>输出结果： <code>true</code> <code>false</code> <code>true</code> <code>true</code></p>
+<p>结合算数运算符：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">10</span> , b = <span class="number">5</span>;</span><br><span class="line">System.out.println( !(a-b &gt; <span class="number">6</span>) );</span><br><span class="line">System.out.println( (a-b==<span class="number">5</span>)&amp;&amp;(a+b&gt;<span class="number">15</span>));</span><br></pre></td></tr></table></figure>
+
+<p>输出结果： <code>true</code> <code>false</code></p>
+<h3 id="8-三元运算符"><a href="#8-三元运算符" class="headerlink" title="8.三元运算符"></a>8.三元运算符</h3><h5 id="什么是三元运算符"><a href="#什么是三元运算符" class="headerlink" title="什么是三元运算符"></a>什么是三元运算符</h5><p>因为三元运算符的操作数有三个，所以称为三元运算符，三元运算符又称条件运算符，是“?”和“:”符号组合，根据条件执行两个语句中的其中一个。它的语法如下： 语法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">条件表达式 ? 条件为真返回的结果 : 条件为假返回的结果</span><br></pre></td></tr></table></figure>
+
+<h5 id="使用三元运算符"><a href="#使用三元运算符" class="headerlink" title="使用三元运算符"></a>使用三元运算符</h5><p>例如：</p>
+<p><img src="https://data.educoder.net/api/attachments/189588" alt="img" loading="lazy"></p>
+<p>结果为：</p>
+<p><code>4</code> <code>5</code></p>
+<p>较为复杂的使用方式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">boolean</span> result;</span><br><span class="line"><span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">4</span>,b=<span class="number">10</span>;</span><br><span class="line">result = (a%<span class="number">4</span>==<span class="number">0</span>)&amp;&amp;(b/<span class="number">2</span>==<span class="number">1</span>) ? <span class="literal">true</span> : <span class="literal">false</span>;</span><br><span class="line">System.out.println(result);</span><br></pre></td></tr></table></figure>
+
+<p>结果为：</p>
+<p><code>false</code></p>
+<h3 id="9-运算符的优先级"><a href="#9-运算符的优先级" class="headerlink" title="9.运算符的优先级"></a>9.运算符的优先级</h3><p><code>Java</code>中常见的运算符的优先级:</p>
+<p><img src="https://data.educoder.net/api/attachments/189038" alt="img" loading="lazy"></p>
+<p>级别为 <code>1</code> 的优先级最高，级别 <code>11</code> 的优先级最低。譬如，<code>x = 7 + 3 * 2 </code> 得到的结果是 <code>13</code> “先乘后加”嘛!</p>
+<p><code>PS</code>：大家没必要去死记运算符的优先级顺序，实际开发中，一般会使用小括号辅助进行优先级管理。例如：</p>
+<p><img src="https://data.educoder.net/api/attachments/189039" alt="img" loading="lazy"></p>
+<p>分析：小括号优先级最高，因此。 <code>1</code>、 执行 <code>a </code>+ 18 ，结果为 <code>30</code> <code>2</code>、 执行( a + 18 ) % 4 取模，结果为 <code>2 </code>3<code>、 执行 </code>a <code>* ( ( a + 18 ) % 4 )，结果为 </code>24&#96;</p>
+<h3 id="10-方法的使用"><a href="#10-方法的使用" class="headerlink" title="10.方法的使用"></a>10.方法的使用</h3><h5 id="什么是方法"><a href="#什么是方法" class="headerlink" title="什么是方法"></a>什么是方法</h5><p>方法也叫函数，就是用来<strong>解决一类问题的代码的有序组合，是一个功能模块</strong>。</p>
+<h5 id="怎么定义和使用方法"><a href="#怎么定义和使用方法" class="headerlink" title="怎么定义和使用方法"></a>怎么定义和使用方法</h5><p>一般情况下，定义一个方法的语法是：</p>
+<p><img src="https://data.educoder.net/api/attachments/190373" alt="img" loading="lazy"></p>
+<p>其中：</p>
+<ol>
+<li>访问修饰符：在现阶段你只需要记住访问修饰符都用<code>public</code>即可；</li>
+<li>返回值类型：方法返回值的类型，如果方法不返回任何值，则返回值类型指定为<code>void</code>；如果方法具有返回值，则需要指定返回值的类型，并且在方法体中使用<code>return</code>语句返回值；</li>
+<li>方法名：定义的方法的名字，必须使用合法的标识符；</li>
+<li>参数列表：传递给方法的参数列表，参数可以有多个，多个参数间以逗号隔开，每个参数由参数类型和参数名组成，以空格隔开。</li>
+</ol>
+<p>根据方法是否带参、是否带返回值，可将方法分为四类：</p>
+<ul>
+<li>无参无返回值方法；</li>
+<li>无参带返回值方法；</li>
+<li>带参无返回值方法；</li>
+<li>带参带返回值方法。</li>
+</ul>
+<p>在本关你需要学习的是无参数无返回值方法。</p>
+<p>方法的使用分两步：</p>
+<p>第一步，定义方法：</p>
+<p>例如：下面代码定义了一个方法名为 <code>helloEducoder</code> ，没有参数，且没有返回值的方法，执行的操作为输出  <code>welcome to educoder</code>。</p>
+<p><img src="https://data.educoder.net/api/attachments/195674" alt="img" loading="lazy"></p>
+<p>注意哦：</p>
+<ol>
+<li>方法体放在一对大括号中，实现特定的操作；</li>
+<li>方法名主要在调用这个方法时使用，需要注意命名的规范，一般采用第一个单词首字母小写，其它单词首字母大写的形式；</li>
+<li>现阶段我们使用的方法都是<code>static</code>（静态的）。</li>
+</ol>
+<p>第二步：调用方法：</p>
+<p><img src="https://data.educoder.net/api/attachments/195676" alt="img" loading="lazy"></p>
+<p>输出：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">welcome to educoder</span><br></pre></td></tr></table></figure>
+
+<p>如果方法不包含参数，但有返回值，我们称为无参带返回值的方法。</p>
+<p>例如：下面的代码，定义了一个方法名为 <code>numberPlus</code> ，无参数，但返回值为 <code>int</code> 类型的方法，执行的操作为计算两数之和，并返回结果。</p>
+<p><img src="https://data.educoder.net/api/attachments/195480" alt="img" loading="lazy"></p>
+<p>在 <code>numberPlus()</code> 方法中，返回值类型为 <code>int</code> 类型，因此在方法体中必须使用 <code>return</code> 返回一个整数值。</p>
+<p>调用带返回值的方法时需要注意，由于方法执行后会返回一个结果，因此在调用带返回值方法时一般都会接收其返回值并进行处理。如：</p>
+<p><img src="https://data.educoder.net/api/attachments/195481" alt="img" loading="lazy"></p>
+<h5 id="一定不可忽视的问题"><a href="#一定不可忽视的问题" class="headerlink" title="一定不可忽视的问题"></a>一定不可忽视的问题</h5><p><code>1</code>、 如果方法的返回类型为 <code>void</code> ，则方法中不能使用 <code>return</code> 返回值！</p>
+<p><img src="https://data.educoder.net/api/attachments/195482" alt="img" loading="lazy"></p>
+<p><code>2</code>、 方法的返回值最多只能有一个，不能返回多个值。</p>
+<p><img src="https://data.educoder.net/api/attachments/195483" alt="img" loading="lazy"></p>
+<p><code>3</code>、 方法返回值的类型必须兼容，例如，如果返回值类型为 <code>int </code>，则不能返回 <code>String </code>型值。</p>
+<p><img src="https://data.educoder.net/api/attachments/195485" alt="img" loading="lazy"></p>
+<p>有时方法的执行需要依赖于某些条件，就像生活中我们做一件事情时，也许需要前提条件，而方法的参数就相当于前提条件。</p>
+<p>我们先来看一个带参数，但没有返回值的方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**带参无返回值*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">show</span><span class="params">(String name)</span>&#123;        </span><br><span class="line">    System.out.println(name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码定义了一个 <code>show()</code> 方法，带有一个参数 <code>name</code> ，实现输出欢迎消息。</p>
+<p>调用带参方法与调用无参方法的语法类似，但在调用时必须传入实际的参数值。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;        </span><br><span class="line"><span class="comment">//调用方法，得到结果        </span></span><br><span class="line">show(<span class="string">&quot;我是Java爱好者&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行后控制台打印结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">我是Java爱好者</span><br></pre></td></tr></table></figure>
+
+<p>很多时候，我们把定义方法时的参数称为形参，目的是用来定义方法需要传入的参数的个数和类型；把调用方法时的参数称为实参，是传递给方法真正被处理的值。</p>
+<p><img src="https://data.educoder.net/api/attachments/367183" alt="img" loading="lazy"></p>
+<p><img src="https://data.educoder.net/api/attachments/196507" alt="img" loading="lazy"></p>
+<p><strong>一定不可忽视的问题：</strong></p>
+<p><code>1</code>、 调用带参方法时，必须保证实参的数量、类型、顺序与形参一一对应。</p>
+<p><img src="https://data.educoder.net/api/attachments/367183" alt="img" loading="lazy"></p>
+<p><img src="https://data.educoder.net/api/attachments/195487" alt="img" loading="lazy"></p>
+<p><code>2</code>、 调用方法时，实参不需要指定数据类型，如。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;        </span><br><span class="line">    <span class="comment">//调用方法，得到结果        </span></span><br><span class="line">    show(<span class="string">&quot;我是Java爱好者&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>3</code>、 方法的参数可以是基本数据类型，如 <code>int</code>、<code>double</code> 等，也可以是引用数据类型，如 <code>String</code>、<code>数组</code>等。</p>
+<p><code>4</code>、 当方法参数有<strong>多个</strong>时，多个参数间以<strong>逗号</strong>分隔。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">test</span><span class="params">(<span class="type">int</span> number1 , <span class="type">int</span> number2)</span>&#123;        </span><br><span class="line">    System.out.println(<span class="string">&quot;内部逻辑&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</article>
+    
+    
+
+<ul class="trm-post-copyright">
+    <li class="trm-post-copyright-author">
+        <strong>本文作者：</strong>
+        zmb
+    </li>
+    <li class="trm-post-copyright-link">
+        <strong>本文链接：</strong>
+        <a href="https://asklins.gitee.io/2023/02/08/Java/" title="Java随笔">https://asklins.gitee.io/2023/02/08/Java/</a>
+    </li>
+    <li class="trm-post-copyright-license">
+        <strong>版权声明：</strong>
+        本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 ">CC BY-NC-SA 4.0</a> 许可协议。
+    </li>
+</ul>
+
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            其他文章
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
+        <a href="/2023/03/01/%E6%9C%80%E6%96%B0/" class="trm-cover-frame trm-anima-link">
+            <img src="https://pic.iqjty.com/2023/02/23/63f77cae1a094.jpg" alt="cover">
+        </a>
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/">
+                    离散数学
+                </a>
+            </div>
+            <h5>
+                <a href="/2023/03/01/%E6%9C%80%E6%96%B0/" class="trm-anima-link">
+                    博客迁移
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>23/03/01</li>
+                <li>04:08</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
+        <a href="/2022/10/24/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/" class="trm-cover-frame trm-anima-link">
+            <img src="https://pic.iqjty.com/2023/02/23/63f77cae1a094.jpg" alt="cover">
+        </a>
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/">
+                    离散数学
+                </a>
+            </div>
+            <h5>
+                <a href="/2022/10/24/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/" class="trm-anima-link">
+                    离散数学
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>22/10/24</li>
+                <li>18:48</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-scroll-animation" data-scroll data-scroll-offset="50">
+
+    
+
+    
+        <div class="trm-footer-item">
+            <span>© 2022- 2023</span>
+            <span class="footer-separator">·</span>
+            <span class="trm-accent-color">Asklins</span>
+        </div>
+    
+
+    
+        <div class="trm-footer-item">
+            <span>
+                由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.3.0
+            </span>
+            <span class="footer-separator"> | </span>
+            <span> 
+                主题 - 
+                <a rel="noopener" href='https://github.com/MaLuns/hexo-theme-async' target='_blank'>Async</a>
+                v1.1.1
+            </span>
+        </div>
+      
+
+    
+        <div class="trm-footer-item">
+            博客已运行 <span id="since" class="trm-accent-color"></span> 天
+        </div>
+     
+
+     
+</footer>
+
+<script>
+    function show_date_time () {
+        BirthDay = new Date("04/10/2022 17:00:00");
+        today = new Date();
+        timeold = (today.getTime() - BirthDay.getTime());
+        msPerDay = 24 * 60 * 60 * 1000
+        day = Math.floor(timeold / msPerDay)
+        since.innerHTML = day
+    }
+    show_date_time()
+</script>
+ 
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+          </div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+
+  </div>
+  <!-- app wrapper end -->
+
+  <div id="trm-back-top" class="trm-back-top">
+    <i class="fas fa-arrow-up"></i>
+</div>
+  
+<div class="trm-search-popup">
+    <div class="trm-search-header">
+        <span class="trm-search-popup-btn-close">
+            <i class="fas fa-times"></i>
+        </span>
+    </div>
+    <div class="form trm-search-form">
+        <input class="trm-search-input" type="text" placeholder="搜索...">
+    </div>
+    <div class="trm-search-result-container">
+
+    </div>
+</div>
+
+  <!-- Plugin -->
+
+
+
+    
+    
+        
+<script src="//cdn.jsdelivr.net/npm/swup@2.0.19/dist/swup.min.js"></script>
+
+    
+
+    
+<script src="//cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+
+    
+<script src="//cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+
+    
+
+    
+        <script src="/js/plugins/typing.js?v=1.1.1"></script>
+    
+
+    
+        
+<script src="//cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script>
+
+        <script src="/js/plugins/local_search.js?v=1.1.1"></script>
+    
+
+    <!-- 数学公式 -->
+    
+
+
+    <!-- 评论插件 -->
+    
+        
+        
+    
+
+
+
+<!-- 评论插件 -->
+
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+    <script data-swup-reload-script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
+
+
+<script id="async-script" src="/js/main.js?v=1.1.1"></script>
+
+</body>
+
+</html>

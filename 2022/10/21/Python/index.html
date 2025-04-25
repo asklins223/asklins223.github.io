@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="Python随笔记录1.map内函数的用法12345678910111213def add5(v):    return  v+5def add(x,y):    return x+yx &#x3D;range(10)y &#x3D; range(5,10)print(list(map(str,x)))print(list(map(add5,x)))print(list(map(add,x,y)))程序输出结果：[&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python">
+<meta property="og:url" content="https://asklins.gitee.io/2022/10/21/Python/index.html">
+<meta property="og:site_name" content="Asklins_Blog">
+<meta property="og:description" content="Python随笔记录1.map内函数的用法12345678910111213def add5(v):    return  v+5def add(x,y):    return x+yx &#x3D;range(10)y &#x3D; range(5,10)print(list(map(str,x)))print(list(map(add5,x)))print(list(map(add,x,y)))程序输出结果：[&amp;">
+<meta property="og:locale">
+<meta property="article:published_time" content="2022-10-21T12:50:02.000Z">
+<meta property="article:modified_time" content="2023-02-23T14:50:48.796Z">
+<meta property="article:author" content="zmb">
+<meta property="article:tag" content="博客">
+<meta name="twitter:card" content="summary">
+
+    <meta name="keywords" content="博客">
+
+
+<title >Python</title>
+
+<!-- Favicon -->
+
+    <link href='/img/favicon.svg?v=1.1.1' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/img/favicon.svg?v=1.1.1' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css">
+
+
+    
+
+    
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"asklins.gitee.io","author":"zmb","root":"/","typed_text":["WHAT I AM"],"favicon":{"logo":"/img/favicon.svg","icon16":"/img/favicon.svg","icon32":"/img/favicon.svg","appleTouchIcon":null,"webmanifest":null,"visibilitychange":true,"hidden":"/failure.ico","showText":"(/≧▽≦/)咦！又好了！","hideText":"(●—●)喔哟，崩溃啦！"},"theme_version":"1.1.1","theme":{"switch":true,"default":"style-light"},"search":{"enable":true,"type":"local","href":"https://www.google.com/search?q=site:","domain":null,"preload":true,"trigger":"auto","path":"search.xml"},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）","author":"本文作者：","copyright_link":"本文链接：","copyright_license_title":"版权声明：","copyright_license_content":"本博客所有文章除特别声明外，均默认采用 undefined 许可协议。"},"creative_commons":{"license":"by-nc-sa","language":"deed.zh","post":true,"clipboard":true},"swup":true};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=1.1.1" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+
+    
+
+
+
+<!-- Site Analytics -->
+ 
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" data-scroll-container style="opacity: 0">
+          <div data-scroll-section id="content" class="trm-scroll-section">
+
+            <div class="locomotive-scroll__sticky-target" style=" position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;"></div>
+
+            <!-- top bar -->
+            <header class="trm-top-bar" data-scroll data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="-10">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+			<a href="/" class="trm-logo-frame trm-anima-link">
+				
+					<img src="/img/favicon.svg" alt="logo">
+				
+				
+					<div class="trm-logo-text">
+						blog&#39;s<span>Asklins</span>
+					</div>
+				
+			</a>
+			<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+
+			<!-- menu -->
+			<div class="trm-menu">
+				<nav>
+					<ul>
+						
+						<li class="menu-item-has-children ">
+							<a  href="/" target="">
+								首页
+							</a>
+							
+						</li>
+						
+						<li class="menu-item-has-children ">
+							<a  href="/archives/" target="">
+								归档
+							</a>
+							
+						</li>
+						
+						<li class="menu-item-has-children ">
+							<a  href="/links/" target="">
+								友链
+							</a>
+							
+						</li>
+						
+						<li class="menu-item-has-children ">
+							<a  href="/about/" target="">
+								关于
+							</a>
+							
+						</li>
+						
+					</ul>
+				</nav>
+			</div>
+			<!-- menu end -->
+			
+			<!-- mode switcher place -->
+			
+			<div class="trm-mode-switcher-place">
+				<!-- <div class="trm-hidden-switcher"> -->
+					<div class="trm-mode-switcher">
+					  <i class="far fa-sun"></i>
+					  <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+					  <label class="trm-swich" for="trm-swich"></label>
+					  <i class="far fa-moon"></i>
+					</div>
+				  <!-- </div> -->
+			</div>
+			
+			<!-- mode switcher place end -->
+
+			
+				
+				<div id="trm-search-btn" class="trm-search-btn">
+					<i class="fas fa-search"></i>
+				</div>
+				 
+			 
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner" data-scroll data-scroll-direction="vertical">
+    
+    <!-- banner video cover -->
+    <video autoplay="autoplay" loop muted playsinline webkit-playinginline class="trm-banner-cover" data-scroll data-scroll-direction="vertical" data-scroll-speed="-3">
+        <source src="http://cdn.moji.com/websrc/video/autumn20190924.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+        Your browser does not support HTML5 video.
+    </video>
+    <!-- banner video cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container" data-scroll data-scroll-direction="vertical" data-scroll-speed="0">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            Python
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2022
+                                    </span
+                                ></li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <a href="#about-triger" data-scroll-to="#about-triger" data-scroll-offset="-130" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </a>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div class="col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    
+
+<div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card" data-scroll data-scroll-repeat data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="60"> 
+    
+        <div class="trm-tabs" id="sidebar-tabs">
+           <div class="trm-tabs-nav trm-mb-40" id="trm-tabs-nav">
+                <div data-to="tabs-user" class="trm-tabs-nav-item"><i class="fas fa-user-alt"></i></div>
+                <div data-to="tabs-toc" class="trm-tabs-nav-item active"><i class="fas fa-th-list"></i></div>
+           </div>
+            <div name="tabs-user" class="trm-tabs-item">
+                <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20"><img class="trm-avatar" src="/img/avatar.jpg" alt="Avatar"> </div>
+    <h5 class="trm-name trm-mb-15">
+        Asklins
+    </h5>
+    
+    <div class="trm-label">
+        I`m
+        <span class="trm-typed-text">
+            <!-- Words for theme.user.typedText -->
+        </span>
+    </div>
+    
+</div>
+<!-- card header end -->
+
+<!-- sidebar social -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+
+<div class="trm-social">
+    
+        <a href="https://github.com/asklins/" title="Github" rel="nofollow" target="_blank">
+            <i class="fab fa-github"></i>
+        </a>
+    
+        <a href="https://twitter.com" title="Twitter" rel="nofollow" target="_blank">
+            <i class="fab fa-twitter"></i>
+        </a>
+    
+</div>
+
+<!-- sidebar social end -->
+
+<!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                City:
+            </div>
+            <div class="trm-label trm-label-light">
+                KaiFeng
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                Age:
+            </div>
+            <div class="trm-label trm-label-light">
+                20
+            </div>
+        </li>
+    
+</ul>
+
+            </div>
+            <div name="tabs-toc" class="trm-tabs-item active">
+                <div class="post-toc">
+    <ol class="toc"><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#Python随笔记录"  data-scroll-to="#Python随笔记录"><span class="toc-number">1.</span> <span class="toc-text">Python随笔记录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#1-map内函数的用法"  data-scroll-to="#1-map内函数的用法"><span class="toc-number">1.1.</span> <span class="toc-text">1.map内函数的用法</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#2-随机函数random"  data-scroll-to="#2-随机函数random"><span class="toc-number">1.2.</span> <span class="toc-text">2.随机函数random</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#3-filter过滤函数，使用内部lambda函数过滤出列表所有的偶数"  data-scroll-to="#3-filter过滤函数，使用内部lambda函数过滤出列表所有的偶数"><span class="toc-number">1.3.</span> <span class="toc-text">3.filter过滤函数，使用内部lambda函数过滤出列表所有的偶数</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#4-zip拉链函数"  data-scroll-to="#4-zip拉链函数"><span class="toc-number">1.4.</span> <span class="toc-text">4.zip拉链函数</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#5-将列表与元组内的元素组合为新的列表"  data-scroll-to="#5-将列表与元组内的元素组合为新的列表"><span class="toc-number">1.5.</span> <span class="toc-text">5.将列表与元组内的元素组合为新的列表</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#6-列表切片"  data-scroll-to="#6-列表切片"><span class="toc-number">1.6.</span> <span class="toc-text">6.列表切片</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#7-基本运算"  data-scroll-to="#7-基本运算"><span class="toc-number">1.7.</span> <span class="toc-text">7.基本运算</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#8-random-shuffle-将一个列表中的元素打乱顺序"  data-scroll-to="#8-random-shuffle-将一个列表中的元素打乱顺序"><span class="toc-number">1.8.</span> <span class="toc-text">8.random.shuffle()将一个列表中的元素打乱顺序</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#9-sort-排序"  data-scroll-to="#9-sort-排序"><span class="toc-number">1.9.</span> <span class="toc-text">9.sort()排序</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#10-reverse-倒序"  data-scroll-to="#10-reverse-倒序"><span class="toc-number">1.10.</span> <span class="toc-text">10.reverse()倒序</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#11-for循环输出星期"  data-scroll-to="#11-for循环输出星期"><span class="toc-number">1.11.</span> <span class="toc-text">11.for循环输出星期</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#12-商品价格区间查找与排序小案例"  data-scroll-to="#12-商品价格区间查找与排序小案例"><span class="toc-number">1.12.</span> <span class="toc-text">12.商品价格区间查找与排序小案例</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#13-输出1000个随机字符重复出现的次数"  data-scroll-to="#13-输出1000个随机字符重复出现的次数"><span class="toc-number">1.13.</span> <span class="toc-text">13.输出1000个随机字符重复出现的次数</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#14-汇率转换"  data-scroll-to="#14-汇率转换"><span class="toc-number">1.14.</span> <span class="toc-text">14.汇率转换</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#15-成绩信息统计"  data-scroll-to="#15-成绩信息统计"><span class="toc-number">1.15.</span> <span class="toc-text">15.成绩信息统计</span></a></li></ol></li></ol>
+</div>
+            </div>
+        </div>
+    
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div class="col-lg-8">
+                <div class="trm-content" id="trm-content">
+                    <div data-scroll data-scroll-repeat data-scroll-offset="500" id="about-triger"></div>
+
+                    <div class="row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="far fa-calendar-alt trm-icon"></i><br>
+            10/21
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="far fa-clock trm-icon"></i><br>
+            20:50
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="far fa-user trm-icon"></i><br>
+            Asklins
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article class="trm-publication">
+    <h1 id="Python随笔记录"><a href="#Python随笔记录" class="headerlink" title="Python随笔记录"></a>Python随笔记录</h1><h2 id="1-map内函数的用法"><a href="#1-map内函数的用法" class="headerlink" title="1.map内函数的用法"></a>1.map内函数的用法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">add5</span>(<span class="params">v</span>):</span><br><span class="line">    <span class="keyword">return</span>  v+<span class="number">5</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">x,y</span>):</span><br><span class="line">    <span class="keyword">return</span> x+y</span><br><span class="line">x =<span class="built_in">range</span>(<span class="number">10</span>)</span><br><span class="line">y = <span class="built_in">range</span>(<span class="number">5</span>,<span class="number">10</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">str</span>,x)))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>(<span class="built_in">map</span>(add5,x)))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>(<span class="built_in">map</span>(add,x,y)))</span><br><span class="line">程序输出结果：</span><br><span class="line">[<span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;8&#x27;</span>, <span class="string">&#x27;9&#x27;</span>]</span><br><span class="line">[<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>, <span class="number">14</span>]</span><br><span class="line">[<span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">11</span>, <span class="number">13</span>]</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-随机函数random"><a href="#2-随机函数random" class="headerlink" title="2.随机函数random"></a>2.随机函数random</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line">x = random.randint(<span class="number">1</span>,<span class="number">1e30</span>)</span><br><span class="line"><span class="built_in">print</span>(x)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">int</span>,<span class="built_in">str</span>(x))))</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-filter过滤函数，使用内部lambda函数过滤出列表所有的偶数"><a href="#3-filter过滤函数，使用内部lambda函数过滤出列表所有的偶数" class="headerlink" title="3.filter过滤函数，使用内部lambda函数过滤出列表所有的偶数"></a>3.filter过滤函数，使用内部lambda函数过滤出列表所有的偶数</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">data = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">20</span>))</span><br><span class="line">filiterobject = <span class="built_in">filter</span>(<span class="keyword">lambda</span> x:x%<span class="number">2</span>!=<span class="number">1</span>,data)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>(filiterobject))</span><br><span class="line">输出结果：</span><br><span class="line">[<span class="number">0</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">10</span>, <span class="number">12</span>, <span class="number">14</span>, <span class="number">16</span>, <span class="number">18</span>]</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-zip拉链函数"><a href="#4-zip拉链函数" class="headerlink" title="4.zip拉链函数"></a>4.zip拉链函数</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x= <span class="built_in">list</span>(<span class="built_in">zip</span>(<span class="string">&#x27;abcd&#x27;</span>,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]))</span><br><span class="line"><span class="built_in">print</span>(x)</span><br><span class="line">输出结果：</span><br><span class="line">[(<span class="string">&#x27;a&#x27;</span>, <span class="number">1</span>), (<span class="string">&#x27;b&#x27;</span>, <span class="number">2</span>), (<span class="string">&#x27;c&#x27;</span>, <span class="number">3</span>)]</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="5-将列表与元组内的元素组合为新的列表"><a href="#5-将列表与元组内的元素组合为新的列表" class="headerlink" title="5.将列表与元组内的元素组合为新的列表"></a>5.将列表与元组内的元素组合为新的列表</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">x = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">7</span>]</span><br><span class="line">r = (<span class="string">&#x27;6jashjdh8&#x27;</span>)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">fun</span>(<span class="params">i</span>):</span><br><span class="line">    <span class="comment"># i.append(r)</span></span><br><span class="line">    i.extend(r) </span><br><span class="line">    <span class="keyword">return</span> i</span><br><span class="line">y=fun(x)</span><br><span class="line"><span class="built_in">print</span>(y)</span><br><span class="line">输出结果：</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;j&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;s&#x27;</span>, <span class="string">&#x27;h&#x27;</span>, <span class="string">&#x27;j&#x27;</span>, <span class="string">&#x27;d&#x27;</span>, <span class="string">&#x27;h&#x27;</span>, <span class="string">&#x27;8&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="6-列表切片"><a href="#6-列表切片" class="headerlink" title="6.列表切片"></a>6.列表切片</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">name = <span class="built_in">input</span>()</span><br><span class="line"><span class="built_in">print</span>(name+<span class="string">&#x27;同学,人生苦短,我学python&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(name[<span class="number">0</span>]+<span class="string">&#x27;大侠,学好python,走遍天下也不怕&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(name[<span class="number">1</span>:]+<span class="string">&#x27;小盆友,学好python,你最帅&#x27;</span>)</span><br><span class="line">输入数据：张三</span><br><span class="line">输出结果：</span><br><span class="line">张三同学,人生苦短,我学python</span><br><span class="line">张大侠,学好python,走遍天下也不怕</span><br><span class="line">三小盆友,学好python,你最帅</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="7-基本运算"><a href="#7-基本运算" class="headerlink" title="7.基本运算"></a>7.基本运算</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">num = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">student = num//<span class="number">5</span> <span class="comment">#整除</span></span><br><span class="line">techer = num%<span class="number">5</span> <span class="comment">#除余</span></span><br><span class="line">sumstudent = num - techer</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;每人分得&#x27;</span>+<span class="built_in">str</span>(student)+<span class="string">&#x27;个苹果.&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;一共分出去&#x27;</span>+<span class="built_in">str</span>(sumstudent)+<span class="string">&#x27;个苹果.&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;交还给老师&#x27;</span>+<span class="built_in">str</span>(techer)+<span class="string">&#x27;个苹果.&#x27;</span>)</span><br><span class="line">输入数据：<span class="number">27</span></span><br><span class="line">输出结果：</span><br><span class="line">每人分得<span class="number">5</span>个苹果.</span><br><span class="line">一共分出去<span class="number">25</span>个苹果.</span><br><span class="line">交还给老师<span class="number">2</span>个苹果.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="8-random-shuffle-将一个列表中的元素打乱顺序"><a href="#8-random-shuffle-将一个列表中的元素打乱顺序" class="headerlink" title="8.random.shuffle()将一个列表中的元素打乱顺序"></a>8.random.shuffle()将一个列表中的元素打乱顺序</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">aList = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">1</span>,<span class="number">85</span>]</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line">random.shuffle(aList)</span><br><span class="line"><span class="built_in">print</span>(aList)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="9-sort-排序"><a href="#9-sort-排序" class="headerlink" title="9.sort()排序"></a>9.sort()排序</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">aList = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">1</span>,<span class="number">85</span>]</span><br><span class="line">aList.sort() <span class="comment">#正常排序</span></span><br><span class="line">aList.sort(reverse=<span class="literal">True</span>) <span class="comment">#逆序</span></span><br><span class="line">aList.sort(key=<span class="keyword">lambda</span> x:<span class="built_in">len</span>(<span class="built_in">str</span>(x))) <span class="comment">#按值排序</span></span><br><span class="line">b = <span class="built_in">sorted</span>(aList) <span class="comment">#创新表排序</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="10-reverse-倒序"><a href="#10-reverse-倒序" class="headerlink" title="10.reverse()倒序"></a>10.reverse()倒序</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">aList = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">1</span>,<span class="number">85</span>]</span><br><span class="line">n = <span class="built_in">reversed</span>(aList)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> n:</span><br><span class="line">    <span class="built_in">print</span>(i,end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">输出结果：</span><br><span class="line"><span class="number">85</span> <span class="number">1</span> <span class="number">9</span> <span class="number">8</span> <span class="number">6</span> <span class="number">4</span> <span class="number">2</span> <span class="number">1</span> </span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="11-for循环输出星期"><a href="#11-for循环输出星期" class="headerlink" title="11.for循环输出星期"></a>11.for循环输出星期</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">week = <span class="string">&quot;M&quot;</span>,<span class="string">&quot;TU&quot;</span>,<span class="string">&quot;W&quot;</span>,<span class="string">&quot;TH&quot;</span>,<span class="string">&quot;F&quot;</span>,<span class="string">&quot;SA&quot;</span>,<span class="string">&quot;SU&quot;</span></span><br><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line"><span class="keyword">if</span> n&gt;<span class="number">7</span> <span class="keyword">or</span> n&lt;<span class="number">1</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Not found&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(week[n-<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="12-商品价格区间查找与排序小案例"><a href="#12-商品价格区间查找与排序小案例" class="headerlink" title="12.商品价格区间查找与排序小案例"></a>12.商品价格区间查找与排序小案例</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">s</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> (x[<span class="number">1</span>])</span><br><span class="line">Price = [(<span class="number">1</span>,<span class="number">399</span>),</span><br><span class="line">         (<span class="number">2</span>,<span class="number">4369</span>),</span><br><span class="line">         (<span class="number">3</span>,<span class="number">539</span>),</span><br><span class="line">         (<span class="number">4</span>,<span class="number">288</span>),</span><br><span class="line">         (<span class="number">5</span>,<span class="number">109</span>),</span><br><span class="line">         (<span class="number">6</span>,<span class="number">749</span>),</span><br><span class="line">         (<span class="number">7</span>,<span class="number">235</span>),</span><br><span class="line">         (<span class="number">8</span>,<span class="number">190</span>),</span><br><span class="line">         (<span class="number">9</span>,<span class="number">99</span>),</span><br><span class="line">         (<span class="number">10</span>,<span class="number">1000</span>),</span><br><span class="line">         ]</span><br><span class="line">Max = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;请输入最高价格：&quot;</span>))</span><br><span class="line">Min = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;请输入最低价格：&quot;</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;提示：请输入排序方式：\n1.价格降序排序；\n2.价格升序排序；&quot;</span>)</span><br><span class="line">Sort = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;请输入排序方式：&quot;</span>))</span><br><span class="line">c =[];</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> Price:</span><br><span class="line">    <span class="keyword">if</span> i[<span class="number">1</span>] &lt;= Max <span class="keyword">and</span> i[<span class="number">1</span>] &gt;= Min:</span><br><span class="line">        c.append(i)</span><br><span class="line"><span class="keyword">if</span> Sort==<span class="number">1</span>:</span><br><span class="line">    p = <span class="built_in">sorted</span>(c,key=s, reverse=<span class="literal">True</span>)</span><br><span class="line"><span class="keyword">elif</span> Sort==<span class="number">2</span>:</span><br><span class="line">    p = <span class="built_in">sorted</span>(c,key=s)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;请输入正确的排序规则&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(p)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="13-输出1000个随机字符重复出现的次数"><a href="#13-输出1000个随机字符重复出现的次数" class="headerlink" title="13.输出1000个随机字符重复出现的次数"></a>13.输出1000个随机字符重复出现的次数</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> choices</span><br><span class="line"><span class="keyword">from</span> string <span class="keyword">import</span> ascii_letters,digits</span><br><span class="line">z = <span class="string">&#x27;&#x27;</span>.join(choices(ascii_letters+digits,k=<span class="number">1000</span>))</span><br><span class="line">d = <span class="built_in">dict</span>()</span><br><span class="line"><span class="keyword">for</span> ch <span class="keyword">in</span> z:</span><br><span class="line">    d[ch] = d.get(ch,<span class="number">0</span>)+<span class="number">1</span></span><br><span class="line"><span class="built_in">print</span>(d)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="14-汇率转换"><a href="#14-汇率转换" class="headerlink" title="14.汇率转换"></a>14.汇率转换</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">money = <span class="built_in">input</span>()</span><br><span class="line">rmb = <span class="built_in">int</span>(money[<span class="number">1</span>:])/<span class="number">6</span></span><br><span class="line">dollor = <span class="built_in">int</span>(money[<span class="number">1</span>:])*<span class="number">6</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&#x27;R&#x27;</span> <span class="keyword">in</span> money:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;$%.2f&#x27;</span>%rmb)</span><br><span class="line"><span class="keyword">elif</span> <span class="string">&#x27;$&#x27;</span> <span class="keyword">in</span> money:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;R%.2f&#x27;</span>%dollor)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="15-成绩信息统计"><a href="#15-成绩信息统计" class="headerlink" title="15.成绩信息统计"></a>15.成绩信息统计</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">num = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">grade = <span class="built_in">input</span>()</span><br><span class="line">grades = <span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">int</span>,grade.split()))</span><br><span class="line">fail = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> grades:</span><br><span class="line">    <span class="keyword">if</span> i&lt;<span class="number">60</span>:</span><br><span class="line">        fail+=<span class="number">1</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Max: %d&#x27;</span>%(<span class="built_in">max</span>(grades))+<span class="string">&#x27;\n&#x27;</span><span class="string">&#x27;Min: %d&#x27;</span>%(<span class="built_in">min</span>(grades))+<span class="string">&#x27;\n&#x27;</span><span class="string">&#x27;Ave: %.1f&#x27;</span>%(<span class="built_in">sum</span>(grades)/num)+<span class="string">&#x27;\n&#x27;</span><span class="string">&#x27;Fail: %d&#x27;</span>%fail)</span><br></pre></td></tr></table></figure>
+
+</article>
+    
+    
+
+<ul class="trm-post-copyright">
+    <li class="trm-post-copyright-author">
+        <strong>本文作者：</strong>
+        zmb
+    </li>
+    <li class="trm-post-copyright-link">
+        <strong>本文链接：</strong>
+        <a href="https://asklins.gitee.io/2022/10/21/Python/" title="Python">https://asklins.gitee.io/2022/10/21/Python/</a>
+    </li>
+    <li class="trm-post-copyright-license">
+        <strong>版权声明：</strong>
+        本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 ">CC BY-NC-SA 4.0</a> 许可协议。
+    </li>
+</ul>
+
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            其他文章
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
+        <a href="/2022/10/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="trm-cover-frame trm-anima-link">
+            <img src="https://pic.iqjty.com/2023/02/23/63f77cae036e4.jpg" alt="cover">
+        </a>
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+                    数据结构
+                </a>
+            </div>
+            <h5>
+                <a href="/2022/10/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="trm-anima-link">
+                    数据结构与算法随笔
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>22/10/22</li>
+                <li>15:08</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
+        <a href="/2022/09/22/katex/" class="trm-cover-frame trm-anima-link">
+            <img src="/img/block.jpg" alt="cover">
+        </a>
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" #.">
+                    未分类
+                </a>
+            </div>
+            <h5>
+                <a href="/2022/09/22/katex/" class="trm-anima-link">
+                    KaTeX
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>22/09/22</li>
+                <li>15:45</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-scroll-animation" data-scroll data-scroll-offset="50">
+
+    
+
+    
+        <div class="trm-footer-item">
+            <span>© 2022- 2023</span>
+            <span class="footer-separator">·</span>
+            <span class="trm-accent-color">Asklins</span>
+        </div>
+    
+
+    
+        <div class="trm-footer-item">
+            <span>
+                由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.3.0
+            </span>
+            <span class="footer-separator"> | </span>
+            <span> 
+                主题 - 
+                <a rel="noopener" href='https://github.com/MaLuns/hexo-theme-async' target='_blank'>Async</a>
+                v1.1.1
+            </span>
+        </div>
+      
+
+    
+        <div class="trm-footer-item">
+            博客已运行 <span id="since" class="trm-accent-color"></span> 天
+        </div>
+     
+
+     
+</footer>
+
+<script>
+    function show_date_time () {
+        BirthDay = new Date("04/10/2022 17:00:00");
+        today = new Date();
+        timeold = (today.getTime() - BirthDay.getTime());
+        msPerDay = 24 * 60 * 60 * 1000
+        day = Math.floor(timeold / msPerDay)
+        since.innerHTML = day
+    }
+    show_date_time()
+</script>
+ 
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+          </div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+
+  </div>
+  <!-- app wrapper end -->
+
+  <div id="trm-back-top" class="trm-back-top">
+    <i class="fas fa-arrow-up"></i>
+</div>
+  
+<div class="trm-search-popup">
+    <div class="trm-search-header">
+        <span class="trm-search-popup-btn-close">
+            <i class="fas fa-times"></i>
+        </span>
+    </div>
+    <div class="form trm-search-form">
+        <input class="trm-search-input" type="text" placeholder="搜索...">
+    </div>
+    <div class="trm-search-result-container">
+
+    </div>
+</div>
+
+  <!-- Plugin -->
+
+
+
+    
+    
+        
+<script src="//cdn.jsdelivr.net/npm/swup@2.0.19/dist/swup.min.js"></script>
+
+    
+
+    
+<script src="//cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+
+    
+<script src="//cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+
+    
+
+    
+        <script src="/js/plugins/typing.js?v=1.1.1"></script>
+    
+
+    
+        
+<script src="//cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script>
+
+        <script src="/js/plugins/local_search.js?v=1.1.1"></script>
+    
+
+    <!-- 数学公式 -->
+    
+
+
+    <!-- 评论插件 -->
+    
+        
+        
+    
+
+
+
+<!-- 评论插件 -->
+
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+    <script data-swup-reload-script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
+
+
+<script id="async-script" src="/js/main.js?v=1.1.1"></script>
+
+</body>
+
+</html>
