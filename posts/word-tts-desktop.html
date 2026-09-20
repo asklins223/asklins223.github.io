@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>小猪 wordTTS 桌面配音工作台 — Asklins</title>
+<meta name="description" content="面向教学 Word/Excel 文档的本地配音工作台：文档解析与声部分配、交付校验、断线恢复，以及双平台安装包与差分更新的分发工程。">
+<meta name="author" content="Asklins">
+<meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0d10" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小猪 wordTTS 桌面配音工作台">
+<meta property="og:description" content="把 .docx / .xlsx 里的教学内容直接变成可交付的双声部音频。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/style.css">
+<script>
+  (function () {
+    try {
+      var s = localStorage.getItem("theme");
+      var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.dataset.theme =
+        s === "light" || s === "dark" ? s : dark ? "dark" : "light";
+    } catch (e) { /* keep light */ }
+  })();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要内容</a>
+<div class="spot" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="wrap topbar__in">
+    <a class="brand" href="../">
+      <span class="brand__mark mono" aria-hidden="true">A</span>
+      <span>Asklins</span>
+    </a>
+    <nav class="nav" aria-label="站内导航">
+      <a href="../#skills">能力</a>
+      <a href="../#projects">项目</a>
+      <a href="../#contact">联系</a>
+      <a href="https://github.com/asklins223" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <button class="theme-btn" type="button" data-theme-toggle aria-label="切换深色/浅色主题">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4 17 7M7 17l-1.6 1.6"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+  <article class="article">
+    <div class="wrap article__in">
+      <a class="back" href="../#projects">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+        返回项目列表
+      </a>
+
+      <p class="article__eyebrow">
+        <span>P-03</span><span>·</span><span>桌面应用</span><span>·</span><span>2026</span><span>·</span><span>Python / Electron / GitHub Actions</span>
+      </p>
+      <h1>小猪 wordTTS 桌面配音工作台</h1>
+      <p class="article__lede">
+        老师手上的原始素材往往是 Word 或 Excel：一张词汇表、一段对话练习。要变成音频，
+        就得复制粘贴到某个在线合成页、逐条点生成、再手动改名对齐顺序。
+        这个桌面应用把这段重复劳动收起来——导入文档、核对内容、配置声音、生成、试听与下载，
+        五段流程走完拿到成品。
+      </p>
+
+      <div class="prose">
+        <h2 data-i="01">解析文档，而不是解析文本框</h2>
+        <p>
+          应用直接读取 <code>.docx</code> 与 <code>.xlsx</code>，包括其中的词汇题目结构，
+          并按文档里的标记自动分配声部：
+        </p>
+        <ul class="bullets">
+          <li><code>w / W</code> → 英语 Amanda 女声</li>
+          <li><code>m / M</code> → 英语 George 男声</li>
+          <li>无标识内容默认 Amanda，保证不会静默漏条目</li>
+        </ul>
+        <p>
+          语速、语调、音量都支持 0–100 的任意整数值，输出统一为 MP3，质量选项对应码率，
+          常用参数可以存成预设。
+        </p>
+
+        <h2 data-i="02">交付校验</h2>
+        <p>
+          TTS 服务返回成功不等于文件可用。这里只把
+          <strong>服务端确认 <code>READY + verified</code>、且格式元数据与预期一致</strong>
+          的音频放进交付集合；支持逐条试听、单文件保存和 ZIP 打包保存。
+        </p>
+        <div class="callout">
+          <span class="tag">为什么卡这么严</span>
+          批量生成最常见的事故是「200 条里有 3 条是空文件或采样率不对」，
+          而人是在课堂上打开压缩包时才发现。校验前置到交付环节，宁可少给也不能给错。
+        </div>
+
+        <h2 data-i="03">长任务的可恢复性</h2>
+        <p>
+          一次生成可能持续几分钟，中间涉及外部服务、进度回调和文件落盘。界面上给的是
+          结构化时间线而不是转圈进度条：哪一条在排队、哪一条失败、失败原因是什么。
+          同时支持断线恢复、取消与失败重试。
+        </p>
+        <p>
+          本机历史中心保留最近 20 个任务，可以重新查看、试听、下载或归档。
+          归档保留审计事实与产物文件，<strong>归档不等于物理删除</strong>——
+          这是刻意选的语义，避免用户以为点了一下就没了。
+        </p>
+
+        <h2 data-i="04">桌面分发工程</h2>
+        <p>
+          桌面端是 Electron 承载 Python 后端，macOS 与 Windows 安装包都由 GitHub Actions
+          自动构建。应用内自带版本中心：启动后检查 GitHub Releases，支持可选与强制更新、
+          下载、重启安装和更新日志展示。
+        </p>
+        <table>
+          <thead>
+            <tr><th>平台</th><th>做法</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>macOS</td><td><code>.dmg</code>，打开即用或拖入 Applications 的原生流程</td></tr>
+            <tr><td>Windows</td><td>独立 HTML 自绘 <code>Setup.exe</code>，安装/更新/卸载共用一套界面</td></tr>
+            <tr><td>更新</td><td>优先 <code>.blockmap</code> 差分下载，条件不满足自动回退全量</td></tr>
+          </tbody>
+        </table>
+        <p>
+          Windows 安装器先出界面、再按需解压 payload，避免长时间白屏；支持无边框窗口拖动、
+          选择安装目录与安装范围、数据保留策略、完成后可靠启动应用，以及桌面/开始菜单快捷方式清理。
+        </p>
+
+        <h2 data-i="05">可测试性</h2>
+        <p>
+          正式包默认走真实讯飞调用，但 <code>--smoke-test</code> 始终只跑逻辑离线流程、
+          不打开真实页面；直接诊断后端时可用 <code>--disable-real-provider</code>
+          或环境变量显式离线。这样 CI 里能验证流程，又不产生调用费用。
+        </p>
+        <p>
+          渲染层只保留工作台单一入口，workflow 数据与任务记录由服务端目录独立持久化，
+          界面更新不会创建第二套 Shell。
+        </p>
+
+        <h2 data-i="06">技术栈</h2>
+        <table>
+          <thead>
+            <tr><th>层</th><th>选型</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>后端</td><td>Python 3.11</td></tr>
+            <tr><td>桌面壳</td><td>Electron · Node.js 24</td></tr>
+            <tr><td>音频</td><td>讯飞配音 · FFmpeg · MP3</td></tr>
+            <tr><td>分发</td><td>GitHub Actions · GitHub Releases · blockmap 差分</td></tr>
+            <tr><td>许可</td><td>GPL-3.0</td></tr>
+          </tbody>
+        </table>
+        <p>
+          安装包与更新都在仓库的
+          <a href="https://github.com/asklins223/word-tts-desktop/releases" target="_blank" rel="noopener">Releases</a>
+          页面发布，macOS 与 Windows 各有对应产物。
+        </p>
+      </div>
+
+      <div class="article__foot">
+        <div class="hero__cta" style="margin-top:0">
+          <a class="btn btn--primary" href="https://github.com/asklins223/word-tts-desktop" target="_blank" rel="noopener">
+            查看仓库
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+          <a class="btn" href="../#contact">聊聊这个项目</a>
+        </div>
+        <nav class="pager" aria-label="项目翻页">
+          <a class="prev" href="piggy-teaching-toolbox.html">
+            <span class="tag">上一个</span>
+            <span>AI 教学视频多模态素材生成平台</span>
+          </a>
+          <a class="next" href="ai-learning-system.html">
+            <span class="tag">下一个</span>
+            <span>AI 原生学习与理解验证系统</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </article>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__in">
+    <span>© 2026 Asklins</span>
+    <span class="footer__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span>纯静态 · 无框架 · 无追踪 · 系统字体</span>
+    <a href="../">回到概览 ↑</a>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

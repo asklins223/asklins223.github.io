@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 — 页面不存在</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/style.css">
+<script>
+  (function () {
+    try {
+      var s = localStorage.getItem("theme");
+      var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.dataset.theme =
+        s === "light" || s === "dark" ? s : dark ? "dark" : "light";
+    } catch (e) { /* keep light */ }
+  })();
+</script>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="topbar" data-stuck="true">
+  <div class="wrap topbar__in">
+    <a class="brand" href="./">
+      <span class="brand__mark mono" aria-hidden="true">A</span>
+      <span>Asklins</span>
+    </a>
+    <nav class="nav" aria-label="站内导航">
+      <a href="./#skills">能力</a>
+      <a href="./#projects">项目</a>
+      <a href="./#contact">联系</a>
+      <a href="https://github.com/asklins223" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <button class="theme-btn" type="button" data-theme-toggle aria-label="切换深色/浅色主题">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4 17 7M7 17l-1.6 1.6"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+  <section class="e404">
+    <div class="wrap">
+      <h1>404</h1>
+      <p class="mono" style="color:var(--accent);font-size:12.5px;letter-spacing:.1em">NOT_FOUND</p>
+      <p>这个地址下没有内容。项目案例都在首页，或者直接回概览。</p>
+      <div class="hero__cta" style="margin-top:0">
+        <a class="btn btn--primary" href="./">回到概览</a>
+        <a class="btn" href="https://github.com/asklins223" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="js/main.js"></script>
+</body>
+</html>

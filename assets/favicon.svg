@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Asklins">
+  <rect width="512" height="512" rx="112" fill="#15161a"/>
+  <path d="M148 404 256 132 364 404" fill="none" stroke="#fafaf7" stroke-width="44" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M198 318h116" stroke="#2c4ce0" stroke-width="40" stroke-linecap="round"/>
+</svg>

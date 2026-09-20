@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 原生学习与理解验证系统 — Asklins</title>
+<meta name="description" content="把「读过」变成「理解并被验证」：资料捕获、学习卡生成、原文证据对齐、理解验证与复习调度的完整闭环，以及证据门禁与可靠任务的实现取舍。">
+<meta name="author" content="Asklins">
+<meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0d10" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI 原生学习与理解验证系统">
+<meta property="og:description" content="无硬证据的关键点不得进入理解验证——一个带证据门禁的学习闭环。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/style.css">
+<script>
+  (function () {
+    try {
+      var s = localStorage.getItem("theme");
+      var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.dataset.theme =
+        s === "light" || s === "dark" ? s : dark ? "dark" : "light";
+    } catch (e) { /* keep light */ }
+  })();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要内容</a>
+<div class="spot" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="wrap topbar__in">
+    <a class="brand" href="../">
+      <span class="brand__mark mono" aria-hidden="true">A</span>
+      <span>Asklins</span>
+    </a>
+    <nav class="nav" aria-label="站内导航">
+      <a href="../#skills">能力</a>
+      <a href="../#projects">项目</a>
+      <a href="../#contact">联系</a>
+      <a href="https://github.com/asklins223" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <button class="theme-btn" type="button" data-theme-toggle aria-label="切换深色/浅色主题">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4 17 7M7 17l-1.6 1.6"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+  <article class="article">
+    <div class="wrap article__in">
+      <a class="back" href="../#projects">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+        返回项目列表
+      </a>
+
+      <p class="article__eyebrow">
+        <span>P-01</span><span>·</span><span>个人项目</span><span>·</span><span>2026</span><span>·</span><span>TypeScript / Next.js / PostgreSQL</span>
+      </p>
+      <h1>AI 原生学习与理解验证系统</h1>
+      <p class="article__lede">
+        大多数笔记工具记录的是「我读过」，而不是「我理解了」。这个项目想做的是后者：
+        从资料捕获到复习调度走完整条链路，并给 AI 生成的每一个结论加上一道
+        <strong>原文证据门禁</strong>——对不上原文的关键点，不允许进入验证环节。
+      </p>
+
+      <div class="prose">
+        <h2 data-i="01">问题</h2>
+        <p>
+          用 LLM 做学习工具有一个很自然的失败方式：它写出一份结构漂亮、读起来很顺、
+          但和原文其实没有严格对应关系的学习卡。人很难逐句回查，于是错误被存进笔记、
+          被当作「已掌握」，最后进入复习循环。
+        </p>
+        <p>所以三条约束从一开始就是硬性的：</p>
+        <ul class="bullets">
+          <li><strong>可回溯</strong>：资料、AI 结论、用户回答、理解状态都要能追到产生它的那个版本。</li>
+          <li><strong>有证据</strong>：AI 结论必须指向原文片段，指不到就降级为待确认。</li>
+          <li><strong>能验证</strong>：理解状态由用户作答推导，而不是由「我看了」自我声明。</li>
+        </ul>
+
+        <h2 data-i="02">闭环设计</h2>
+        <p>
+          流程是 <strong>资料捕获 → 学习卡生成 → 原文证据对齐 → 理解验证 → 复习调度</strong>。
+          来源支持 Text、Markdown、Code 与 URL 四类解析；每次编辑产生新的不可变笔记版本，
+          旧版本不覆盖，因此「这条结论基于哪一版原文」永远问得出来。
+        </p>
+        <div class="callout">
+          <span class="tag">为什么强调不可变版本</span>
+          可变笔记会让证据对齐结果失效而不自知。保留版本之后，证据引用带版本号，
+          原文被改动时对齐关系会显式过期，而不是悄悄继续生效。
+        </div>
+
+        <h2 data-i="03">模型输出治理</h2>
+        <p>
+          AI Provider 被抽象成可插拔接口：线上接 Qwen / DashScope，测试与本地开发用 Mock。
+          这样评测链路、任务重试和异常分支都能在没有网络、不计费的情况下跑通。
+        </p>
+        <ul class="bullets">
+          <li>Prompt 侧要求 JSON 输出，并在解析端做容错处理，不假设模型一定给出合法结构。</li>
+          <li>解析结果统一过 <code>Zod</code> Schema 校验，不合格的结构直接拒绝，不落库。</li>
+          <li>每次生成记录模型、Prompt 版本、输入引用与生成状态，出问题时能定位到具体一次调用。</li>
+        </ul>
+
+        <h2 data-i="04">证据门禁</h2>
+        <p>
+          对齐算法用 <strong>精确匹配 + 字符 trigram Jaccard 滑窗</strong>：从原文返回 Top 5 候选片段，
+          按相似度分档处理。
+        </p>
+        <table>
+          <thead>
+            <tr><th>分值</th><th>判定</th><th>处理</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>≥ 85</td><td>硬证据</td><td>可以支撑理解验证题目</td></tr>
+            <tr><td>60 – 84</td><td>软引用</td><td>展示但标注不确定，需用户确认</td></tr>
+            <tr><td>&lt; 60</td><td>未对齐</td><td>不得进入验证，可驳回</td></tr>
+          </tbody>
+        </table>
+        <p>
+          用户可以对齐结果做三种操作：<strong>确认、降级、驳回</strong>。门禁的价值不在于让模型少说话，
+          而在于让「没有依据的话」有明确的、可看见的去向。
+        </p>
+
+        <h2 data-i="05">可靠任务</h2>
+        <p>
+          学习卡生成、证据对齐、理解评估、来源解析四类任务都由基于 PostgreSQL 的 AI Worker 编排，
+          不额外引入消息中间件——数据库同时是队列和事实源，一致性边界更窄。
+        </p>
+        <ul class="bullets">
+          <li><code>Skip Locked</code> 取任务，多 worker 并行不互相阻塞。</li>
+          <li>lease token 标识一次执行的所有权，避免旧执行者写回结果。</li>
+          <li>幂等检查 + 90s 执行超时 + 120s 悬挂回收，进程崩溃后任务能被重新捞起。</li>
+          <li>指数退避、最多 3 次执行，关停时等待在途任务并优雅退出。</li>
+        </ul>
+
+        <h2 data-i="06">评估与边界</h2>
+        <p>
+          验证回答基于原文证据做结构化评估，验证事件、理解事件与动态复习计划在同一个事务里写入，
+          避免出现「状态更新了但事件丢了」。评测集为 20 篇文档 / 123 个内容块，带版本号，
+          改动对齐策略时能对比同一批数据。
+        </p>
+        <p>治理上做了四件事：AI 调用同意门禁、PII 脱敏、调用审计，以及 URL 抓取的 SSRF 防护。</p>
+        <div class="callout">
+          <span class="tag">SSRF 防护</span>
+          用户提交的 URL 由服务端抓取，如果不加约束，内网地址与元数据接口就成了可访问目标。
+          这里在解析前对协议、主机解析结果做校验，只允许公网 HTTP(S) 目标。
+        </div>
+
+        <h2 data-i="07">技术栈</h2>
+        <table>
+          <thead>
+            <tr><th>层</th><th>选型</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>前端</td><td>TypeScript · Next.js 15 · React 19</td></tr>
+            <tr><td>API</td><td>Fastify 5 · Zod</td></tr>
+            <tr><td>数据</td><td>PostgreSQL 16 · Drizzle ORM</td></tr>
+            <tr><td>模型</td><td>Qwen / DashScope（+ 本地 Mock Provider）</td></tr>
+            <tr><td>交付</td><td>Docker Compose · GitHub Actions</td></tr>
+          </tbody>
+        </table>
+        <p>
+          下一步是把证据对齐的召回质量做成可持续对比的基线，并把复习调度从固定间隔改成
+          与理解事件挂钩的间隔重复。
+        </p>
+      </div>
+
+      <div class="article__foot">
+        <div class="hero__cta" style="margin-top:0">
+          <a class="btn btn--primary" href="https://github.com/asklins223/ai-learning-system" target="_blank" rel="noopener">
+            查看仓库
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+          <a class="btn" href="../#contact">聊聊这个项目</a>
+        </div>
+        <nav class="pager" aria-label="项目翻页">
+          <a class="prev" href="word-tts-desktop.html">
+            <span class="tag">上一个</span>
+            <span>小猪 wordTTS 桌面配音工作台</span>
+          </a>
+          <a class="next" href="piggy-teaching-toolbox.html">
+            <span class="tag">下一个</span>
+            <span>AI 教学视频多模态素材生成平台</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </article>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__in">
+    <span>© 2026 Asklins</span>
+    <span class="footer__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span>纯静态 · 无框架 · 无追踪 · 系统字体</span>
+    <a href="../">回到概览 ↑</a>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

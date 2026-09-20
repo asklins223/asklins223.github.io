@@ -1,771 +1,420 @@
 <!DOCTYPE html>
-<html lang="zh-Hans">
-
+<html lang="zh-CN" data-theme="light">
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<meta name="x5-fullscreen" content="true">
-<meta name="full-screen" content="yes">
-<meta name="theme-color" content="#317EFB" />
-<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
-<meta name="description" content="学习随笔">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asklins — Agent 应用开发 / AI 应用后端</title>
+<meta name="description" content="Asklins 的个人站点：Agent 编排、RAG 与长期记忆、AI 应用后端，以及三个开源项目的实现细节。">
+<meta name="author" content="Asklins">
+<meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0d10" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Asklins_Blog">
-<meta property="og:url" content="https://asklins.gitee.io/index.html">
-<meta property="og:site_name" content="Asklins_Blog">
-<meta property="og:description" content="学习随笔">
-<meta property="og:locale">
-<meta property="article:author" content="zmb">
-<meta property="article:tag" content="博客">
+<meta property="og:title" content="Asklins — Agent 应用开发 / AI 应用后端">
+<meta property="og:description" content="后端出身，近两年主要做 Agent、RAG 与 AI 应用后端。">
+<meta property="og:url" content="https://asklins223.github.io/">
+<meta property="og:image" content="https://asklins223.github.io/assets/avatar.png">
 <meta name="twitter:card" content="summary">
-
-    <meta name="keywords" content="博客">
-
-
-<title >Asklins_Blog</title>
-
-<!-- Favicon -->
-
-    <link href='/img/favicon.svg?v=1.1.1' rel='icon' type='image/png' sizes='16x16' ></link>
-
-
-    <link href='/img/favicon.svg?v=1.1.1' rel='icon' type='image/png' sizes='32x32' ></link>
-
-
-
-
-<!-- Plugin -->
-
-
-
-
-    
-<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
-
-    
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
-
-    
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css">
-
-
-    
-
-    
-
-
-
-<!-- Icon -->
-
-    
-<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
-
-
-
-
-<!-- Variable -->
-<script>window.ASYNC_CONFIG = {"hostname":"asklins.gitee.io","author":"zmb","root":"/","typed_text":["WHAT I AM"],"favicon":{"logo":"/img/favicon.svg","icon16":"/img/favicon.svg","icon32":"/img/favicon.svg","appleTouchIcon":null,"webmanifest":null,"visibilitychange":true,"hidden":"/failure.ico","showText":"(/≧▽≦/)咦！又好了！","hideText":"(●—●)喔哟，崩溃啦！"},"theme_version":"1.1.1","theme":{"switch":true,"default":"style-light"},"search":{"enable":true,"type":"local","href":"https://www.google.com/search?q=site:","domain":null,"preload":true,"trigger":"auto","path":"search.xml"},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）","author":"本文作者：","copyright_link":"本文链接：","copyright_license_title":"版权声明：","copyright_license_content":"本博客所有文章除特别声明外，均默认采用 undefined 许可协议。"},"creative_commons":{"license":"by-nc-sa","language":"deed.zh","post":true,"clipboard":true},"swup":true};</script>
-
-<!-- Theme mode css -->
-<link data-swup-theme rel="stylesheet" href="/css/index.css?v=1.1.1" id="trm-switch-style">
+<link rel="canonical" href="https://asklins223.github.io/">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/avatar.png">
+<link rel="stylesheet" href="css/style.css">
 <script>
-    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
-    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
-    let type = catchMode === 'style-dark' ? 'add' : 'remove';
-    document.documentElement.classList[type]('dark')
+  (function () {
+    try {
+      var s = localStorage.getItem("theme");
+      var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.dataset.theme =
+        s === "light" || s === "dark" ? s : dark ? "dark" : "light";
+    } catch (e) { /* keep light */ }
+  })();
 </script>
-
-<!-- CDN -->
-
-
-    
-
-    
-
-
-
-<!-- Site Analytics -->
- 
-<meta name="generator" content="Hexo 6.3.0"></head>
-
+</head>
 <body>
+<a class="skip-link" href="#main">跳到主要内容</a>
+<div class="spot" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
 
-  <!-- app wrapper -->
-  <div class="trm-app-frame">
-
-    <!-- page preloader -->
-    <div class="trm-preloader">
-    <div class="trm-holder">
-        <div class="preloader">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div>
-</div>
-    <!-- page preloader end -->
-
-    <!-- change mode preloader -->
-    <div class="trm-mode-swich-animation-frame">
-    <div class="trm-mode-swich-animation">
-        <i class="i-sun"><i class="far fa-sun"></i></i>
-        <div class="trm-horizon"></div>
-        <i class="i-moon"><i class="far fa-moon"></i></i>
-    </div>
-</div>
-    <!-- change mode preloader end -->
-
-      <!-- scroll container -->
-      <div id="trm-dynamic-content" class="trm-swup-animation">
-        <div id="trm-scroll-container" class="trm-scroll-container" data-scroll-container style="opacity: 0">
-          <div data-scroll-section id="content" class="trm-scroll-section">
-
-            <div class="locomotive-scroll__sticky-target" style=" position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;"></div>
-
-            <!-- top bar -->
-            <header class="trm-top-bar" data-scroll data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="-10">
-	<div class="container">
-		<div class="trm-left-side">
-			<!-- logo -->
-			<a href="/" class="trm-logo-frame trm-anima-link">
-				
-					<img src="/img/favicon.svg" alt="logo">
-				
-				
-					<div class="trm-logo-text">
-						blog&#39;s<span>Asklins</span>
-					</div>
-				
-			</a>
-			<!-- logo end -->
-		</div>
-		<div class="trm-right-side">
-
-			<!-- menu -->
-			<div class="trm-menu">
-				<nav>
-					<ul>
-						
-						<li class="menu-item-has-children current-menu-item">
-							<a  href="/" target="">
-								首页
-							</a>
-							
-						</li>
-						
-						<li class="menu-item-has-children ">
-							<a  href="/archives/" target="">
-								归档
-							</a>
-							
-						</li>
-						
-						<li class="menu-item-has-children ">
-							<a  href="/links/" target="">
-								友链
-							</a>
-							
-						</li>
-						
-						<li class="menu-item-has-children ">
-							<a  href="/about/" target="">
-								关于
-							</a>
-							
-						</li>
-						
-					</ul>
-				</nav>
-			</div>
-			<!-- menu end -->
-			
-			<!-- mode switcher place -->
-			
-			<div class="trm-mode-switcher-place">
-				<!-- <div class="trm-hidden-switcher"> -->
-					<div class="trm-mode-switcher">
-					  <i class="far fa-sun"></i>
-					  <input class="tgl tgl-light" id="trm-swich" type="checkbox">
-					  <label class="trm-swich" for="trm-swich"></label>
-					  <i class="far fa-moon"></i>
-					</div>
-				  <!-- </div> -->
-			</div>
-			
-			<!-- mode switcher place end -->
-
-			
-				
-				<div id="trm-search-btn" class="trm-search-btn">
-					<i class="fas fa-search"></i>
-				</div>
-				 
-			 
-
-		</div>
-		<div class="trm-menu-btn">
-			<span></span>
-		</div>
-	</div>
+<header class="topbar">
+  <div class="wrap topbar__in">
+    <a class="brand" href="./">
+      <span class="brand__mark mono" aria-hidden="true">A</span>
+      <span>Asklins</span>
+    </a>
+    <nav class="nav" aria-label="站内导航">
+      <a href="#skills">能力</a>
+      <a href="#projects">项目</a>
+      <a href="#contact">联系</a>
+      <a href="https://github.com/asklins223" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <button class="theme-btn" type="button" data-theme-toggle aria-label="切换深色/浅色主题">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4 17 7M7 17l-1.6 1.6"/></svg>
+    </button>
+  </div>
 </header>
-            <!-- top bar end -->
 
-            <!-- body -->
-            <div class="trm-content-start">
-    <!-- banner -->
-    <div class="trm-banner" data-scroll data-scroll-direction="vertical">
-    
-    <!-- banner video cover -->
-    <video autoplay="autoplay" loop muted playsinline webkit-playinginline class="trm-banner-cover" data-scroll data-scroll-direction="vertical" data-scroll-speed="-3">
-        <source src="http://cdn.moji.com/websrc/video/autumn20190924.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
-        Your browser does not support HTML5 video.
-    </video>
-    <!-- banner video cover end -->
-    
-
-    <!-- banner content -->
-    <div class="trm-banner-content trm-overlay">
-        <div class="container" data-scroll data-scroll-direction="vertical" data-scroll-speed="0">
-            <div class="row">
-                
-                <div class="col-lg-4"></div>
-                
-                <div class="col-lg-8">
-
-                    <!-- banner title -->
-                    <div class="trm-banner-text ">
-                        <div class="trm-label trm-mb-20">
-                            Hi my new friend!
-                        </div>
-                        <h1 class="trm-mb-30 trm-hsmb-font">
-                            生如芥子,<br>心藏须弥。
-                        </h1>
-
-                        
-                            <ul class="trm-breadcrumbs trm-label">
-                                <li>
-                                    <a href="/" class="trm-anima-link">Home</a>
-                                </li>
-                                <li>
-                                    <span>
-                                        index.html
-                                    </span
-                                ></li>
-                            </ul>
-                        
-                    </div>
-                    <!-- banner title end -->
-
-                    <!-- scroll hint -->
-                    <a href="#about-triger" data-scroll-to="#about-triger" data-scroll-offset="-130" class="trm-scroll-hint-frame">
-                        <div class="trm-scroll-hint"></div>
-                        <span class="trm-label">Scroll down</span>
-                    </a>
-                    <!-- scroll hint end -->
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- banner content end -->
-</div>
-    <!-- banner end -->
-    <div class="container">
-        <div class="row">
-            
-                <div class="col-lg-4 hidden-sm">
-                    <!-- main card -->
-                    
-
-<div class="trm-main-card-frame trm-sidebar">
-    <div class="trm-main-card" data-scroll data-scroll-repeat data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="60"> 
-    
-        <!-- card header -->
-<div class="trm-mc-header">
-    <div class="trm-avatar-frame trm-mb-20"><img class="trm-avatar" src="/img/avatar.jpg" alt="Avatar"> </div>
-    <h5 class="trm-name trm-mb-15">
-        Asklins
-    </h5>
-    
-    <div class="trm-label">
-        I`m
-        <span class="trm-typed-text">
-            <!-- Words for theme.user.typedText -->
-        </span>
-    </div>
-    
-</div>
-<!-- card header end -->
-
-<!-- sidebar social -->
-<div class="trm-divider trm-mb-40 trm-mt-40"></div>
-
-<div class="trm-social">
-    
-        <a href="https://github.com/asklins/" title="Github" rel="nofollow" target="_blank">
-            <i class="fab fa-github"></i>
-        </a>
-    
-        <a href="https://twitter.com" title="Twitter" rel="nofollow" target="_blank">
-            <i class="fab fa-twitter"></i>
-        </a>
-    
-</div>
-
-<!-- sidebar social end -->
-
-<!-- info -->
-<div class="trm-divider trm-mb-40 trm-mt-40"></div>
-<ul class="trm-table trm-mb-20">
-    
-        <li>
-            <div class="trm-label">
-                City:
-            </div>
-            <div class="trm-label trm-label-light">
-                KaiFeng
-            </div>
-        </li>
-    
-        <li>
-            <div class="trm-label">
-                Age:
-            </div>
-            <div class="trm-label trm-label-light">
-                20
-            </div>
-        </li>
-    
-</ul>
-
-    
-    </div>
-</div>
-                    <!-- main card end -->
-                </div>
-            
-            <div class="col-lg-8">
-                <div class="trm-content" id="trm-content">
-                    <div data-scroll data-scroll-repeat data-scroll-offset="500" id="about-triger"></div>
-
-                    <!-- categories -->
-<div class="row hidden-sm">
-    
-    <div class="col-lg-6">
-        <!-- categories card -->
-        <div class="trm-blog-categories trm-scroll-animation" data-scroll data-scroll-offset="40">
-            <h6>
-                Java
-                <span class="trm-number">
-                    1
-                </span>
-            </h6>
-            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
-            <a href="/categories/Java/." class="trm-label">
-                查看分类 
-                <i class="fas fa-arrow-right"></i>
-            </a>
-        </div>
-        <!-- categories card end -->
-    </div>
-    
-    <div class="col-lg-6">
-        <!-- categories card -->
-        <div class="trm-blog-categories trm-scroll-animation" data-scroll data-scroll-offset="40">
-            <h6>
-                Python学习随笔
-                <span class="trm-number">
-                    1
-                </span>
-            </h6>
-            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
-            <a href="/categories/Python%E5%AD%A6%E4%B9%A0%E9%9A%8F%E7%AC%94/." class="trm-label">
-                查看分类 
-                <i class="fas fa-arrow-right"></i>
-            </a>
-        </div>
-        <!-- categories card end -->
-    </div>
-    
-</div>
-<!-- categories end -->
-
-<!-- newest publications -->
-<div class="row">
-    <div class="col-lg-12">
-        <!-- title -->
-        <h5 class="trm-title-with-divider">
-            最近发布 
-            <span data-number="01"></span>
-        </h5>
-    </div>
-    
-        <div class="col-lg-6">
-    <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
-        <a href="/2023/03/01/%E6%9C%80%E6%96%B0/" class="trm-cover-frame trm-anima-link">
-            <img src="https://pic.iqjty.com/2023/02/23/63f77cae1a094.jpg" alt="cover">
-        </a>
-        <div class="trm-card-descr">
-            <div class="trm-label trm-category trm-mb-20">
-                <a href=" /categories/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/">
-                    离散数学
-                </a>
-            </div>
-            <h5>
-                <a href="/2023/03/01/%E6%9C%80%E6%96%B0/" class="trm-anima-link">
-                    博客迁移
-                </a>
-            </h5>
-            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
-            <ul class="trm-card-data trm-label">
-                <li>23/03/01</li>
-                <li>04:08</li>
-                
-                
-            </ul>
-        </div>
-    </div>
-</div>
-    
-        <div class="col-lg-6">
-    <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
-        <a href="/2022/10/24/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/" class="trm-cover-frame trm-anima-link">
-            <img src="https://pic.iqjty.com/2023/02/23/63f77cae1a094.jpg" alt="cover">
-        </a>
-        <div class="trm-card-descr">
-            <div class="trm-label trm-category trm-mb-20">
-                <a href=" /categories/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/">
-                    离散数学
-                </a>
-            </div>
-            <h5>
-                <a href="/2022/10/24/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/" class="trm-anima-link">
-                    离散数学
-                </a>
-            </h5>
-            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
-            <ul class="trm-card-data trm-label">
-                <li>22/10/24</li>
-                <li>18:48</li>
-                
-                
-            </ul>
-        </div>
-    </div>
-</div>
-    
-        <div class="col-lg-6">
-    <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
-        <a href="/2022/10/21/Python/" class="trm-cover-frame trm-anima-link">
-            <img src="https://pic.iqjty.com/2023/02/23/63f77d417e140.jpg" alt="cover">
-        </a>
-        <div class="trm-card-descr">
-            <div class="trm-label trm-category trm-mb-20">
-                <a href=" /categories/Python%E5%AD%A6%E4%B9%A0%E9%9A%8F%E7%AC%94/">
-                    Python学习随笔
-                </a>
-            </div>
-            <h5>
-                <a href="/2022/10/21/Python/" class="trm-anima-link">
-                    Python
-                </a>
-            </h5>
-            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
-            <ul class="trm-card-data trm-label">
-                <li>22/10/21</li>
-                <li>20:50</li>
-                
-                
-            </ul>
-        </div>
-    </div>
-</div>
-    
-        <div class="col-lg-6">
-    <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
-        <a href="/2023/02/08/Java/" class="trm-cover-frame trm-anima-link">
-            <img src="https://pic.iqjty.com/2023/02/23/63f77d15497bf.jpg" alt="cover">
-        </a>
-        <div class="trm-card-descr">
-            <div class="trm-label trm-category trm-mb-20">
-                <a href=" /categories/Java/">
-                    Java
-                </a>
-            </div>
-            <h5>
-                <a href="/2023/02/08/Java/" class="trm-anima-link">
-                    Java随笔
-                </a>
-            </h5>
-            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
-            <ul class="trm-card-data trm-label">
-                <li>23/02/08</li>
-                <li>21:20</li>
-                
-                
-            </ul>
-        </div>
-    </div>
-</div>
-    
-        <div class="col-lg-6">
-    <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
-        <a href="/2022/10/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="trm-cover-frame trm-anima-link">
-            <img src="https://pic.iqjty.com/2023/02/23/63f77cae036e4.jpg" alt="cover">
-        </a>
-        <div class="trm-card-descr">
-            <div class="trm-label trm-category trm-mb-20">
-                <a href=" /categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                    数据结构
-                </a>
-            </div>
-            <h5>
-                <a href="/2022/10/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="trm-anima-link">
-                    数据结构与算法随笔
-                </a>
-            </h5>
-            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
-            <ul class="trm-card-data trm-label">
-                <li>22/10/22</li>
-                <li>15:08</li>
-                
-                
-            </ul>
-        </div>
-    </div>
-</div>
-    
-        <div class="col-lg-6">
-    <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
-        <a href="/2022/09/22/katex/" class="trm-cover-frame trm-anima-link">
-            <img src="/img/block.jpg" alt="cover">
-        </a>
-        <div class="trm-card-descr">
-            <div class="trm-label trm-category trm-mb-20">
-                <a href=" #.">
-                    未分类
-                </a>
-            </div>
-            <h5>
-                <a href="/2022/09/22/katex/" class="trm-anima-link">
-                    KaTeX
-                </a>
-            </h5>
-            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
-            <ul class="trm-card-data trm-label">
-                <li>22/09/22</li>
-                <li>15:45</li>
-                
-                
-            </ul>
-        </div>
-    </div>
-</div>
-    
-        <div class="col-lg-6">
-    <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
-        <a href="/2022/09/21/markdown/" class="trm-cover-frame trm-anima-link">
-            <img src="/img/block.jpg" alt="cover">
-        </a>
-        <div class="trm-card-descr">
-            <div class="trm-label trm-category trm-mb-20">
-                <a href=" #.">
-                    未分类
-                </a>
-            </div>
-            <h5>
-                <a href="/2022/09/21/markdown/" class="trm-anima-link">
-                    Markdown
-                </a>
-            </h5>
-            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
-            <ul class="trm-card-data trm-label">
-                <li>22/09/21</li>
-                <li>15:25</li>
-                
-                
-            </ul>
-        </div>
-    </div>
-</div>
-    
-</div>
-<!-- newest publications end -->
-
-
-    <div class="trm-pagination">
-        <span class="page-number current">1</span>
-    </div>
-
-
-                    <div class="trm-divider footer-divider"></div>
-
-                    <!-- footer -->
-                    <footer class="trm-scroll-animation" data-scroll data-scroll-offset="50">
-
-    
-
-    
-        <div class="trm-footer-item">
-            <span>© 2022- 2023</span>
-            <span class="footer-separator">·</span>
-            <span class="trm-accent-color">Asklins</span>
-        </div>
-    
-
-    
-        <div class="trm-footer-item">
-            <span>
-                由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.3.0
-            </span>
-            <span class="footer-separator"> | </span>
-            <span> 
-                主题 - 
-                <a rel="noopener" href='https://github.com/MaLuns/hexo-theme-async' target='_blank'>Async</a>
-                v1.1.1
-            </span>
-        </div>
-      
-
-    
-        <div class="trm-footer-item">
-            博客已运行 <span id="since" class="trm-accent-color"></span> 天
-        </div>
-     
-
-     
-</footer>
-
-<script>
-    function show_date_time () {
-        BirthDay = new Date("04/10/2022 17:00:00");
-        today = new Date();
-        timeold = (today.getTime() - BirthDay.getTime());
-        msPerDay = 24 * 60 * 60 * 1000
-        day = Math.floor(timeold / msPerDay)
-        since.innerHTML = day
-    }
-    show_date_time()
-</script>
- 
-                    <!-- footer end -->
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-            <!-- body end -->
-          </div>
+<main id="main">
+  <!-- ============ hero ============ -->
+  <section class="hero" id="top">
+    <div class="wrap hero__in">
+      <div>
+        <p class="eyebrow" data-reveal><span class="dot" aria-hidden="true"></span>Agent 应用开发 · AI 应用后端</p>
+        <h1 class="hero__title mask" data-reveal>
+          <span>Asklins<span class="accent">.</span></span>
+        </h1>
+        <p class="hero__sub" data-reveal style="--d:.1s">
+          <span>后端工程</span><span class="sep">/</span>
+          <span>Agent 编排</span><span class="sep">/</span>
+          <span>RAG 与记忆</span><span class="sep">/</span>
+          <span>UTC+8</span>
+        </p>
+        <p class="hero__lead" data-reveal style="--d:.18s">
+          后端出身，近两年主要在做 AI 应用。日常是 Agent 编排、检索和长期记忆，
+          另外不少时间花在没那么好看的部分：把模型返回的东西解析干净、校验住，
+          失败了能重跑。
+        </p>
+        <div class="hero__cta" data-reveal style="--d:.26s">
+          <a class="btn btn--primary" href="#projects">
+            看项目
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn" href="https://github.com/asklins223" target="_blank" rel="noopener">
+            GitHub
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+          <a class="btn" href="mailto:1098960915@qq.com">
+            写邮件
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h18v12H3zM3 7l9 6 9-6"/></svg>
+          </a>
         </div>
       </div>
-      <!-- scroll container end -->
 
+      <aside class="spec" data-reveal style="--d:.3s" aria-label="概览">
+        <div class="spec__head">
+          <div class="spec__who">
+            <img src="assets/avatar.png" alt="" width="42" height="42" loading="lazy">
+            <span><strong>Asklins</strong>后端 / AI 应用开发</span>
+          </div>
+        </div>
+        <dl>
+          <dt>方向</dt><dd>Agent / RAG / AI 应用后端</dd>
+          <dt>主语言</dt><dd>Python · PHP · TypeScript</dd>
+          <dt>关注</dt><dd>输出校验与评测</dd>
+          <dt>邮箱</dt><dd><a href="mailto:1098960915@qq.com">1098960915@qq.com</a></dd>
+          <dt>GitHub</dt><dd><a href="https://github.com/asklins223" target="_blank" rel="noopener">asklins223</a></dd>
+        </dl>
+        <p class="spec__foot"><span class="dot" aria-hidden="true"></span>开源项目持续维护中</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ skills ============ -->
+  <section id="skills">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-head__num mono">01</span>
+        <h2 class="sec-head__title">能力</h2>
+        <span class="sec-head__note">会的写在这里，其余的不写</span>
+      </header>
+
+      <div class="skills">
+        <article class="skill-group" data-reveal>
+          <span class="skill-group__idx mono">A</span>
+          <h3>Agent 与 AI 应用</h3>
+          <p>让模型按流程干活：该装载哪个技能、注入哪些上下文、输出怎么校验、证据不足时怎么降级。</p>
+          <ul class="chips">
+            <li class="chip" data-key="1">LangGraph</li>
+            <li class="chip" data-key="1">RAG</li>
+            <li class="chip">LangChain</li>
+            <li class="chip">LightRAG</li>
+            <li class="chip">Neo4j</li>
+            <li class="chip">Milvus</li>
+            <li class="chip">分层长期记忆</li>
+            <li class="chip">用户画像</li>
+            <li class="chip">多模态内容提取</li>
+            <li class="chip">结构化输出</li>
+            <li class="chip">Prompt 容错解析</li>
+            <li class="chip">Recall / F1@k</li>
+            <li class="chip">LLM Judge 评测</li>
+            <li class="chip">模型降级与重试</li>
+          </ul>
+        </article>
+
+        <article class="skill-group" data-reveal style="--d:.06s">
+          <span class="skill-group__idx mono">B</span>
+          <h3>后端与语言</h3>
+          <p>Python 和 PHP 是主要的生产语言，TypeScript 用来把前后端串起来；在意接口约定和并发行为。</p>
+          <ul class="chips">
+            <li class="chip" data-key="1">Python</li>
+            <li class="chip" data-key="1">PHP</li>
+            <li class="chip" data-key="1">TypeScript</li>
+            <li class="chip">FastAPI</li>
+            <li class="chip">ThinkPHP · Swoole</li>
+            <li class="chip">Fastify · Next.js</li>
+            <li class="chip">gRPC</li>
+            <li class="chip">RESTful 设计</li>
+            <li class="chip">WebSocket / SSE</li>
+            <li class="chip">AnyIO · asyncio</li>
+            <li class="chip">Dishka 依赖注入</li>
+            <li class="chip">限流与鉴权</li>
+            <li class="chip">Java / Go（了解）</li>
+          </ul>
+        </article>
+
+        <article class="skill-group" data-reveal style="--d:.12s">
+          <span class="skill-group__idx mono">C</span>
+          <h3>数据 · 架构 · 交付</h3>
+          <p>除了表结构、索引和缓存，还要知道一条请求慢在哪、发版出问题怎么退回去。</p>
+          <ul class="chips">
+            <li class="chip" data-key="1">MySQL</li>
+            <li class="chip" data-key="1">PostgreSQL</li>
+            <li class="chip">Redis</li>
+            <li class="chip">Elasticsearch</li>
+            <li class="chip">Drizzle · SQLAlchemy</li>
+            <li class="chip">RabbitMQ · Taskiq</li>
+            <li class="chip">SQL / 缓存优化</li>
+            <li class="chip">Docker Compose</li>
+            <li class="chip">GitHub Actions · Jenkins</li>
+            <li class="chip">OpenTelemetry · Jaeger</li>
+            <li class="chip">HAProxy</li>
+            <li class="chip">Linux · Git</li>
+          </ul>
+        </article>
+
+        <article class="skill-group" data-reveal style="--d:.18s">
+          <span class="skill-group__idx mono">D</span>
+          <h3>全栈与协作</h3>
+          <p>从数据模型到管理端页面可以一个人做完；动手前习惯先把方案和边界写下来。</p>
+          <ul class="chips">
+            <li class="chip">HTML / CSS</li>
+            <li class="chip" data-key="1">JavaScript</li>
+            <li class="chip">Vue 2 / 3</li>
+            <li class="chip">Electron</li>
+            <li class="chip">小程序</li>
+            <li class="chip">Element UI</li>
+            <li class="chip">需求拆解与排期</li>
+            <li class="chip">跨团队联调</li>
+            <li class="chip">技术文档</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="principles" data-reveal style="--d:.24s">
+        <div class="principle">
+          <span class="tag">习惯 01</span>
+          <p><b>先校验再落库。</b>模型返回的东西不合格就留在日志里，别让它进数据库。</p>
+        </div>
+        <div class="principle">
+          <span class="tag">习惯 02</span>
+          <p><b>假设它会失败。</b>超时、重试、幂等提前想好，线上再补的成本高得多。</p>
+        </div>
+        <div class="principle">
+          <span class="tag">习惯 03</span>
+          <p><b>改之前先有评测集。</b>不然只是换了一种写法，好坏说不清。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ projects ============ -->
+  <section id="projects">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-head__num mono">02</span>
+        <h2 class="sec-head__title">项目</h2>
+        <span class="sec-head__note">3 个开源项目 · 点开看完整案例</span>
+      </header>
+
+      <div class="projects">
+        <article class="project" data-reveal>
+          <div class="project__body">
+            <div class="project__meta">
+              <span class="project__idx mono">P-01</span>
+              <span class="project__year mono">2026</span>
+              <span class="project__kind mono">个人项目</span>
+            </div>
+            <h3><a href="posts/ai-learning-system.html">AI 原生学习与理解验证系统</a></h3>
+            <p>
+              笔记工具一般只记下你读过什么，这个项目记的是你到底理解了没有。资料进来之后生成学习卡，
+              每张卡都要能指回原文的某一段，指不到的不让它进入验证。每个阶段的结果都留版本，
+              事后查得出来是哪一步出的问题。
+            </p>
+            <div class="project__links">
+              <a href="posts/ai-learning-system.html">
+                <span class="link-arrow">案例研究
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </span>
+              </a>
+              <a class="link-arrow link-arrow--muted" href="https://github.com/asklins223/ai-learning-system" target="_blank" rel="noopener">
+                GitHub
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="project__side">
+            <dl class="metrics">
+              <div class="metric"><dt>评测集</dt><dd>123 <small>内容块</small></dd></div>
+              <div class="metric"><dt>硬证据阈值</dt><dd>≥ 85 <small>Jaccard</small></dd></div>
+              <div class="metric"><dt>任务重试</dt><dd>3 <small>次上限</small></dd></div>
+              <div class="metric"><dt>悬挂回收</dt><dd>120 <small>秒</small></dd></div>
+            </dl>
+            <div class="project__stack">
+              <span class="tag">Stack</span>
+              <ul class="chips">
+                <li class="chip">TypeScript</li>
+                <li class="chip">Next.js 15</li>
+                <li class="chip">Fastify 5</li>
+                <li class="chip">PostgreSQL 16</li>
+                <li class="chip">Drizzle</li>
+                <li class="chip">Zod</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="project" data-reveal style="--d:.06s">
+          <div class="project__body">
+            <div class="project__meta">
+              <span class="project__idx mono">P-02</span>
+              <span class="project__year mono">2025</span>
+              <span class="project__kind mono">个人项目</span>
+            </div>
+            <h3><a href="posts/piggy-teaching-toolbox.html">AI 教学视频多模态素材生成平台</a></h3>
+            <p>
+              做一节课的视频素材，以前要来回切好几个工具。现在输入主题和受众，它会出分镜脚本、
+              场景图、中英配音和字幕，最后打包给你。每一步的结果都存下来，可以停在某一步改完再继续，
+              不用整条重跑。
+            </p>
+            <div class="project__links">
+              <a href="posts/piggy-teaching-toolbox.html">
+                <span class="link-arrow">案例研究
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </span>
+              </a>
+              <a class="link-arrow link-arrow--muted" href="https://github.com/asklins223/piggy-teaching-toolbox" target="_blank" rel="noopener">
+                GitHub
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="project__side">
+            <dl class="metrics">
+              <div class="metric"><dt>分镜规模</dt><dd>5–20 <small>镜/项目</small></dd></div>
+              <div class="metric"><dt>内容风格</dt><dd>5 <small>类模板</small></dd></div>
+              <div class="metric"><dt>配音</dt><dd>中 / EN <small>双语</small></dd></div>
+              <div class="metric"><dt>创作步骤</dt><dd>6 <small>步向导</small></dd></div>
+            </dl>
+            <div class="project__stack">
+              <span class="tag">Stack</span>
+              <ul class="chips">
+                <li class="chip">Python</li>
+                <li class="chip">FastAPI</li>
+                <li class="chip">Vue 3</li>
+                <li class="chip">Pydantic</li>
+                <li class="chip">MySQL</li>
+                <li class="chip">腾讯云 COS/SCF</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="project" data-reveal style="--d:.12s">
+          <div class="project__body">
+            <div class="project__meta">
+              <span class="project__idx mono">P-03</span>
+              <span class="project__year mono">2026</span>
+              <span class="project__kind mono">桌面应用</span>
+            </div>
+            <h3><a href="posts/word-tts-desktop.html">小猪 wordTTS 桌面配音工作台</a></h3>
+            <p>
+              手头的原始素材常常就是一张 Word 或 Excel 词汇表。这个应用直接读
+              <code class="mono">.docx</code> / <code class="mono">.xlsx</code>，
+              按里面的标记分配男女声，生成完可以逐条试听，也可以打包一次下走。
+              macOS 和 Windows 的安装包由 GitHub Actions 出，应用里能检查更新。
+            </p>
+            <div class="project__links">
+              <a href="posts/word-tts-desktop.html">
+                <span class="link-arrow">案例研究
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </span>
+              </a>
+              <a class="link-arrow link-arrow--muted" href="https://github.com/asklins223/word-tts-desktop" target="_blank" rel="noopener">
+                GitHub
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="project__side">
+            <dl class="metrics">
+              <div class="metric"><dt>解析格式</dt><dd>2 <small>docx / xlsx</small></dd></div>
+              <div class="metric"><dt>交付校验</dt><dd>READY <small>+ verified</small></dd></div>
+              <div class="metric"><dt>平台</dt><dd>mac / win <small>双端</small></dd></div>
+              <div class="metric"><dt>历史任务</dt><dd>20 <small>条本机</small></dd></div>
+            </dl>
+            <div class="project__stack">
+              <span class="tag">Stack</span>
+              <ul class="chips">
+                <li class="chip">Python 3.11</li>
+                <li class="chip">Electron</li>
+                <li class="chip">Node.js 24</li>
+                <li class="chip">FFmpeg</li>
+                <li class="chip">讯飞 TTS</li>
+                <li class="chip">GitHub Actions</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ contact ============ -->
+  <section id="contact">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-head__num mono">03</span>
+        <h2 class="sec-head__title">联系</h2>
+        <span class="sec-head__note">回复通常在一个工作日内</span>
+      </header>
+
+      <div class="contact">
+        <div data-reveal>
+          <h2>有想聊的<span class="accent">，</span>写信给我。</h2>
+          <p>
+            技术问题、方案讨论、项目合作都可以。邮箱我常看，标题里写清楚想聊什么就行。
+          </p>
+        </div>
+        <div class="contact__list" data-reveal style="--d:.1s">
+          <a class="contact__row" href="mailto:1098960915@qq.com">
+            <span class="label">Email</span>
+            <span class="val">1098960915@qq.com</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+          <a class="contact__row" href="https://github.com/asklins223" target="_blank" rel="noopener">
+            <span class="label">GitHub</span>
+            <span class="val">github.com/asklins223</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+          <a class="contact__row" href="https://github.com/asklins223/asklins223.github.io" target="_blank" rel="noopener">
+            <span class="label">Source</span>
+            <span class="val">本站源码</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__in">
+    <span>© 2026 Asklins</span>
+    <span class="footer__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span>纯静态 · 无框架 · 无追踪 · 系统字体</span>
+    <a href="#top">回到顶部 ↑</a>
   </div>
-  <!-- app wrapper end -->
+</footer>
 
-  <div id="trm-back-top" class="trm-back-top">
-    <i class="fas fa-arrow-up"></i>
-</div>
-  
-<div class="trm-search-popup">
-    <div class="trm-search-header">
-        <span class="trm-search-popup-btn-close">
-            <i class="fas fa-times"></i>
-        </span>
-    </div>
-    <div class="form trm-search-form">
-        <input class="trm-search-input" type="text" placeholder="搜索...">
-    </div>
-    <div class="trm-search-result-container">
-
-    </div>
-</div>
-
-  <!-- Plugin -->
-
-
-
-    
-    
-        
-<script src="//cdn.jsdelivr.net/npm/swup@2.0.19/dist/swup.min.js"></script>
-
-    
-
-    
-<script src="//cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
-
-    
-<script src="//cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
-
-
-    
-
-    
-        <script src="/js/plugins/typing.js?v=1.1.1"></script>
-    
-
-    
-        
-<script src="//cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script>
-
-        <script src="/js/plugins/local_search.js?v=1.1.1"></script>
-    
-
-    <!-- 数学公式 -->
-    
-
-
-    <!-- 评论插件 -->
-    
-
-
-
-<!-- 评论插件 -->
-
-
-<!-- CDN -->
-
-
-    
-
-    
-
-    
-
-
-
-
-    <!-- Service Worker -->
-    
-    <!-- baidu push -->
-    
-    <script data-swup-reload-script>
-        (function () {
-            var bp = document.createElement('script');
-            var curProtocol = window.location.protocol.split(':')[0];
-            if (curProtocol === 'https') {
-                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-            }
-            else {
-                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-            }
-            var s = document.getElementsByTagName("script")[0];
-            s.parentNode.insertBefore(bp, s);
-        })();
-    </script>
-
-
-
-<script id="async-script" src="/js/main.js?v=1.1.1"></script>
-
+<script src="js/main.js"></script>
 </body>
-
 </html>
