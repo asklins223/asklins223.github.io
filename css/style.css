@@ -491,6 +491,7 @@ section + section {
   font-size: clamp(1rem, 1.15vw + 0.72rem, 1.14rem);
   line-height: 1.78;
   color: var(--fg-muted);
+  text-wrap: pretty;
 }
 
 .hero__lead b {
