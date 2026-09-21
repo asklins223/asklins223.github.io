@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Asklins — Agent 应用开发 / AI 应用后端</title>
-<meta name="description" content="Asklins 的个人站点：Agent 编排、RAG 与长期记忆、AI 应用后端，以及三个开源项目的实现细节。">
+<meta name="description" content="Asklins 的个人站点：Agent 编排、RAG 与长期记忆、AI 应用后端，工作里做过的系统与三个开源项目的实现细节。">
 <meta name="author" content="Asklins">
 <meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0c0d10" media="(prefers-color-scheme: dark)">
@@ -42,7 +42,8 @@
     </a>
     <nav class="nav" aria-label="站内导航">
       <a href="#skills">能力</a>
-      <a href="#projects">项目</a>
+      <a href="#work">工作</a>
+      <a href="#projects">开源</a>
       <a href="#contact">联系</a>
       <a href="https://github.com/asklins223" target="_blank" rel="noopener">GitHub</a>
     </nav>
@@ -71,10 +72,10 @@
         <p class="hero__lead" data-reveal style="--d:.18s">
           大家好！欢迎来到我的小站，我的工作转向：前端 → 后端 → AI 应用。
           近一年一直在做 AI 应用相关的事情 + VibeCoding。
-          下方是我的技能点和自己闲暇时间写的一些项目。
+          下方是我的技能点，以及工作里和闲暇时间做的一些项目。
         </p>
         <div class="hero__cta" data-reveal style="--d:.26s">
-          <a class="btn btn--primary" href="#projects">
+          <a class="btn btn--primary" href="#work">
             看项目
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
@@ -216,13 +217,162 @@
     </div>
   </section>
 
-  <!-- ============ projects ============ -->
-  <section id="projects">
+  <!-- ============ work projects ============ -->
+  <section id="work">
     <div class="wrap">
       <header class="sec-head">
         <span class="sec-head__num mono">02</span>
-        <h2 class="sec-head__title">项目</h2>
-        <span class="sec-head__note">3 个开源项目 · 点开看完整案例</span>
+        <h2 class="sec-head__title">工作项目</h2>
+      </header>
+
+      <div class="projects">
+        <article class="project" data-reveal>
+          <div class="project__body">
+            <div class="project__meta">
+              <span class="project__idx mono">W-01</span>
+              <span class="project__year mono">2025.09 – 2026.04</span>
+              <span class="project__kind mono">Agent 应用开发</span>
+            </div>
+            <h3>军考方向的 AI Agent 学习平台</h3>
+            <p>
+              面向备考的 Agent 平台。开放式问答走统一的 EduAgent，业务指定的能力按 Skill 装载，
+              多轮会话和已激活能力用 Checkpointer 保存。我做 Agent 编排、三层记忆（会话状态 /
+              长期记忆 / 用户画像）、RAG 检索和主观题批改链路，也把 PHP 侧的 AI 能力迁到 Python 服务。
+            </p>
+            <p>
+              长任务用 AnyIO + Taskiq 承载，Dishka 统一 API、gRPC 和 Worker 的依赖生命周期；
+              有进度追踪、取消、失败重试和宕机恢复，再用 MySQL / Redis 定时对账兜底。
+              批改侧给视觉模型加了 URL 并发校验、30/45s 超时和备用模型重试，证据不足时输出可解释的异常状态而不是硬给分。
+            </p>
+          </div>
+          <div class="project__side">
+            <dl class="metrics">
+              <div class="metric"><dt>Recall@5</dt><dd>86–89%</dd></div>
+              <div class="metric"><dt>检索 P95</dt><dd>0.6–0.8s</dd></div>
+              <div class="metric"><dt>意图路由</dt><dd>92–94%</dd></div>
+              <div class="metric"><dt>首 Token P95</dt><dd>1.8–2.4s</dd></div>
+              <div class="metric"><dt>吞吐</dt><dd>7–9 <small>QPS · 20 并发</small></dd></div>
+              <div class="metric"><dt>成功率</dt><dd>99%+ <small>约 2000 次</small></dd></div>
+            </dl>
+            <div class="project__stack">
+              <span class="tag">Stack</span>
+              <ul class="chips">
+                <li class="chip">Python</li>
+                <li class="chip">FastAPI</li>
+                <li class="chip">LangGraph</li>
+                <li class="chip">Milvus</li>
+                <li class="chip">Neo4j</li>
+                <li class="chip">LightRAG</li>
+                <li class="chip">Taskiq</li>
+                <li class="chip">gRPC</li>
+                <li class="chip">MySQL</li>
+                <li class="chip">Redis</li>
+                <li class="chip">Docker</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="project" data-reveal style="--d:.06s">
+          <div class="project__body">
+            <div class="project__meta">
+              <span class="project__idx mono">W-02</span>
+              <span class="project__year mono">2024.07 – 2025.08</span>
+              <span class="project__kind mono">PHP 后端</span>
+            </div>
+            <h3>英语听说 App 与题库内容平台</h3>
+            <p>
+              个人版 App 的后端：作业、学习卡、自主练习走 ThinkPHP + Swoole + gRPC 微服务，
+              另外接了 AI 口语家教和作文评测。题库这边负责新增题型从数据模型、API、录入页到
+              数据同步的整条链路，也优化了教材题目和试卷的批量导入脚本。
+            </p>
+            <p>
+              用 Coze 搭英语近似词工作流，配合资源库缓存和批量处理压掉重复的模型调用；
+              Elasticsearch 分担 MySQL 的检索压力，题目语音走 Azure TTS。
+              题目解析封装成 Composer 公共包给其他服务复用，链路上接入 OpenTelemetry / Jaeger、
+              HAProxy 负载均衡，交付走 Jenkins + Docker。
+            </p>
+          </div>
+          <div class="project__side">
+            <dl class="metrics">
+              <div class="metric"><dt>负责模块</dt><dd>5 <small>作业/口语/作文</small></dd></div>
+              <div class="metric"><dt>检索</dt><dd>ES <small>分担 MySQL</small></dd></div>
+              <div class="metric"><dt>复用</dt><dd>公共包 <small>题目解析</small></dd></div>
+              <div class="metric"><dt>可观测</dt><dd>OTel <small>+ Jaeger</small></dd></div>
+            </dl>
+            <div class="project__stack">
+              <span class="tag">Stack</span>
+              <ul class="chips">
+                <li class="chip">PHP</li>
+                <li class="chip">ThinkPHP</li>
+                <li class="chip">Swoole</li>
+                <li class="chip">gRPC</li>
+                <li class="chip">MySQL</li>
+                <li class="chip">Redis</li>
+                <li class="chip">Elasticsearch</li>
+                <li class="chip">Coze</li>
+                <li class="chip">Azure TTS</li>
+                <li class="chip">Jenkins</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="project" data-reveal style="--d:.12s">
+          <div class="project__body">
+            <div class="project__meta">
+              <span class="project__idx mono">W-03</span>
+              <span class="project__year mono">2023.11 – 2024.07</span>
+              <span class="project__kind mono">后端 / 全栈</span>
+            </div>
+            <h3>校园版英语听说测评与 CRM 后台</h3>
+            <p>
+              校园版测评的核心 RESTful API：AI 口语测评、数据上报和题型解析，
+              联调 MySQL、Redis 与任务队列，处理接口性能、异常状态和并发稳定性问题。
+            </p>
+            <p>
+              同时做 CRM 后台的关键模块：后端是用户检索、服务商权限和业务数据 API，
+              前端用 Vue 2 + Vue Router + Element UI 写管理页面，也参与 MySQL 表结构设计。
+            </p>
+          </div>
+          <div class="project__side">
+            <dl class="metrics">
+              <div class="metric"><dt>接口</dt><dd>REST <small>测评 · 上报</small></dd></div>
+              <div class="metric"><dt>队列</dt><dd>MySQL <small>任务队列</small></dd></div>
+              <div class="metric"><dt>管理端</dt><dd>Vue 2 <small>Element UI</small></dd></div>
+              <div class="metric"><dt>范围</dt><dd>全栈 <small>含管理端</small></dd></div>
+            </dl>
+            <div class="project__stack">
+              <span class="tag">Stack</span>
+              <ul class="chips">
+                <li class="chip">PHP</li>
+                <li class="chip">ThinkPHP</li>
+                <li class="chip">Yaf</li>
+                <li class="chip">Swoole</li>
+                <li class="chip">MySQL</li>
+                <li class="chip">Redis</li>
+                <li class="chip">Vue 2</li>
+                <li class="chip">Element UI</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <p class="work-note">
+        再早一点（2021 年秋，实习）在一家供应链公司用 ThinkPHP + Layui 做过活动页和后台模块，
+        参与过小程序会员模块的需求与实现。
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ open source projects ============ -->
+  <section id="projects">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-head__num mono">03</span>
+        <h2 class="sec-head__title">开源项目</h2>
+        <span class="sec-head__note">点开看完整案例</span>
       </header>
 
       <div class="projects">
@@ -372,7 +522,7 @@
   <section id="contact">
     <div class="wrap">
       <header class="sec-head">
-        <span class="sec-head__num mono">03</span>
+        <span class="sec-head__num mono">04</span>
         <h2 class="sec-head__title">联系</h2>
         <span class="sec-head__note">回复通常在一个工作日内</span>
       </header>

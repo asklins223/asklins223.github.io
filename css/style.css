@@ -780,6 +780,16 @@ section + section {
   gap: 18px;
 }
 
+.work-note {
+  margin-top: 22px;
+  padding-left: 14px;
+  border-left: 2px solid var(--line);
+  max-width: 64ch;
+  font-size: 0.86rem;
+  line-height: 1.72;
+  color: var(--fg-faint);
+}
+
 .project {
   position: relative;
   display: grid;
