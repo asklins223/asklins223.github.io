@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI 教学视频多模态素材生成平台 — Asklins</title>
-<meta name="description" content="从主题到可交付素材包：AI 分镜脚本、角色一致性生图、中英双语配音与字幕，全流程状态落库、任意阶段可断点续跑。">
+<meta name="description" content="小猪教学工具箱：AI 分镜脚本、角色一致性生图、中英双语配音与字幕的素材生产链路，Vue 3 + FastAPI + MySQL + COS/SCF，以及当前真实的边界与已知限制。">
 <meta name="author" content="Asklins">
 <meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0c0d10" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="AI 教学视频多模态素材生成平台">
-<meta property="og:description" content="输入主题与受众，输出分镜脚本、场景图、双语配音、字幕与素材包。">
+<meta property="og:description" content="输入主题与受众，导出分镜脚本、场景图、双语配音、字幕与素材包——产出的是原材料，不是视频文件。">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../css/style.css">
 <script>
@@ -36,9 +36,10 @@
       <span>Asklins</span>
     </a>
     <nav class="nav" aria-label="站内导航">
-      <a href="../#skills">能力</a>
-      <a href="../#projects">项目</a>
-      <a href="../#contact">联系</a>
+      <a class="nav__sec" href="../#skills">能力</a>
+      <a class="nav__sec" href="../#work">工作</a>
+      <a class="nav__sec" href="../#projects">开源</a>
+      <a class="nav__sec" href="../#contact">联系</a>
       <a href="https://github.com/asklins223" target="_blank" rel="noopener">GitHub</a>
     </nav>
     <button class="theme-btn" type="button" data-theme-toggle aria-label="切换深色/浅色主题">
@@ -53,7 +54,7 @@
     <div class="wrap article__in">
       <a class="back" href="../#projects">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
-        返回项目列表
+        返回开源项目
       </a>
 
       <p class="article__eyebrow">
@@ -61,90 +62,114 @@
       </p>
       <h1>AI 教学视频多模态素材生成平台</h1>
       <p class="article__lede">
-        做一个教学视频的素材准备工作很碎：写脚本、找图、配音、做字幕，每步换一个工具，
-        中间结果还接不上。这个平台把这条链路收进一个向导——输入主题、受众与知识点，
-        导出分镜脚本、场景图、中英双语配音、SRT 字幕和一份归档清单。
+        做一节课的素材很碎：写脚本、找图、配音、做字幕，每步换一个工具，中间结果还接不上。
+        这个工具把这条链路收进一个六步向导。先说清楚它产出什么——
+        <strong>图片、音频、字幕和提示词这些原材料，不是视频文件</strong>；
+        运镜提示词以文本导出，拿去剪辑工具或图生视频工具里用。
       </p>
 
       <div class="prose">
-        <h2 data-i="01">六步工作流</h2>
+        <h2 data-i="01">六步向导与数据流</h2>
         <p>
-          一个项目从主题出发，先由模型展开为 <strong>5–20 个结构化分镜</strong>，随后逐镜补齐脚本、
-          图像与视频 Prompt、场景图、中英旁白、双语音频、字幕，最终打包成素材包。
-          内置教学、儿歌、绘本/故事、朗诵四类预设风格，外加自定义风格。
-        </p>
-        <p>
-          每一步都是显式阶段而不是黑盒：阶段产物落库，用户可以在任意一步停下来检查、修改，
-          再继续往下走。
-        </p>
-
-        <h2 data-i="02">两阶段结构化生成</h2>
-        <p>
-          一次性让模型输出完整分镜 JSON，最常见的失败是长输出被截断，或者后半段字段漂移。
-          这里改成 <strong>大纲生成 → 逐镜补全</strong> 两阶段：
+          输入主题、受众与知识点，模型展开为分镜（含中英文旁白、图片提示词、运镜提示词和时长），
+          随后生成场景图、配音、字幕，最后归集打包。步骤条按项目状态解锁到对应进度，
+          页面刷新或重进后进行中的任务会被自动接回。一次完整生成的数据流：
         </p>
         <ul class="bullets">
-          <li>第一阶段只产出分镜骨架与叙事走向，输出短、结构稳定。</li>
-          <li>第二阶段逐镜补全，每次调用都携带前后文，保持叙事连贯而不是逐镜孤立。</li>
-          <li>输出侧做 JSON 容错解析、时长归一、角色 ID 过滤，再过 <code>Pydantic</code> 参数校验。</li>
+          <li>创建项目 → 分镜脚本（LLM）→ 场景图（带角色参考图）→ 上传 COS</li>
+          <li>→ 中英文配音 → 拼接整段音频 → 上传 COS</li>
+          <li>→ 导出时在 COS 内归集到 <code>exports/{id}/</code> → SCF 云函数打 ZIP → 302 下载</li>
         </ul>
+        <p>
+          分镜生成有两种模式：一次生成和逐镜生成，配合选择的时长决定镜数。
+          逐镜那条路每次带上前后文，叙事不会到第五镜突然变成另一个故事。
+          风格内置教学、儿歌、读绘本/故事、朗诵四种预设，再加一个可写描述的自定义风格。
+        </p>
+
+        <h2 data-i="02">角色一致性</h2>
+        <p>
+          场景图生成时最多携带 3 张角色参考图，让同一角色在不同场景里外观稳定。
+          角色库内置 20 个模板，分动物、植物、食物、物品、奇幻五类，也可以让模型出角色创意。
+          单镜支持重绘，不影响其他分镜。
+        </p>
+        <p>
+          分镜内容、提示词与资源状态都有人工编辑入口。生成质量再稳定也要人收尾，
+          所以整个流程按「可以停下来改」来设计，而不是一键出片。
+        </p>
+
+        <h2 data-i="03">结构化输出</h2>
+        <p>
+          模型输出统一走 JSON，解析端做容错、时长归一和角色 ID 过滤，再过 Pydantic 参数校验。
+          角色 ID 过滤这一步很值：模型会在旁白里写出根本不存在的角色名，
+          挡在生成之前比事后重做整段配音便宜得多。
+        </p>
+
+        <h2 data-i="04">配音与字幕</h2>
+        <p>
+          每个分镜生成中英文两条音频，全部完成后拼成整段，镜间插 0.3 秒静音。
+          字幕按真实音频时长生成 SRT，单镜和整段各一份——不按估计时长凑，
+          否则配音和字幕会越走越偏。分镜里可以选 17 种情感（分三类）。
+        </p>
         <div class="callout">
-          <span class="tag">角色 ID 过滤</span>
-          模型会在旁白里自由发挥出不存在的角色名。用已登记的角色 ID 集合做一次过滤，
-          把幻觉实体挡在素材生成之前，比事后重做整段配音便宜得多。
+          <span class="tag">这条目前没接上</span>
+          情感、强度、语速、音量在界面上能改、也正确存进了数据库，
+          但发给语音合成的值是固定的，所以现在听不出差别。这是我记在 README 已知限制里的第一条。
         </div>
 
-        <h2 data-i="03">跨分镜的角色一致性</h2>
+        <h2 data-i="05">任务与状态</h2>
         <p>
-          图像侧接入 Seedream 的文生图与参考图生图：按角色 ID 复用最多 3 张参考图，
-          让同一个角色在不同场景里外观稳定。单镜支持重生成，不影响其他分镜。
+          项目、分镜、角色与资源状态落在 MySQL，产物地址也落库，所以已经生成完的分镜不会因为重启而丢。
+          分镜、重绘、配音、导出都走任务队列，前端轮询进度，配环形进度和带时间戳的生成日志。
         </p>
         <p>
-          分镜内容、Prompt 与资源状态都保留人工编辑入口——生成质量再稳定也需要人来收尾，
-          所以流程按 Human-in-the-loop 设计，而不是「一键出片」。
-        </p>
-
-        <h2 data-i="04">音频与字幕</h2>
-        <p>
-          配音用 IndexTTS 生成中英文分镜音频，支持多种情感与语速/音量/情感强度调节，
-          随后合并为整轨音频；字幕按分镜时间轴动态生成双语 SRT。
-          分镜生成阶段会同时推荐情感与音频参数，用户可手动覆盖。
+          队列本身是进程内的字典：进程重启任务就没了，多 worker 也不共享，重启后要重新发起
+          （前端会提示是服务器重启导致的）。只有分镜和配音任务参与重复提交去重，
+          导出和单图重绘不在里面。所有生成步骤串行执行，没有并发——单节课的量够用，
+          以后要提速改的就是这一层。
         </p>
 
-        <h2 data-i="05">任务可靠性与交付</h2>
+        <h2 data-i="06">测试</h2>
         <p>
-          项目、分镜、角色与资源状态全部持久化在 MySQL，中间产物归档到腾讯云 COS，
-          ZIP 打包由 SCF 云函数按需完成。异步侧用 <code>task_id</code> 做进度轮询，
-          并用 active task 校验拦截同一项目的重复提交。
+          后端 22 个测试文件、293 个测试函数，其中 16 个文件带属性测试（55 个
+          <code>@given</code>、51 个自定义策略）。测试不需要真实数据库也不需要 AI Key：
+          数据库用内存 SQLite，AI 调用全部打桩。所以改解析和状态逻辑时本地一条
+          <code>pytest</code> 就能验，不产生调用费用。
         </p>
-        <table>
-          <thead>
-            <tr><th>关注点</th><th>做法</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>断点续跑</td><td>阶段状态落库，从任意阶段恢复而不重跑全链</td></tr>
-            <tr><td>重复提交</td><td>提交前检查该项目是否已有进行中任务</td></tr>
-            <tr><td>进度可见</td><td>task_id 轮询，返回阶段与失败原因</td></tr>
-            <tr><td>产物归档</td><td>图片、音频、Prompt、字幕与 Manifest 一并入 COS</td></tr>
-          </tbody>
-        </table>
+        <p>
+          有 3 个测试文件当前收集不了（它们 import 了已经删掉的模块），跑全量会报错，
+          README 里写明了跳过方式。前端没有自动化测试，类型检查靠构建时的
+          <code>vue-tsc</code>；仓库也没有 CI。
+        </p>
 
-        <h2 data-i="06">技术栈</h2>
+        <h2 data-i="07">其他已知边界</h2>
+        <ul class="bullets">
+          <li>场景图生成失败不会中断任务，最后仍标记为 <code>images_ready</code>，要自己看每个分镜的状态。</li>
+          <li>英文配音失败会被吞掉，整段拼接失败只记日志。</li>
+          <li>没配语音服务的 Key 时不报错，而是静默生成静音 WAV。</li>
+          <li>删除项目不清理 COS 上的文件，生成用的临时目录也不清理。</li>
+          <li>有几处配置项是空壳（模型名在代码里写死），还有一段写好但没接进调用链的重试逻辑。</li>
+        </ul>
+        <p>
+          安全上还有没收拾完的账（口令哈希、CORS 范围、部分接口的归属校验），
+          所以这个工具只在本地和局域网里跑，没有暴露到公网。
+        </p>
+
+        <h2 data-i="08">技术栈</h2>
         <table>
           <thead>
             <tr><th>层</th><th>选型</th></tr>
           </thead>
           <tbody>
-            <tr><td>后端</td><td>Python · FastAPI · Pydantic · SQLAlchemy</td></tr>
-            <tr><td>前端</td><td>Vue 3 · TypeScript</td></tr>
-            <tr><td>数据</td><td>MySQL · 腾讯云 COS</td></tr>
-            <tr><td>模型</td><td>Qwen / DashScope · Seedream · IndexTTS</td></tr>
-            <tr><td>交付</td><td>Docker Compose · 腾讯云 SCF</td></tr>
+            <tr><td>后端</td><td>Python 3.11 · FastAPI · SQLAlchemy 2 · Pydantic</td></tr>
+            <tr><td>前端</td><td>Vue 3.5 · Vite 7 · Element Plus · Pinia · TypeScript</td></tr>
+            <tr><td>数据</td><td>MySQL 8.0（utf8mb4）· 腾讯云 COS</td></tr>
+            <tr><td>AI</td><td>DashScope qwen-max · 火山方舟 Seedream 4.5 · IndexTTS-2</td></tr>
+            <tr><td>部署</td><td>Docker Compose · Nginx 反代 · 腾讯云 SCF 打包</td></tr>
           </tbody>
         </table>
         <p>
-          前后端分离加 Docker Compose 一键部署，个人服务器就能跑起来；
-          仓库在 GitHub，README 里保留了完整的环境变量与 API 说明。
+          前后端分离，Docker Compose 一键起，个人服务器就能跑。README 里有完整的环境变量、
+          API 列表和部署步骤。
         </p>
       </div>
 

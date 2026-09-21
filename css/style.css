@@ -388,7 +388,7 @@ section + section {
 }
 
 @media (max-width: 560px) {
-  .nav a[href^="#"] {
+  .nav__sec {
     display: none;
   }
 }

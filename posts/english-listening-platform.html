@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>英语听说 App 与题库内容平台 — Asklins</title>
+<meta name="description" content="ThinkPHP + Swoole + gRPC 微服务、AI 口语与作文能力接入、题库新题型端到端生产、Elasticsearch 检索分担与链路追踪改造。">
+<meta name="author" content="Asklins">
+<meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0d10" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="英语听说 App 与题库内容平台">
+<meta property="og:description" content="App 侧的模块后端与题库侧的内容生产：微服务、AI 能力接入、检索与交付。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/style.css">
+<script>
+  (function () {
+    try {
+      var s = localStorage.getItem("theme");
+      var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.dataset.theme =
+        s === "light" || s === "dark" ? s : dark ? "dark" : "light";
+    } catch (e) { /* keep light */ }
+  })();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要内容</a>
+<div class="spot" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="wrap topbar__in">
+    <a class="brand" href="../">
+      <span class="brand__mark mono" aria-hidden="true">A</span>
+      <span>Asklins</span>
+    </a>
+    <nav class="nav" aria-label="站内导航">
+      <a class="nav__sec" href="../#skills">能力</a>
+      <a class="nav__sec" href="../#work">工作</a>
+      <a class="nav__sec" href="../#projects">开源</a>
+      <a class="nav__sec" href="../#contact">联系</a>
+      <a href="https://github.com/asklins223" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <button class="theme-btn" type="button" data-theme-toggle aria-label="切换深色/浅色主题">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4 17 7M7 17l-1.6 1.6"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+  <article class="article">
+    <div class="wrap article__in">
+      <a class="back" href="../#work">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+        返回工作项目
+      </a>
+
+      <p class="article__eyebrow">
+        <span>W-02</span><span>·</span><span>在职项目</span><span>·</span><span>2024.07 – 2025.08</span><span>·</span><span>PHP / Swoole / gRPC</span>
+      </p>
+      <h1>英语听说 App 与题库内容平台</h1>
+      <p class="article__lede">
+        两条线一起维护：一条是个人版 App 的功能后端，作业、学习卡、自主练习这些模块要能扛住使用；
+        另一条是题库内容生产，题型不断新增，题目和试卷要批量进来。AI 能力（口语家教、作文评测）
+        接在这两条线中间。
+      </p>
+
+      <div class="prose">
+        <h2 data-i="01">模块与微服务</h2>
+        <p>
+          服务是 ThinkPHP + Swoole 起的常驻进程，跨服务调用走 gRPC。我负责的模块包括作业、学习卡、
+          自主练习，以及后来的 AI 口语家教和 AI 作文评测。Swoole 这一层主要是把长连接、
+          并发和常驻内存下的资源回收处理干净，不然 PHP 代码里一些「请求结束自然释放」的假设会失效。
+        </p>
+
+        <h2 data-i="02">AI 能力接入与成本</h2>
+        <p>
+          口语和作文评测要调模型，题库侧还有一类活是批量生成英语近似词——这类任务量大且重复率高，
+          直接逐条调模型既慢又费 token。做法是用 Coze 搭近似词工作流，配合资源库缓存和批量处理：
+          命中缓存的直接复用，没命中的攒批处理，重复调用明显降下来。
+        </p>
+        <ul class="bullets">
+          <li>结果与素材进资源库，同一份内容不重复生成。</li>
+          <li>批量入口而不是单条入口，减少排队和轮询开销。</li>
+          <li>评测类接口对超时和异常状态单独处理，避免一次模型抖动拖挂业务请求。</li>
+        </ul>
+
+        <h2 data-i="03">题库内容生产</h2>
+        <p>
+          新增题型是这里的常态工作，一个题型要走完整条链路：数据模型、API、录入页面、再到数据同步。
+          少一环就会出现「题目录进去了但端上读不出来」。另外教材题目和试卷的批量导入脚本也做过一轮优化，
+          原来导入一批要人工盯着改格式。
+        </p>
+
+        <h2 data-i="04">检索与语音</h2>
+        <p>
+          题目检索的压力本来全在 MySQL 上，模糊匹配和多条件筛选一起加就很吃紧，
+          后来接入 Elasticsearch 把检索分担出去。题目语音用 Azure TTS 生成，
+          生成结果同样入资源库复用，不每次实时合成。
+        </p>
+
+        <h2 data-i="05">复用与交付</h2>
+        <ul class="bullets">
+          <li>题目解析逻辑封装成 Composer 公共包，给其他服务复用，避免各处各写一份解析。</li>
+          <li>接入 OpenTelemetry 与 Jaeger 做链路追踪，跨 gRPC 的服务调用能看清慢在哪一段。</li>
+          <li>负载均衡走 HAProxy，CI/CD 维护 Jenkins 与 Syncd，交付用 Docker 容器化。</li>
+          <li>参与过业务统计服务的数据迁移与技术选型讨论。</li>
+        </ul>
+
+        <h2 data-i="06">技术栈</h2>
+        <table>
+          <thead>
+            <tr><th>层</th><th>选型</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>服务</td><td>PHP · ThinkPHP · Swoole · gRPC</td></tr>
+            <tr><td>数据</td><td>MySQL · Redis · Elasticsearch</td></tr>
+            <tr><td>AI</td><td>Coze 工作流 · Azure TTS</td></tr>
+            <tr><td>可观测</td><td>OpenTelemetry · Jaeger · HAProxy</td></tr>
+            <tr><td>交付</td><td>Jenkins · Syncd · Docker</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="article__foot">
+        <div class="hero__cta" style="margin-top:0">
+          <a class="btn btn--primary" href="../#contact">对细节有兴趣，写信问我</a>
+        </div>
+        <nav class="pager" aria-label="项目翻页">
+          <a class="prev" href="edu-agent-platform.html">
+            <span class="tag">上一个</span>
+            <span>军考方向的 AI Agent 学习平台</span>
+          </a>
+          <a class="next" href="campus-assessment-crm.html">
+            <span class="tag">下一个</span>
+            <span>校园版英语听说测评与 CRM 后台</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </article>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__in">
+    <span>© 2026 Asklins</span>
+    <span class="footer__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span>纯静态 · 无框架 · 无追踪 · 系统字体</span>
+    <a href="../">回到概览 ↑</a>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

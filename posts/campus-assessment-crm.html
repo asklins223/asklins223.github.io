@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>校园版英语听说测评与 CRM 后台 — Asklins</title>
+<meta name="description" content="校园版测评的核心 RESTful API、口语测评与数据上报链路、任务队列联调，以及 CRM 后台从表结构到管理页面的全栈实现。">
+<meta name="author" content="Asklins">
+<meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0d10" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="校园版英语听说测评与 CRM 后台">
+<meta property="og:description" content="测评 API 与数据上报的服务端，加上一个自己写前后端的 CRM 后台。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/style.css">
+<script>
+  (function () {
+    try {
+      var s = localStorage.getItem("theme");
+      var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.dataset.theme =
+        s === "light" || s === "dark" ? s : dark ? "dark" : "light";
+    } catch (e) { /* keep light */ }
+  })();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要内容</a>
+<div class="spot" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="wrap topbar__in">
+    <a class="brand" href="../">
+      <span class="brand__mark mono" aria-hidden="true">A</span>
+      <span>Asklins</span>
+    </a>
+    <nav class="nav" aria-label="站内导航">
+      <a class="nav__sec" href="../#skills">能力</a>
+      <a class="nav__sec" href="../#work">工作</a>
+      <a class="nav__sec" href="../#projects">开源</a>
+      <a class="nav__sec" href="../#contact">联系</a>
+      <a href="https://github.com/asklins223" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <button class="theme-btn" type="button" data-theme-toggle aria-label="切换深色/浅色主题">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4 17 7M7 17l-1.6 1.6"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+  <article class="article">
+    <div class="wrap article__in">
+      <a class="back" href="../#work">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+        返回工作项目
+      </a>
+
+      <p class="article__eyebrow">
+        <span>W-03</span><span>·</span><span>在职项目</span><span>·</span><span>2023.11 – 2024.07</span><span>·</span><span>PHP / MySQL / Vue 2</span>
+      </p>
+      <h1>校园版英语听说测评与 CRM 后台</h1>
+      <p class="article__lede">
+        我在这份工作上写的第一个服务端，同时包含一个自己从表结构写到页面的 CRM 后台。
+        校园版和个人版的区别是节奏：一个班或一个学校在同一时间段一起交，
+        请求是成片涌进来的，不是零散发生的。
+      </p>
+
+      <div class="prose">
+        <h2 data-i="01">测评核心 API</h2>
+        <p>
+          服务端提供三块能力：AI 口语测评、数据上报、题型解析。接口按 RESTful 设计，
+          测评结果与上报数据落在 MySQL，热数据与状态放 Redis，耗时的工作丢进任务队列异步做。
+        </p>
+        <ul class="bullets">
+          <li>上报要能重复提交而不写脏数据，所以按提交标识做幂等。</li>
+          <li>口语测评依赖外部能力，超时和失败要能重试，也要能明确告诉端上现在处于哪种状态。</li>
+          <li>题型解析放在服务端统一实现，端上只拿结构化结果。</li>
+        </ul>
+
+        <h2 data-i="02">性能与稳定性</h2>
+        <p>
+          集中提交带来的问题都很具体：接口变慢、队列堆积、部分记录卡在中间状态。
+          处理方式是先看链路再改：接口侧看 SQL 与缓存命中，任务侧看消费速率与重试次数，
+          并发场景下把重复执行和竞态写入的地方逐个收口。
+        </p>
+
+        <h2 data-i="03">CRM 后台</h2>
+        <p>
+          后台是全栈做的。后端负责用户检索、服务商权限和业务数据 API；
+          前端用 Vue 2 + Vue Router + Element UI 写管理页面，表结构也参与了设计。
+        </p>
+        <table>
+          <thead>
+            <tr><th>模块</th><th>做了什么</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>用户检索</td><td>多条件查询与分页，配合索引避免全表扫</td></tr>
+            <tr><td>服务商权限</td><td>按服务商维度限定可见与可操作的数据范围</td></tr>
+            <tr><td>业务数据</td><td>统计与明细接口，供管理端页面展示与导出</td></tr>
+          </tbody>
+        </table>
+        <p>
+          这类后台的价值不在页面多好看，而在运营和客服能自己查到答案，
+          不用每次把问题丢回给开发。
+        </p>
+
+        <h2 data-i="04">技术栈</h2>
+        <table>
+          <thead>
+            <tr><th>层</th><th>选型</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>服务端</td><td>PHP · ThinkPHP · Yaf · Swoole</td></tr>
+            <tr><td>接口</td><td>RESTful API</td></tr>
+            <tr><td>数据</td><td>MySQL · Redis · MySQL 任务队列</td></tr>
+            <tr><td>管理端</td><td>Vue 2 · Vue Router · Element UI</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="article__foot">
+        <div class="hero__cta" style="margin-top:0">
+          <a class="btn btn--primary" href="../#contact">对细节有兴趣，写信问我</a>
+        </div>
+        <nav class="pager" aria-label="项目翻页">
+          <a class="prev" href="english-listening-platform.html">
+            <span class="tag">上一个</span>
+            <span>英语听说 App 与题库内容平台</span>
+          </a>
+          <a class="next" href="edu-agent-platform.html">
+            <span class="tag">下一个</span>
+            <span>军考方向的 AI Agent 学习平台</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </article>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__in">
+    <span>© 2026 Asklins</span>
+    <span class="footer__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span>纯静态 · 无框架 · 无追踪 · 系统字体</span>
+    <a href="../">回到概览 ↑</a>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

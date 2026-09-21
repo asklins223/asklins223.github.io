@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>小猪 wordTTS 桌面配音工作台 — Asklins</title>
-<meta name="description" content="面向教学 Word/Excel 文档的本地配音工作台：文档解析与声部分配、交付校验、断线恢复，以及双平台安装包与差分更新的分发工程。">
+<meta name="description" content="本地桌面文档配音工作台 v3.2.9：八类题型的结构化解析、全部生成后切割、交付事实校验、available_actions 投影授权、SQLite 工作流与双平台安装包分发。">
 <meta name="author" content="Asklins">
 <meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0c0d10" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="小猪 wordTTS 桌面配音工作台">
-<meta property="og:description" content="把 .docx / .xlsx 里的教学内容直接变成可交付的双声部音频。">
+<meta property="og:description" content="把 .docx / .xlsx 里的教学内容变成可交付的双声部音频，状态与产物全部留在本机。">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../css/style.css">
 <script>
@@ -36,9 +36,10 @@
       <span>Asklins</span>
     </a>
     <nav class="nav" aria-label="站内导航">
-      <a href="../#skills">能力</a>
-      <a href="../#projects">项目</a>
-      <a href="../#contact">联系</a>
+      <a class="nav__sec" href="../#skills">能力</a>
+      <a class="nav__sec" href="../#work">工作</a>
+      <a class="nav__sec" href="../#projects">开源</a>
+      <a class="nav__sec" href="../#contact">联系</a>
       <a href="https://github.com/asklins223" target="_blank" rel="noopener">GitHub</a>
     </nav>
     <button class="theme-btn" type="button" data-theme-toggle aria-label="切换深色/浅色主题">
@@ -53,110 +54,175 @@
     <div class="wrap article__in">
       <a class="back" href="../#projects">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
-        返回项目列表
+        返回开源项目
       </a>
 
       <p class="article__eyebrow">
-        <span>P-03</span><span>·</span><span>桌面应用</span><span>·</span><span>2026</span><span>·</span><span>Python / Electron / GitHub Actions</span>
+        <span>P-03</span><span>·</span><span>桌面应用</span><span>·</span><span>v3.2.9</span><span>·</span><span>Python / Electron / SQLite</span>
       </p>
       <h1>小猪 wordTTS 桌面配音工作台</h1>
       <p class="article__lede">
-        老师手上的原始素材往往是 Word 或 Excel：一张词汇表、一段对话练习。要变成音频，
-        就得复制粘贴到某个在线合成页、逐条点生成、再手动改名对齐顺序。
-        这个桌面应用把这段重复劳动收起来——导入文档、核对内容、配置声音、生成、试听与下载，
-        五段流程走完拿到成品。
+        老师手上的原始素材常常就是一张 Word 或 Excel。这个应用直接读
+        <code>.docx</code> / <code>.xlsx</code>，按文档结构核对条目、给不同角色配声部、
+        批量生成 MP3，可选地把验证过的音频再录进外部教学系统。任务状态、产物和恢复事实都留在本机，
+        关掉应用第二天接着做。当前版本 v3.2.9。
       </p>
 
       <div class="prose">
-        <h2 data-i="01">解析文档，而不是解析文本框</h2>
+        <h2 data-i="01">五段流程与题型解析</h2>
         <p>
-          应用直接读取 <code>.docx</code> 与 <code>.xlsx</code>，包括其中的词汇题目结构，
-          并按文档里的标记自动分配声部：
+          界面固定五个主阶段：导入文档 → 内容核对 → 配置中心 → 生成任务 → 交付中心，
+          交付阶段下面挂一个可选的「系统录入」。
+        </p>
+        <p>
+          解析支持八类题型的结构化识别与混合顺序还原：信息获取、听后选择、听后应答、课文跟读、
+          信息转述及询问、听后记录并转述信息、模仿朗读，以及走 Excel 模板的词汇。
+          识别只依据文档结构证据，<strong>文件名不作为证据</strong>——不然改个文件名解析结果就跟着变。
+        </p>
+        <p>
+          解析这块有回归基线：每次快照记下 <code>git_commit</code>、脏文件清单和每份文档的
+          <code>sha256</code> 与解析结果，改解析器时能对比出到底动了哪些题。
+        </p>
+
+        <h2 data-i="02">声部怎么分</h2>
+        <p>
+          <code>w/W</code> 与 <code>m/M</code> 标记分别落到可配置的默认女声／男声
+          （出厂是英语-Amanda 与英语-George），无标识内容默认女声，单词和例句始终女声。
+          另外几条例外容易踩水：
         </p>
         <ul class="bullets">
-          <li><code>w / W</code> → 英语 Amanda 女声</li>
-          <li><code>m / M</code> → 英语 George 男声</li>
-          <li>无标识内容默认 Amanda，保证不会静默漏条目</li>
+          <li>题干角色用独立的「题干音色」，参数与正文声部分开配置。</li>
+          <li>解析器主动判定为男声的条目，会覆盖「默认女声」这条规则。</li>
+          <li><code>Reporter:</code>、<code>Mr Yan:</code> 这类通用角色按称谓自动归入男／女声，名字可在配置中心改。</li>
+        </ul>
+        <p>语速、语调、音量支持 0–100 任意整数，输出固定 MP3，配置方案能存成预设复用。</p>
+
+        <h2 data-i="03">全部生成后切割</h2>
+        <p>
+          默认生成方式是整批提交，再按安全停顿把长音频切回每段，提交次数远少于逐条请求。
+          边界无法确认时保留合并音频并报告异常，<strong>不静默伪造分段</strong>。
+          另一条路是逐条生成，两种都在交付中心里。
+        </p>
+
+        <h2 data-i="04">交付校验</h2>
+        <p>能进交付列表的产物要同时满足：</p>
+        <ul class="bullets">
+          <li>任务 <code>READY</code> 且 <code>verified=true</code>；</li>
+          <li>Artifact 与字节 Blob 两边都是 <code>READY</code>；</li>
+          <li>SHA256、大小、扩展名、MIME 事实一致，且类型是 <code>tts-segment</code>。</li>
         </ul>
         <p>
-          语速、语调、音量都支持 0–100 的任意整数值，输出统一为 MP3，质量选项对应码率，
-          常用参数可以存成预设。
+          源文档和解析产物不会被伪装成音频混进交付；ZIP 打包要求全部父项 <code>SUCCEEDED</code>。
+          批量生成最常见的事故就是 200 条里混进 3 个空文件，校验放在交付这一关，
+          课堂上打开压缩包之前就能发现。
         </p>
 
-        <h2 data-i="02">交付校验</h2>
+        <h2 data-i="05">恢复、取消与不猜结果</h2>
         <p>
-          TTS 服务返回成功不等于文件可用。这里只把
-          <strong>服务端确认 <code>READY + verified</code>、且格式元数据与预期一致</strong>
-          的音频放进交付集合；支持逐条试听、单文件保存和 ZIP 打包保存。
+          断线恢复、暂停／恢复、取消、重试、对账这些动作不是前端自己判断的，
+          由服务端返回的 <code>available_actions</code> 投影授权，界面只渲染被允许的动作。
+          存在未决外部副作用时不自动重试。
         </p>
         <div class="callout">
-          <span class="tag">为什么卡这么严</span>
-          批量生成最常见的事故是「200 条里有 3 条是空文件或采样率不对」，
-          而人是在课堂上打开压缩包时才发现。校验前置到交付环节，宁可少给也不能给错。
+          <span class="tag">RECONCILIATION_DISABLED</span>
+          讯飞这条链路明确不提供供应商对账路径。既然问不到真实结果，就按「可重试」呈现，
+          不去猜那段音频到底生成成功了没有。
         </div>
-
-        <h2 data-i="03">长任务的可恢复性</h2>
-        <p>
-          一次生成可能持续几分钟，中间涉及外部服务、进度回调和文件落盘。界面上给的是
-          结构化时间线而不是转圈进度条：哪一条在排队、哪一条失败、失败原因是什么。
-          同时支持断线恢复、取消与失败重试。
-        </p>
         <p>
           本机历史中心保留最近 20 个任务，可以重新查看、试听、下载或归档。
-          归档保留审计事实与产物文件，<strong>归档不等于物理删除</strong>——
-          这是刻意选的语义，避免用户以为点了一下就没了。
+          归档保留审计事实与产物文件，<strong>归档不等于物理删除</strong>。
         </p>
 
-        <h2 data-i="04">桌面分发工程</h2>
+        <h2 data-i="06">架构与状态</h2>
         <p>
-          桌面端是 Electron 承载 Python 后端，macOS 与 Windows 安装包都由 GitHub Actions
-          自动构建。应用内自带版本中心：启动后检查 GitHub Releases，支持可选与强制更新、
-          下载、重启安装和更新日志展示。
+          后端是 FastAPI 单进程，由 Electron 主进程拉起，Renderer 不直连 HTTP，
+          API、SSE 与产物流都走主进程转发。领域核心在 <code>workflow/</code> 的 32 个模块里
+          （仓储、状态机、引擎、提供者、产物库、事件存储、恢复、调度、重试策略、垃圾回收、副作用日志等），
+          旧模型到原子模型之间是一条追加式的旁路写入。
+        </p>
+        <p>
+          状态由五个正交维度组合派生，UI 不允许凭单个事件或计数判断终态。
+          数据落在数据目录里的 <code>workflow.db</code>：WAL、<code>synchronous=FULL</code>、
+          外键开启、写事务 <code>BEGIN IMMEDIATE</code>，跨进程用独占文件锁，文件 0600、目录 0700；
+          12 个迁移，迁移前自动备份。
+        </p>
+
+        <h2 data-i="07">本机服务的边界</h2>
+        <p>
+          后端只绑 <code>127.0.0.1</code>。往上有三层：Origin 守卫（不允许返回 403）、
+          非 <code>/api/v1</code> 的旧路径统一返回 410、能力令牌做常量时间比对。
+          写操作要求 <code>X-Idempotency-Key</code>，状态更新用 <code>state_version</code>
+          与 <code>draft_revision</code> 做乐观并发。SSE 要先换一张 60 秒的一次性票据，
+          支持 <code>Last-Event-ID</code> 续传。
+        </p>
+        <p>
+          接口契约以 <code>contracts/openapi.yaml</code> 为事实源，前端类型由它生成，
+          <code>check:contracts</code> 会跑 lint、重新生成、diff 和 tsc。
+        </p>
+
+        <h2 data-i="08">讯飞那一侧</h2>
+        <p>
+          音频由讯飞配音生成，走的是浏览器自动化：可见窗口持久登录、单线程串行化调用、
+          签名与提交追踪。首次生成需要在那个窗口里登录一次，登录态存在本机持久化 profile。
+          构建和 CI 一律固定 <code>WORDTTS_ENABLE_REAL_PROVIDER=0</code>，真实账号 smoke
+          不进默认构建流，所以 CI 不会产生供应商副作用和费用。
+        </p>
+
+        <h2 data-i="09">分发与更新</h2>
+        <p>
+          macOS 与 Windows 安装包都由 GitHub Actions 构建，只有三个工作流，
+          且只在推送 <code>v*</code> 标签或手动派发时运行。版本号以 <code>version.json</code>
+          为唯一来源，构建前同步到 Electron 的 <code>package.json</code>、
+          <code>package-lock.json</code> 与 CHANGELOG。
         </p>
         <table>
           <thead>
             <tr><th>平台</th><th>做法</th></tr>
           </thead>
           <tbody>
-            <tr><td>macOS</td><td><code>.dmg</code>，打开即用或拖入 Applications 的原生流程</td></tr>
-            <tr><td>Windows</td><td>独立 HTML 自绘 <code>Setup.exe</code>，安装/更新/卸载共用一套界面</td></tr>
-            <tr><td>更新</td><td>优先 <code>.blockmap</code> 差分下载，条件不满足自动回退全量</td></tr>
+            <tr><td>macOS</td><td><code>.dmg</code>，打开即用或拖入 Applications；签名与公证需要额外的证书环境变量</td></tr>
+            <tr><td>Windows</td><td>自绘 HTML <code>Setup.exe</code>（独立 Electron 工程 + 惰性 7z payload），安装／更新／卸载共用一套界面</td></tr>
+            <tr><td>更新</td><td>优先 <code>.blockmap</code> 差分下载，条件不满足回退全量；应用内版本中心检查 GitHub Releases</td></tr>
           </tbody>
         </table>
         <p>
-          Windows 安装器先出界面、再按需解压 payload，避免长时间白屏；支持无边框窗口拖动、
-          选择安装目录与安装范围、数据保留策略、完成后可靠启动应用，以及桌面/开始菜单快捷方式清理。
+          Windows 安装器先出界面、再按需解压 payload，避免长时间白屏。
+          安装包与更新都发布在仓库的
+          <a href="https://github.com/asklins223/word-tts-desktop/releases" target="_blank" rel="noopener">Releases</a>
+          页面。
         </p>
 
-        <h2 data-i="05">可测试性</h2>
+        <h2 data-i="10">测试与发布闸门</h2>
         <p>
-          正式包默认走真实讯飞调用，但 <code>--smoke-test</code> 始终只跑逻辑离线流程、
-          不打开真实页面；直接诊断后端时可用 <code>--disable-real-provider</code>
-          或环境变量显式离线。这样 CI 里能验证流程，又不产生调用费用。
-        </p>
-        <p>
-          渲染层只保留工作台单一入口，workflow 数据与任务记录由服务端目录独立持久化，
-          界面更新不会创建第二套 Shell。
+          Python 侧 56 个测试文件用标准库 <code>unittest</code>，Electron 侧 27 个用
+          <code>node --test</code>。另外有四个闸门脚本：本地确定性 2A 流程（含两种 schema profile，
+          不产生真实供应商副作用）、发布边界不变量（校验三处版本号一致）、
+          有界 FakeProvider 性能基线，以及子进程被杀后的恢复探针。
         </p>
 
-        <h2 data-i="06">技术栈</h2>
+        <h2 data-i="11">升级兼容</h2>
+        <p>
+          应用沿用原来 WordTTS 的用户数据目录、应用 ID 与环境变量，历史不会丢。
+          <code>workflow.db</code> 在用户数据目录里而不在 <code>.app</code> 内，覆盖安装不动它。
+          固定数据目录访问不到时应用会停止启动并提示，而不是退回一个空的默认目录。
+          旧版 JSON 与会话目录保留但不自动导入，要并入新工作台先跑 dry-run 再显式 apply。
+        </p>
+
+        <h2 data-i="12">技术栈</h2>
         <table>
           <thead>
             <tr><th>层</th><th>选型</th></tr>
           </thead>
           <tbody>
-            <tr><td>后端</td><td>Python 3.11</td></tr>
-            <tr><td>桌面壳</td><td>Electron · Node.js 24</td></tr>
-            <tr><td>音频</td><td>讯飞配音 · FFmpeg · MP3</td></tr>
+            <tr><td>后端</td><td>Python 3.11 · FastAPI · Uvicorn</td></tr>
+            <tr><td>桌面壳</td><td>Electron · Node.js 24 · 主进程代理 API / SSE / 产物流</td></tr>
+            <tr><td>数据</td><td>SQLite（WAL + FULL + 外键）· 12 个迁移 · Artifact 存储</td></tr>
+            <tr><td>音频</td><td>讯飞配音 · Playwright 浏览器会话 · FFmpeg · MP3</td></tr>
+            <tr><td>契约</td><td>OpenAPI 单一事实源 · 生成 TS 类型 · 状态夹具</td></tr>
             <tr><td>分发</td><td>GitHub Actions · GitHub Releases · blockmap 差分</td></tr>
             <tr><td>许可</td><td>GPL-3.0</td></tr>
           </tbody>
         </table>
-        <p>
-          安装包与更新都在仓库的
-          <a href="https://github.com/asklins223/word-tts-desktop/releases" target="_blank" rel="noopener">Releases</a>
-          页面发布，macOS 与 Windows 各有对应产物。
-        </p>
       </div>
 
       <div class="article__foot">
@@ -165,7 +231,11 @@
             查看仓库
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
           </a>
-          <a class="btn" href="../#contact">聊聊这个项目</a>
+          <a class="btn" href="https://github.com/asklins223/word-tts-desktop/releases" target="_blank" rel="noopener">
+            下载安装包
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M6 12l6 6 6-6"/></svg>
+          </a>
+          <a class="btn" href="../#contact">聊聊细节</a>
         </div>
         <nav class="pager" aria-label="项目翻页">
           <a class="prev" href="piggy-teaching-toolbox.html">

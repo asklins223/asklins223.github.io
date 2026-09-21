@@ -41,10 +41,10 @@
       <span>Asklins</span>
     </a>
     <nav class="nav" aria-label="站内导航">
-      <a href="#skills">能力</a>
-      <a href="#work">工作</a>
-      <a href="#projects">开源</a>
-      <a href="#contact">联系</a>
+      <a class="nav__sec" href="#skills">能力</a>
+      <a class="nav__sec" href="#work">工作</a>
+      <a class="nav__sec" href="#projects">开源</a>
+      <a class="nav__sec" href="#contact">联系</a>
       <a href="https://github.com/asklins223" target="_blank" rel="noopener">GitHub</a>
     </nav>
     <button class="theme-btn" type="button" data-theme-toggle aria-label="切换深色/浅色主题">
@@ -233,7 +233,7 @@
               <span class="project__year mono">2025.09 – 2026.04</span>
               <span class="project__kind mono">Agent 应用开发</span>
             </div>
-            <h3>军考方向的 AI Agent 学习平台</h3>
+            <h3><a href="posts/edu-agent-platform.html">军考方向的 AI Agent 学习平台</a></h3>
             <p>
               面向备考的 Agent 平台。开放式问答走统一的 EduAgent，业务指定的能力按 Skill 装载，
               多轮会话和已激活能力用 Checkpointer 保存。我做 Agent 编排、三层记忆（会话状态 /
@@ -244,6 +244,13 @@
               有进度追踪、取消、失败重试和宕机恢复，再用 MySQL / Redis 定时对账兜底。
               批改侧给视觉模型加了 URL 并发校验、30/45s 超时和备用模型重试，证据不足时输出可解释的异常状态而不是硬给分。
             </p>
+            <div class="project__links">
+              <a href="posts/edu-agent-platform.html">
+                <span class="link-arrow">案例研究
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </span>
+              </a>
+            </div>
           </div>
           <div class="project__side">
             <dl class="metrics">
@@ -280,7 +287,7 @@
               <span class="project__year mono">2024.07 – 2025.08</span>
               <span class="project__kind mono">PHP 后端</span>
             </div>
-            <h3>英语听说 App 与题库内容平台</h3>
+            <h3><a href="posts/english-listening-platform.html">英语听说 App 与题库内容平台</a></h3>
             <p>
               个人版 App 的后端：作业、学习卡、自主练习走 ThinkPHP + Swoole + gRPC 微服务，
               另外接了 AI 口语家教和作文评测。题库这边负责新增题型从数据模型、API、录入页到
@@ -292,6 +299,13 @@
               题目解析封装成 Composer 公共包给其他服务复用，链路上接入 OpenTelemetry / Jaeger、
               HAProxy 负载均衡，交付走 Jenkins + Docker。
             </p>
+            <div class="project__links">
+              <a href="posts/english-listening-platform.html">
+                <span class="link-arrow">案例研究
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </span>
+              </a>
+            </div>
           </div>
           <div class="project__side">
             <dl class="metrics">
@@ -325,7 +339,7 @@
               <span class="project__year mono">2023.11 – 2024.07</span>
               <span class="project__kind mono">后端 / 全栈</span>
             </div>
-            <h3>校园版英语听说测评与 CRM 后台</h3>
+            <h3><a href="posts/campus-assessment-crm.html">校园版英语听说测评与 CRM 后台</a></h3>
             <p>
               校园版测评的核心 RESTful API：AI 口语测评、数据上报和题型解析，
               联调 MySQL、Redis 与任务队列，处理接口性能、异常状态和并发稳定性问题。
@@ -334,6 +348,13 @@
               同时做 CRM 后台的关键模块：后端是用户检索、服务商权限和业务数据 API，
               前端用 Vue 2 + Vue Router + Element UI 写管理页面，也参与 MySQL 表结构设计。
             </p>
+            <div class="project__links">
+              <a href="posts/campus-assessment-crm.html">
+                <span class="link-arrow">案例研究
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </span>
+              </a>
+            </div>
           </div>
           <div class="project__side">
             <dl class="metrics">
@@ -432,8 +453,8 @@
             <h3><a href="posts/piggy-teaching-toolbox.html">AI 教学视频多模态素材生成平台</a></h3>
             <p>
               做一节课的视频素材，以前要来回切好几个工具。现在输入主题和受众，它会出分镜脚本、
-              场景图、中英配音和字幕，最后打包给你。每一步的结果都存下来，可以停在某一步改完再继续，
-              不用整条重跑。
+              场景图、中英配音和字幕，最后打包成素材包——是原材料，不出成片。每一步的结果都存下来，
+              可以停在某一步改完再继续。
             </p>
             <div class="project__links">
               <a href="posts/piggy-teaching-toolbox.html">
@@ -449,10 +470,10 @@
           </div>
           <div class="project__side">
             <dl class="metrics">
-              <div class="metric"><dt>分镜规模</dt><dd>5–20 <small>镜/项目</small></dd></div>
-              <div class="metric"><dt>内容风格</dt><dd>5 <small>类模板</small></dd></div>
-              <div class="metric"><dt>配音</dt><dd>中 / EN <small>双语</small></dd></div>
               <div class="metric"><dt>创作步骤</dt><dd>6 <small>步向导</small></dd></div>
+              <div class="metric"><dt>角色模板</dt><dd>20 <small>5 类</small></dd></div>
+              <div class="metric"><dt>参考图</dt><dd>3 <small>张/场景</small></dd></div>
+              <div class="metric"><dt>测试函数</dt><dd>293 <small>22 文件</small></dd></div>
             </dl>
             <div class="project__stack">
               <span class="tag">Stack</span>
@@ -477,10 +498,10 @@
             </div>
             <h3><a href="posts/word-tts-desktop.html">小猪 wordTTS 桌面配音工作台</a></h3>
             <p>
-              手头的原始素材常常就是一张 Word 或 Excel 词汇表。这个应用直接读
-              <code class="mono">.docx</code> / <code class="mono">.xlsx</code>，
-              按里面的标记分配男女声，生成完可以逐条试听，也可以打包一次下走。
-              macOS 和 Windows 的安装包由 GitHub Actions 出，应用里能检查更新。
+              手头的原始素材常常就是一张 Word 或 Excel。这个应用直接读
+              <code class="mono">.docx</code> / <code class="mono">.xlsx</code>，识别八类题型、
+              按标记分声部，整批生成后再切回每段，交付前逐条校验事实。macOS 和 Windows 的
+              安装包由 GitHub Actions 出，应用里能检查更新和差分下载。当前 v3.2.9。
             </p>
             <div class="project__links">
               <a href="posts/word-tts-desktop.html">
@@ -496,19 +517,19 @@
           </div>
           <div class="project__side">
             <dl class="metrics">
-              <div class="metric"><dt>解析格式</dt><dd>2 <small>docx / xlsx</small></dd></div>
-              <div class="metric"><dt>交付校验</dt><dd>READY <small>+ verified</small></dd></div>
-              <div class="metric"><dt>平台</dt><dd>mac / win <small>双端</small></dd></div>
-              <div class="metric"><dt>历史任务</dt><dd>20 <small>条本机</small></dd></div>
+              <div class="metric"><dt>题型解析</dt><dd>8 <small>类结构化</small></dd></div>
+              <div class="metric"><dt>交付校验</dt><dd>SHA256 <small>+ MIME 一致</small></dd></div>
+              <div class="metric"><dt>测试文件</dt><dd>83 <small>56 Python + 27 Electron</small></dd></div>
+              <div class="metric"><dt>数据迁移</dt><dd>12 <small>个版本</small></dd></div>
             </dl>
             <div class="project__stack">
               <span class="tag">Stack</span>
               <ul class="chips">
                 <li class="chip">Python 3.11</li>
+                <li class="chip">FastAPI</li>
                 <li class="chip">Electron</li>
-                <li class="chip">Node.js 24</li>
-                <li class="chip">FFmpeg</li>
-                <li class="chip">讯飞 TTS</li>
+                <li class="chip">SQLite</li>
+                <li class="chip">Playwright</li>
                 <li class="chip">GitHub Actions</li>
               </ul>
             </div>

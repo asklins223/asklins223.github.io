@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>军考方向的 AI Agent 学习平台 — Asklins</title>
+<meta name="description" content="统一 Agent 编排、三层记忆、RAG 检索与评测、主观题批改链路，以及把 PHP 侧 AI 能力迁到 Python 服务的过程与指标。">
+<meta name="author" content="Asklins">
+<meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0d10" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="军考方向的 AI Agent 学习平台">
+<meta property="og:description" content="Agent 编排、分层记忆、RAG 与评测、批改链路和任务可靠性。">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/style.css">
+<script>
+  (function () {
+    try {
+      var s = localStorage.getItem("theme");
+      var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.dataset.theme =
+        s === "light" || s === "dark" ? s : dark ? "dark" : "light";
+    } catch (e) { /* keep light */ }
+  })();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要内容</a>
+<div class="spot" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="wrap topbar__in">
+    <a class="brand" href="../">
+      <span class="brand__mark mono" aria-hidden="true">A</span>
+      <span>Asklins</span>
+    </a>
+    <nav class="nav" aria-label="站内导航">
+      <a class="nav__sec" href="../#skills">能力</a>
+      <a class="nav__sec" href="../#work">工作</a>
+      <a class="nav__sec" href="../#projects">开源</a>
+      <a class="nav__sec" href="../#contact">联系</a>
+      <a href="https://github.com/asklins223" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <button class="theme-btn" type="button" data-theme-toggle aria-label="切换深色/浅色主题">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4 17 7M7 17l-1.6 1.6"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+  <article class="article">
+    <div class="wrap article__in">
+      <a class="back" href="../#work">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+        返回工作项目
+      </a>
+
+      <p class="article__eyebrow">
+        <span>W-01</span><span>·</span><span>在职项目</span><span>·</span><span>2025.09 – 2026.04</span><span>·</span><span>Python / LangGraph / Milvus</span>
+      </p>
+      <h1>军考方向的 AI Agent 学习平台</h1>
+      <p class="article__lede">
+        一个备考场景的 Agent 平台：问答、搜题、知识卡片、备考规划、主观题批改共用一套会话与记忆。
+        我负责 Agent 编排、分层记忆、RAG 检索与评测、批改链路，以及把原来挂在 PHP 上的 AI 能力
+        迁到 Python 服务。代码在公司仓库里，这里只写我做的事和拿到的数。
+      </p>
+
+      <div class="prose">
+        <h2 data-i="01">要解决的麻烦</h2>
+        <p>
+          备考这几件事本来是分开的：搜题一个入口、问答一个入口、批改又一个入口。
+          用户在一次学习里连着问，模型每轮都要重新搞清楚「你是谁、刚才在做什么、已经用了哪个能力」。
+          另外老服务是 PHP 的，AI 相关的逻辑越接越重，流式输出和长任务都不好写。
+        </p>
+        <p>所以这个平台的目标不是「接一个大模型」，而是把多种能力收进同一个会话上下文里，并且跑得稳。</p>
+
+        <h2 data-i="02">Agent 编排</h2>
+        <p>
+          对外是一个统一的 EduAgent。开放式学习问答由模型自己判断该激活哪个能力；
+          业务侧明确指定时直接装载对应 Skill，不给模型选择的机会。目前挂了五类能力：
+          题目解析、知识卡片、备考规划、智能搜题、主观题批改。
+        </p>
+        <ul class="bullets">
+          <li>多轮会话与「已经激活了哪些能力」由 Checkpointer 保存，重启会话后状态能接上。</li>
+          <li>能力按 Skill 装载而不是一次全塞进 Prompt，上下文长度和路由干扰都小一些。</li>
+          <li>路由结果单独评测，避免「看起来答得不错」掩盖选错能力的问题。</li>
+        </ul>
+
+        <h2 data-i="03">三层记忆</h2>
+        <p>
+          上下文分成三层：会话状态、长期记忆、用户画像。MySQL 存记忆的事实源，
+          偏好、事实、批改结果由 Taskiq 异步抽取，再做摘要和向量化。
+        </p>
+        <table>
+          <thead>
+            <tr><th>层</th><th>放什么</th><th>怎么用</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>会话状态</td><td>本轮与近几轮的上下文、已激活能力</td><td>Checkpointer 直接恢复</td></tr>
+            <tr><td>长期记忆</td><td>偏好、事实、历史批改结论</td><td>语义召回 + 关键词检索合并去重后注入</td></tr>
+            <tr><td>用户画像</td><td>薄弱点、进度这类聚合结论</td><td>按用户隔离注入 Prompt</td></tr>
+          </tbody>
+        </table>
+        <p>
+          记忆本身要能被改：支持修正、软删除，访问热度也会更新，
+          不然一次写错的偏好会一直挂在每次对话里。
+        </p>
+
+        <h2 data-i="04">RAG 与离线评测</h2>
+        <p>
+          检索侧是 Milvus 向量库 + LightRAG + Neo4j 图数据。评测做成 JSONL 的离线链路，
+          指标用 Recall 与 F1@1/3/5/10，回答质量再加一路 LLM Judge，避免只看召回不看内容。
+        </p>
+        <ul class="bullets">
+          <li>约 300 条标注集调优之后，Recall@5 在 86%–89%，检索 P95 0.6–0.8 秒。</li>
+          <li>约 500 条意图样本上，能力路由准确率 92%–94%。</li>
+          <li>评测集和指标口径固定下来之后，改 Prompt 才知道是变好还是变坏。</li>
+        </ul>
+
+        <h2 data-i="05">主观题批改</h2>
+        <p>
+          批改是一条长链路：题目与答案校验 → 多图内容提取 → 评分依据检索 → 采分点拆解 →
+          结构化评分 → 报告持久化。难点集中在视觉模型那一段，手写答案常常是多张图，
+          图片地址还可能失效。
+        </p>
+        <ul class="bullets">
+          <li>给视觉模型加了 URL 并发校验，30/45 秒两档超时，失败走备用模型重试。</li>
+          <li>证据不足时输出一个可解释的异常状态，而不是硬给一个分数。</li>
+          <li>评分结果按采分点结构化落库，报告页能看出分是怎么来的。</li>
+        </ul>
+
+        <h2 data-i="06">长任务怎么不丢</h2>
+        <p>
+          批改、知识入库、RAG 评测、记忆写入都是长任务。用 Dishka 统一 API、gRPC 和 Worker
+          三边的依赖与资源生命周期，任务侧由 AnyIO + Taskiq 承载。
+        </p>
+        <ul class="bullets">
+          <li>有进度追踪、取消和失败重试；进程宕机后任务能被恢复继续跑。</li>
+          <li>再用 MySQL 与 Redis 定时对账，兜住队列和状态不一致的情况。</li>
+        </ul>
+
+        <h2 data-i="07">迁移与压测</h2>
+        <p>
+          把 PHP 侧的 AI 能力迁到 Python 服务，gRPC 流式接口重构了一版，
+          补上共享密钥鉴权、限流、Deadline 和健康检查。在 Docker 4C8G、20 并发、
+          约 2000 次完整请求的口径下：
+        </p>
+        <table>
+          <thead>
+            <tr><th>指标</th><th>结果</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>吞吐</td><td>7–9 QPS</td></tr>
+            <tr><td>成功率</td><td>99%+</td></tr>
+            <tr><td>首 Token P95</td><td>1.8–2.4 秒</td></tr>
+            <tr><td>完整链路</td><td>P95 5–7 秒 / P99 8–10 秒</td></tr>
+          </tbody>
+        </table>
+
+        <h2 data-i="08">技术栈</h2>
+        <table>
+          <thead>
+            <tr><th>层</th><th>选型</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>服务</td><td>Python · FastAPI · gRPC</td></tr>
+            <tr><td>Agent</td><td>LangGraph · LangChain · Checkpointer</td></tr>
+            <tr><td>检索</td><td>Milvus · LightRAG · Neo4j</td></tr>
+            <tr><td>任务</td><td>AnyIO · Taskiq · Dishka</td></tr>
+            <tr><td>数据</td><td>MySQL · Redis</td></tr>
+            <tr><td>交付</td><td>Docker</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="article__foot">
+        <div class="hero__cta" style="margin-top:0">
+          <a class="btn btn--primary" href="../#contact">对细节有兴趣，写信问我</a>
+        </div>
+        <nav class="pager" aria-label="项目翻页">
+          <a class="prev" href="campus-assessment-crm.html">
+            <span class="tag">上一个</span>
+            <span>校园版英语听说测评与 CRM 后台</span>
+          </a>
+          <a class="next" href="english-listening-platform.html">
+            <span class="tag">下一个</span>
+            <span>英语听说 App 与题库内容平台</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </article>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__in">
+    <span>© 2026 Asklins</span>
+    <span class="footer__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span>纯静态 · 无框架 · 无追踪 · 系统字体</span>
+    <a href="../">回到概览 ↑</a>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>
